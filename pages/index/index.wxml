@@ -1,2 +1,34 @@
-<!--index.wxml-->
-<text>pages/index.wxml</text>
+<view class="container">
+  <!-- 焦点图 -->
+  <view class="focusDiagram">
+    <image class="chart" mode="aspectFill" src="{{chart}}" />
+  </view>
+  <!-- 功能区 -->
+  <view class="jump">
+    <text class="btn" bindtap="onJump" id="product">商品管理</text>
+    <text class="btn" bindtap="onJump" id="code">生成二维码</text>
+    <text class="btn" bindtap="onJump" id="school">学校管理</text>
+  </view>
+  <!-- 提示 -->
+  <view class="tips">
+    <image class="pic" src="{{picUrl}}" />
+    <text>首页商品皆为演示，请勿购买</text> 
+    <text>PURSUEEXCELLENTQUALITY</text>
+  </view>
+  <!-- 校服相册 -->
+  <view class="exhibition">
+    <view class="exhibition-title">
+      <text>校服相册</text>
+      <text>CLOTHE ALBUM</text>
+      <view class="more">
+        <!-- <text>更多</text> -->
+      </view>
+    </view>
+    <view class="exhibition-content">
+      <view class="exhibition-content-item" wx:for="{{dataList}}" wx:key="{{item.id}}">
+        <image class="pic" src="{{item.picUrl}}" />
+        <text>{{item.title}}</text>
+      </view>
+    </view>
+  </view>
+</view>

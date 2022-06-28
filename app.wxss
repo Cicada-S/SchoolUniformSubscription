@@ -1,1 +1,12 @@
 /**app.wxss**/
+page {
+  background-color: #F3F3F3;
+}
+
+view, text, button, input, image, swiper, swiper-item {
+  box-sizing: border-box;
+}
+
+image {
+  vertical-align: bottom;
+} 
