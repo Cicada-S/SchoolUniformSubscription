@@ -1,0 +1,34 @@
+/* components/NavTop/NavTop.wxss */
+.container {
+  width: 100%;
+  height: 88rpx;
+  text-align: center;
+  line-height: 88rpx;
+  font-size: 28rpx;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+}
+.container .goBack {
+  float: left;
+  font-size: 28rpx;
+  text-align: left;
+  padding-right: 20rpx;
+}
+.container .goBack text {
+  padding-left: 30rpx;
+}
+.container .goBack ::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.container .title {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  clear: left;
+}

@@ -1,0 +1,11 @@
+<!-- components/nav/nav.wxml -->
+<view class="container" 
+  style="padding-top: {{barHeight}}px; height: {{barHeight*2+88}}rpx; background-color: {{backgroundColor}}"
+>
+  <view class='goBack'  wx:if="{{showBol}}">
+    <text bindtap='goBack'>返回</text>
+  </view>
+  <view class="title">
+    <text style="color: {{textColor}}">{{title}}</text>
+  </view>
+</view>

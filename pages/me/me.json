@@ -1,3 +1,6 @@
 {
-  "navigationBarTitleText": "个人中心"
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "NavTop": "/components/NavTop/NavTop"
+  }
 }

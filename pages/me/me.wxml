@@ -1,2 +1,32 @@
 <!--pages/me.wxml-->
-<text>pages/me.wxml</text>
+<view class="container" >
+  <NavTop title='个人中心' 
+    showBol="{{false}}" 
+    textColor="#FFFFFF"
+    backgroundColor="transparent"
+  />
+
+  <view class="userInfo" style="padding-top: {{customheight}}px; height: {{316+stateheight}}rpx;">
+    <image class="userAvatar" src="{{userInfo.avatarUrl}}" />
+    <text class="userName">{{userInfo.nickName}}</text>
+  </view>
+
+  <!-- 订单管理 -->
+  <view class="orderManage">
+    <view class="orderManageTitle">
+      <text class="orderManageTitleText">订单管理</text>
+    </view>
+    <view class="orderManageContent">
+      <view class="contentItem" wx:for="{{orderManage}}" wx:key="text">
+        <image class="contentItemIcon" src="{{item.icon}}" />
+        <text class="contentItemText">{{item.text}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 站位 -->
+  <view class="placeholderContent">
+    <view class="placeholderItem"></view>
+    <view class="placeholderItem"></view>
+  </view>
+</view>
