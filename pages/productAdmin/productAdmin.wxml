@@ -1,2 +1,4 @@
 <!--pages/productAdmin.wxml-->
-<text>pages/productAdmin.wxml</text>
+<view class="container">
+  <Search />
+</view>

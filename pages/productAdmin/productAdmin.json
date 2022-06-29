@@ -1,4 +1,6 @@
 {
-  "usingComponents": {},
+  "usingComponents": {
+    "Search": "/components/Search/Search"
+  },
   "navigationBarTitleText": "商品管理"
 }

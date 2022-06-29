@@ -1,0 +1,5 @@
+<!--components/Search/Search.wxml-->
+<view class="container">
+  <input class="input" type="text" placeholder="Search..." />
+  <text class="icon iconfont icon-sousuo"></text>
+</view>

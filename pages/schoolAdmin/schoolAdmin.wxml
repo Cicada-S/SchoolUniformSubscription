@@ -1,2 +1,4 @@
 <!--pages/schoolAdmin/schoolAdmin.wxml-->
-<text>pages/schoolAdmin/schoolAdmin.wxml</text>
+<view class="container">
+  <Search/>
+</view>
