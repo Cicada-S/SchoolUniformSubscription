@@ -1,7 +1,10 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/me/me"
+    "pages/me/me",
+    "pages/productAdmin/productAdmin",
+    "pages/QRCode/QRCode",
+    "pages/schoolAdmin/schoolAdmin"
   ],
   "window": {
     "backgroundTextStyle": "light",

@@ -2,6 +2,10 @@ Page({
   data: {
     chart: '/static/images/home/chart.png',
     picUrl: '/static/images/home/clothes.png',
+    moreUrl: [
+      '/static/images/home/more1.png',
+      '/static/images/home/more2.png',
+    ],
     dataList: [
       {
         id: 1,
@@ -32,16 +36,13 @@ Page({
   },
 
   onJump: e => {
-    console.log(e.target.id);
-
     let type = {
-      product,
-      code,
-      school
+      product: 'productAdmin',
+      code: 'QRCode',
+      school: 'schoolAdmin',
     }
-    
     wx.navigateTo({
-      
+      url: `/pages/${type[e.target.id]}/${type[e.target.id]}`
     })
   }
 })

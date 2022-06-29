@@ -21,11 +21,13 @@
       <text>校服相册</text>
       <text>CLOTHE ALBUM</text>
       <view class="more">
-        <!-- <text>更多</text> -->
+        <view wx:for="{{moreUrl}}" wx:key="item">
+          <image mode="widthFix" src="{{item}}" />
+        </view>
       </view>
     </view>
     <view class="exhibition-content">
-      <view class="exhibition-content-item" wx:for="{{dataList}}" wx:key="{{item.id}}">
+      <view class="exhibition-content-item" wx:for="{{dataList}}" wx:key="id">
         <image class="pic" src="{{item.picUrl}}" />
         <text>{{item.title}}</text>
       </view>
