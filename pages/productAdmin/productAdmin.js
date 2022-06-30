@@ -38,7 +38,7 @@ Page({
 
   toAddProduct: function () {
     wx.navigateTo({
-      url: '/pages/productAdmin/addProduct/addProduct',
+      url: '/pages/addProduct/addProduct',
     })
   },
 

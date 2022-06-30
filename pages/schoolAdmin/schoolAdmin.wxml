@@ -1,4 +1,25 @@
 <!--pages/schoolAdmin/schoolAdmin.wxml-->
 <view class="container">
   <Search/>
+
+  <view class="content">
+    <view class="schoolList">
+      <view class="schoolListItem" bindtap="toAddSchool" wx:for="{{schoolList}}" wx:key="id">
+        <view class="schoolListItemLogo">
+          <image src="{{item.image}}"/>
+        </view>
+        <view class="schoolListItemName">
+          <text>{{item.name}}</text>
+        </view>
+      </view>
+    </view>
+    <view class="tips">
+      <text>没有更多学校啦~</text>
+    </view>
+  </view>
+
+  <!-- 底部按钮 -->
+  <view class="bottomBtn" style="margin-bottom:{{bottomLift}}px" bindtap="toAddSchool">
+    <text>添加学校</text>
+  </view>
 </view>
