@@ -7,14 +7,7 @@
   justify-content: center;
   padding: 20rpx 30rpx 0 30rpx;
 }
-.container .blockBox {
-  width: 100%;
-  font-size: 32rpx;
-  border-radius: 16rpx;
-  overflow: hidden;
-  background-color: #FFFFFF;
-  box-shadow: 2rpx 4rpx 12rpx 2rpx rgba(0, 0, 0, 0.16);
-}
-.container .blockBox .blockBoxTitle {
-  margin: 20rpx 20rpx 0 30rpx;
+.container BlockBox {
+  width: 690rpx;
+  margin-top: 20rpx;
 }

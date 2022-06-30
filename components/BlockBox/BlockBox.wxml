@@ -1,0 +1,7 @@
+<!--components/BlockBox/BlockBox.wxml-->
+<view class="blockBox">
+  <view class="blockBoxTitle">
+    <text class="title">{{title}}</text>
+  </view>
+  <slot></slot>
+</view>
