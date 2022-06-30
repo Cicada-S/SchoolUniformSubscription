@@ -1,2 +1,11 @@
-<!--pages/QRCode/QRCode.wxml-->
-<text>pages/QRCode/QRCode.wxml</text>
+<!-- pages/QRCode/QRCode.wxml -->
+<view class="container">
+  <view class="blockBox">
+    <view class="blockBoxTitle">
+      <text class="title">标题</text>
+    </view>
+    <view class="blockBoxText">
+      <van-field value="{{ value }}" placeholder="请输入标题" border="{{ false }}" />
+    </view>
+  </view>
+</view>
