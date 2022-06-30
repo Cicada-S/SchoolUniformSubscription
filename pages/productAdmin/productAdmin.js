@@ -1,66 +1,66 @@
 // pages/productAdmin.js
+const app = getApp()
+
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-
+    bottomLift: app.globalData.bottomLift,
+    productList: [
+      {
+        id: 1,
+        title: '夏季运动套装',
+        image: '/static/images/productAdmin/product.png',
+        price: '98.00',
+      },
+      {
+        id: 2,
+        title: '夏季运动套装',
+        image: '/static/images/productAdmin/product.png',
+        price: '98.00',
+      },
+      {
+        id: 3,
+        title: '夏季运动套装',
+        image: '/static/images/productAdmin/product.png',
+        price: '98.00',
+      },
+      {
+        id: 4,
+        title: '夏季运动套装',
+        image: '/static/images/productAdmin/product.png',
+        price: '98.00',
+      },
+    ],
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad(options) {
-
+  onLoad: function (options) {
+    // getProductList()
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
-
+  toAddProduct: function () {
+    wx.navigateTo({
+      url: '/pages/productAdmin/addProduct/addProduct',
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
-
+  delProduct: function (e) {
+    wx.showModal({
+      title: '提示',
+      content: '确定要删除该商品吗？',
+      success: function (res) {
+        if (res.confirm) {
+          console.log('用户点击确定')
+        }
+      }
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {
-
+  getProductList() {
+    wx.request({
+      url: 'http://localhost:8080/product/getProductList',
+      method: 'GET',
+      success: function (res) {
+        console.log(res.data)
+      }
+    })
   }
 })

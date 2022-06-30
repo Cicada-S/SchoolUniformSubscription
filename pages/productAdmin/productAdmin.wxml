@@ -1,4 +1,35 @@
-<!--pages/productAdmin.wxml-->
+<!-- pages/productAdmin.wxml -->
 <view class="container">
   <Search />
+
+  <view class="content">
+    <view class="productList">
+      <view class="productListItem" bindtap="toAddProduct" wx:for="{{productList}}" wx:key="id">
+        <view class="productListItemImg">
+          <image src="{{item.image}}" />
+        </view>
+        <view class="productListItemInfo">
+          <view class="productListItemInfoTitle">
+            <text>{{item.title}}</text>
+          </view>
+          <view class="productListItemInfoPrice">
+            <text>¥ {{item.price}}</text>
+          </view>
+        </view>
+        <view class="operation">
+          <view bindtap="delProduct" class="operationDelete">
+            <text>下架</text>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="tips">
+      <text>没有更多商品啦~</text>
+    </view>
+  </view>
+
+  <!-- 底部按钮 -->
+  <view class="bottomBtn" style="margin-bottom:{{bottomLift}}px" bindtap="toAddProduct">
+    <text>添加商品</text>
+  </view>
 </view>

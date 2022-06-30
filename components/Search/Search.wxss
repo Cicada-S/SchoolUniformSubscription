@@ -1,5 +1,5 @@
 /* components/Search/Search.wxss */
-.container {
+.searchContainer {
   height: 84rpx;
   margin: 20rpx;
   padding: 0 40rpx;
@@ -10,11 +10,11 @@
   border-radius: 50rpx;
   background-color: #FFFFFF;
 }
-.container .input {
+.searchContainer .input {
   line-height: 84rpx;
   outline: none;
 }
-.container .icon {
+.searchContainer .icon {
   font-size: 50rpx;
   color: #808080;
 }
