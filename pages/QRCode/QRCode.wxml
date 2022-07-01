@@ -1,6 +1,86 @@
 <!-- pages/QRCode/QRCode.wxml -->
 <view class="container">
   <BlockBox title="标题">
-    <van-field value="{{ value }}" placeholder="请输入标题" border="{{ false }}" />
+    <van-field 
+      value="{{ titleValue }}" 
+      placeholder="请输入标题" 
+      border="{{ false }}" 
+    />
   </BlockBox>
+  <BlockBox title="学校">
+    <van-cell 
+      title="{{school}}" 
+      border="{{false}}" 
+      bindtap="isActionSheet" 
+      id="school"
+      title-class="cellTitle" 
+      is-link 
+    />
+  </BlockBox>
+  <BlockBox title="时间">
+      <van-cell 
+      title="开始时间" 
+      border="{{false}}"  
+      bindtap="isActionSheet" 
+      id="startTime"
+      value="{{time.startTime}}" 
+      is-link 
+    />
+    <van-cell   
+      title="结束时间" 
+      border="{{false}}" 
+      bindtap="isActionSheet" 
+      id="endTime"
+      value="{{time.endTime}}"
+      is-link 
+    />
+  </BlockBox>
+
+  <BlockBox title="商品">
+    <van-cell 
+      title="选择商品" 
+      border="{{false}}" 
+      bindtap="isProduct" 
+      title-class="cellTitle" 
+      is-link 
+    />
+    <van-swipe-cell 
+      right-width="{{ 60 }}" 
+      wx:for="{{ goodsDataList }}" 
+      wx:key="id"
+    >
+      <view class="goodsItem">
+        <image class="image" src="{{item.imageURL}}" />
+        <text class="title">{{item.title}}</text>
+      </view>
+      <view class="delete" slot="right" bindtap="onDelete" id="{{item.id}}">删除</view>
+    </van-swipe-cell>
+  </BlockBox>
+
+  <!-- 学校选择器 -->
+  <van-action-sheet
+    show="{{ schoolShow }}"
+    actions="{{ actions }}"
+    description="选择学校"
+    bind:close="onClose"
+    bind:select="onSelect"
+  />
+
+  <!-- 时间选择器 -->
+  <van-action-sheet show="{{ timeShow }}" bind:click-overlay="onCancel">
+    <van-datetime-picker
+      type="datetime"
+      title="选择时间"
+      value="{{ currentDate }}"
+      min-date="{{ minDate }}"
+      max-date="{{ maxDate }}"
+      bind:confirm="onConfirm"
+      bind:cancel="onCancel"
+    />
+  </van-action-sheet>
+
+  <!-- 底部按钮 -->
+  <view class="bottomBtn" style="margin-bottom:{{bottomLift}}px">
+    <text>生成二维码</text>
+  </view>
 </view>

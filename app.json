@@ -12,6 +12,9 @@
     "navigationBarTitleText": "微校商城",
     "navigationBarTextStyle": "black"
   },
+  "usingComponents": {
+    "van-button": "@vant/weapp/button/index"
+  },
   "tabBar": {
     "color": "#7D7E80",
     "selectedColor": "#407EF5",

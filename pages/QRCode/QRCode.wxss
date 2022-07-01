@@ -8,6 +8,49 @@
   padding: 20rpx 30rpx 0 30rpx;
 }
 .container BlockBox {
+  width: 100%;
+  margin-bottom: 20rpx;
+}
+.container .cellTitle {
+  color: #969799;
+}
+.container .goodsItem {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  background-color: #FFFFFF;
+  padding: 0 20rpx 20rpx 20rpx;
+}
+.container .goodsItem .image {
+  width: 100rpx;
+  height: 100rpx;
+}
+.container .goodsItem .title {
+  font-size: 28rpx;
+  margin-left: 30rpx;
+}
+.container .delete {
+  width: 120rpx;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  background-color: #DB211B;
+}
+.container .bottomBtn {
   width: 690rpx;
-  margin-top: 20rpx;
+  height: 70rpx;
+  position: fixed;
+  bottom: 10rpx;
+  margin: 10rpx 30rpx 0 30rpx;
+  color: #FFFFFF;
+  font-size: 28rpx;
+  text-align: center;
+  line-height: 70rpx;
+  letter-spacing: 10rpx;
+  border-radius: 10rpx;
+  background-color: #407EF5;
+  box-shadow: 2rpx 4rpx 12rpx 2rpx rgba(64, 126, 245, 0.8);
 }
