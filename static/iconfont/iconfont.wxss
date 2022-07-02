@@ -43,6 +43,7 @@
 
 .icon-pingjiax:before {
   content: "\e609";
+  font-size: 50rpx;
 }
 
 .icon-xiaofu:before {
@@ -59,6 +60,7 @@
 
 .icon-daifahuo:before {
   content: "\e621";
+  font-size: 50rpx;
 }
 
 .icon-dingdan-daifukuan:before {
