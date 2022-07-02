@@ -1,9 +1,6 @@
 // pages/productAdmin.js
-const app = getApp()
-
 Page({
   data: {
-    bottomLift: app.globalData.bottomLift,
     productList: [
       {
         id: 1,

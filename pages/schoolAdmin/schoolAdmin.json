@@ -1,6 +1,7 @@
 {
   "usingComponents": {
-    "Search": "/components/Search/Search"
+    "Search": "/components/Search/Search",
+    "BottomBtn": "/components/BottomBtn/BottomBtn"
   },
   "navigationBarTitleText": "学校管理"
 }

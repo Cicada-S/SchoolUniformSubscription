@@ -29,7 +29,5 @@
   </view>
 
   <!-- 底部按钮 -->
-  <view class="bottomBtn" style="margin-bottom:{{bottomLift}}px" bindtap="toAddProduct">
-    <text>添加商品</text>
-  </view>
+  <BottomBtn text="添加商品" />
 </view>

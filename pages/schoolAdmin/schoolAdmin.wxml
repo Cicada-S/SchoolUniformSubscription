@@ -19,7 +19,5 @@
   </view>
 
   <!-- 底部按钮 -->
-  <view class="bottomBtn" style="margin-bottom:{{bottomLift}}px" bindtap="toAddSchool">
-    <text>添加学校</text>
-  </view>
+  <BottomBtn text="添加学校" />
 </view>

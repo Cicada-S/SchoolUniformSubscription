@@ -1,9 +1,6 @@
 // pages/schoolAdmin/schoolAdmin.js
-const app = getApp()
-
 Page({
   data: {
-    bottomLift: app.globalData.bottomLift,
     schoolList: [
       {
         id: 1,
