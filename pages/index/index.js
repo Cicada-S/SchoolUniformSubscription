@@ -1,7 +1,6 @@
 Page({
   data: {
     chart: '/static/images/home/chart.png',
-    picUrl: '/static/images/home/clothes.png',
     moreUrl: [
       '/static/images/home/more1.png',
       '/static/images/home/more2.png',

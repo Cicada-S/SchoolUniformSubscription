@@ -10,23 +10,23 @@ Page({
     },
     orderManage: [
       {
-        icon: '/static/images/me/order1.png',
+        icon: 'icon-dingdan-daifukuan',
         text: '待付款',
       },
       {
-        icon: '/static/images/me/order2.png',
+        icon: 'icon-daifahuo',
         text: '待发货',
       },
       {
-        icon: '/static/images/me/order3.png',
+        icon: 'icon-daishouhuo',
         text: '待收货',
       },
       {
-        icon: '/static/images/me/order4.png',
+        icon: 'icon-pingjiax',
         text: '待评价',
       },
       {
-        icon: '/static/images/me/order5.png',
+        icon: 'icon-tuikuan',
         text: '退款/售后',
       }
     ],

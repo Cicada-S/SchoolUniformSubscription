@@ -11,7 +11,7 @@
   </view>
   <!-- 提示 -->
   <view class="tips">
-    <image class="pic" src="{{picUrl}}" />
+    <view class="icon iconfont icon-xiaofu"></view>
     <text>首页商品皆为演示，请勿购买</text> 
     <text>PURSUEEXCELLENTQUALITY</text>
   </view>

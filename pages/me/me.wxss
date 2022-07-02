@@ -53,8 +53,8 @@
   justify-content: center;
 }
 .container .orderManage .orderManageContent .contentItem .contentItemIcon {
-  width: 56rpx;
-  height: 56rpx;
+  font-size: 60rpx;
+  color: #a6c6f9;
 }
 .container .placeholderContent {
   width: 690rpx;
