@@ -80,7 +80,5 @@
   </van-action-sheet>
 
   <!-- 底部按钮 -->
-  <view class="bottomBtn" style="margin-bottom:{{bottomLift}}px">
-    <text>生成二维码</text>
-  </view>
+  <BottomBtn text="生成二维码" />
 </view>

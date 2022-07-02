@@ -1,0 +1,16 @@
+/* components/BottomBtn/BottomBtn.wxss */
+.bottomBtn {
+  width: 690rpx;
+  height: 70rpx;
+  position: fixed;
+  bottom: 10rpx;
+  margin-top: 10rpx;
+  color: #FFFFFF;
+  font-size: 28rpx;
+  text-align: center;
+  line-height: 70rpx;
+  letter-spacing: 10rpx;
+  border-radius: 10rpx;
+  background-color: #407EF5;
+  box-shadow: 2rpx 4rpx 12rpx 2rpx rgba(64, 126, 245, .8);
+}
