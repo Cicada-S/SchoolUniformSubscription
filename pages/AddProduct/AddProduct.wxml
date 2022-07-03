@@ -1,0 +1,36 @@
+<!--pages/AddProduct/AddProduct.wxml-->
+<view class="container">
+  <BlockBox>
+    <van-field
+      value="{{ form.titleValue }}"
+      placeholder="请输入标题"
+      border="{{ false }}"
+      bind:change="onChange"
+      id="title"
+    />
+  </BlockBox>
+  <BlockBox title="描述">
+    <van-field
+      value="{{ form.descValue }}"
+      placeholder="请输入描述"
+      border="{{ false }}"
+      bind:change="onChange"
+      id="desc"
+    />
+  </BlockBox>
+  <BlockBox title="价格">
+    <van-field
+      value="{{ form.priceValue }}"
+      placeholder="请输入价格"
+      border="{{ false }}"
+      bind:change="onChange"
+      id="price"
+    />
+  </BlockBox>
+  <BlockBox title="首图">
+    <van-uploader file-list="{{ fileList }}" bind:after-read="afterRead" />
+  </BlockBox>
+  <BlockBox title="详情图">
+    <van-uploader file-list="{{ fileList }}" bind:after-read="afterRead" />
+  </BlockBox>
+</view>

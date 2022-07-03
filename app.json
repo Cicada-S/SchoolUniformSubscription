@@ -4,7 +4,8 @@
     "pages/me/me",
     "pages/productAdmin/productAdmin",
     "pages/QRCode/QRCode",
-    "pages/schoolAdmin/schoolAdmin"
+    "pages/schoolAdmin/schoolAdmin",
+    "pages/AddProduct/AddProduct"
   ],
   "window": {
     "backgroundTextStyle": "light",
