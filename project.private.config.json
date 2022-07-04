@@ -37,7 +37,14 @@
         },
         {
           "name": "",
-          "pathName": "pages/AddProduct/AddProduct",
+          "pathName": "pages/addProduct/addProduct",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/addSchool/addSchool",
           "query": "",
           "launchMode": "default",
           "scene": null

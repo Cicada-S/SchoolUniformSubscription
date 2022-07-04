@@ -5,7 +5,8 @@
     "pages/productAdmin/productAdmin",
     "pages/QRCode/QRCode",
     "pages/schoolAdmin/schoolAdmin",
-    "pages/AddProduct/AddProduct"
+    "pages/addProduct/addProduct",
+    "pages/addSchool/addSchool"
   ],
   "window": {
     "backgroundTextStyle": "light",

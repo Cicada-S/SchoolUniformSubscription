@@ -1,0 +1,30 @@
+<!--pages/addSchool/addSchool.wxml-->
+<view class="container">
+  <BlockBox title="学校名">
+    <van-field
+      value="{{ form.schoolName }}"
+      placeholder="请输入学校名"
+      border="{{ false }}"
+      bind:change="onChange"
+      id="name"
+    />
+  </BlockBox>
+  <BlockBox title="学校地址">
+    <van-field
+      value="{{ form.schoolAddress }}"
+      placeholder="请输入学校地址"
+      border="{{ false }}"
+      bind:change="onChange"
+      id="address"
+    />
+  </BlockBox>
+  <BlockBox title="LOGO">
+    <van-uploader 
+      file-list="{{ fileList }}" 
+      deletable="{{ false }}"
+      bind:after-read="afterRead" 
+    />
+  </BlockBox>
+
+  <BottomBtn text="添加学校" bindtap="addSchool" />
+</view>
