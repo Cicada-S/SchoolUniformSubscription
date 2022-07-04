@@ -29,21 +29,28 @@ Page({
     ],
   },
 
-  onLoad: function (options) {
+  // 页面初始化
+  onLoad() {
     // getProductList()
   },
 
-  toAddProduct: function () {
-    wx.navigateTo({
-      url: '/pages/addProduct/addProduct',
+  // 获取初始数据
+  getProductList() {
+    wx.request({
+      url: 'http://localhost:8080/product/getProductList',
+      method: 'GET',
+      success (res) {
+        console.log(res.data)
+      }
     })
   },
 
-  delProduct: function (e) {
+  // 删除商品
+  delProduct(e) {
     wx.showModal({
       title: '提示',
       content: '确定要删除该商品吗？',
-      success: function (res) {
+      success (res) {
         if (res.confirm) {
           console.log('用户点击确定')
         }
@@ -51,13 +58,10 @@ Page({
     })
   },
 
-  getProductList() {
-    wx.request({
-      url: 'http://localhost:8080/product/getProductList',
-      method: 'GET',
-      success: function (res) {
-        console.log(res.data)
-      }
+  // 添加商品
+  toAddProduct() {
+    wx.navigateTo({
+      url: '/pages/addProduct/addProduct',
     })
   }
 })

@@ -19,5 +19,5 @@
   </view>
 
   <!-- 底部按钮 -->
-  <BottomBtn text="添加学校" />
+  <BottomBtn text="添加学校" bindtap="toAddSchool" />
 </view>

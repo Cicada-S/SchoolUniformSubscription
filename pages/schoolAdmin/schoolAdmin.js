@@ -40,8 +40,8 @@ Page({
     ],
   },
 
-  onLoad: function (options) {
-    // getSchoolList()
+  onLoad() {
+    // this.getSchoolList()
   },
 
   getSchoolList() {

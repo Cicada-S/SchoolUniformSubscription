@@ -29,19 +29,40 @@ Page({
     ]
   },
 
-  // 页面初始化 options为页面跳转所带来的参数
-  onLoad: function (options) {
-
+  // 页面初始化
+  onLoad() {
+    wx.getUserProfile({
+      desc: '获取您的个人基本信息, 用于小程序用户身份识别',
+      success: function (res) {
+        console.log(res)
+        wx.setStorageSync('userInfo', res.userInfo)
+      },
+      fail(res) {
+        console.log(res)
+      }
+    })
   },
 
-  onJump: e => {
+  // 获取初始数据
+  getDataList() {
+    wx.request({
+      url: 'http://localhost:8080/product/getProductList',
+      method: 'GET',
+      success: function (res) {
+        console.log(res.data)
+      }
+    })
+  },
+
+  onJump(event) {
     let type = {
       product: 'productAdmin',
       code: 'QRCode',
       school: 'schoolAdmin',
     }
+    const page = type[event.target.id]
     wx.navigateTo({
-      url: `/pages/${type[e.target.id]}/${type[e.target.id]}`
+      url: `/pages/${page}/${page}`
     })
   }
 })

@@ -29,5 +29,5 @@
   </view>
 
   <!-- 底部按钮 -->
-  <BottomBtn text="添加商品" />
+  <BottomBtn text="添加商品" bindtap="toAddProduct" />
 </view>
