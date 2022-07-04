@@ -1,4 +1,9 @@
 // pages/AddProduct/AddProduct.js
+const type = {
+  first: 'firstList',
+  details: 'detailsList',
+}
+
 Page({
   data: {
     form: {
@@ -6,20 +11,8 @@ Page({
       descValue: '',
       priceValue: '',
     },
-    fileList: [
-      {
-        type: "image",
-        name: "product.png",
-        url: "/static/images/productAdmin/product.png",
-        thumb: "/static/images/productAdmin/product.png",
-      },
-      {
-        type: "image",
-        name: "product.png",
-        url: "/static/images/productAdmin/product.png",
-        thumb: "/static/images/productAdmin/product.png",
-      }
-    ],
+    firstList: [], // 首图的数据
+    detailsList: [], // 详情图的数据
   },
 
   // 监听输入框的值
@@ -34,21 +27,29 @@ Page({
     })
   },
 
-  // 上传图片
+  // 文件读取完成后
   afterRead(event) {
-    const { file } = event.detail;
-    // 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
-    wx.uploadFile({
-      url: 'https://example.weixin.qq.com/upload', // 仅为示例，非真实的接口地址
-      filePath: file.url,
-      name: 'file',
-      formData: { user: 'test' },
-      success(res) {
-        // 上传完成需要更新 fileList
-        const { fileList = [] } = this.data;
-        fileList.push({ ...file, url: res.data });
-        this.setData({ fileList });
-      },
-    });
+    this.data[type[event.target.id]].push(...event.detail.file)
+    this.setData({
+      [type[event.target.id]]: this.data[type[event.target.id]]
+    })
   },
+
+  // 删除图片的方法
+  onDelete(event) {
+    let newList = this.data[type[event.target.id]]?.filter((item, index) => index !== event.detail.index)
+    this.setData({
+      [type[event.target.id]]: newList
+    })
+  },
+
+  // 添加商品的处理函数
+  addProduct() {
+    let { form, firstList, detailsList } = this.data;
+    let productInfo = {
+      form,
+      firstList,
+      detailsList
+    }
+  }
 })

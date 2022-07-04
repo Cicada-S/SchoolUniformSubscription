@@ -28,9 +28,23 @@
     />
   </BlockBox>
   <BlockBox title="首图">
-    <van-uploader file-list="{{ fileList }}" bind:after-read="afterRead" />
+    <van-uploader 
+      file-list="{{ firstList }}" 
+      multiple 
+      id="first" 
+      bind:after-read="afterRead" 
+      bind:delete="onDelete"
+    />
   </BlockBox>
   <BlockBox title="详情图">
-    <van-uploader file-list="{{ fileList }}" bind:after-read="afterRead" />
+    <van-uploader 
+      file-list="{{ detailsList }}" 
+      multiple 
+      id="details" 
+      bind:after-read="afterRead" 
+      bind:delete="onDelete"
+    />
   </BlockBox>
+
+  <BottomBtn text="添加商品" bindtap="addProduct" />
 </view>

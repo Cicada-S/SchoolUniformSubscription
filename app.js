@@ -9,7 +9,7 @@ App({
 
   onLaunch() {
     wx.cloud.init({
-      env: 'school-shop-2gg4adfl2d11e6fb',
+      env: 'cloud1-9ghc7y1j0db0f20d',
       traceUser: true
     })
 

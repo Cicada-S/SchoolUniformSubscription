@@ -9,3 +9,15 @@
 .container van-uploader .van-uploader {
   margin: 20rpx 30rpx 10rpx 30rpx;
 }
+.container van-uploader .van-uploader .van-uploader__upload {
+  width: 145rpx !important;
+  height: 145rpx !important;
+  margin: 0 0 16rpx 0 !important;
+}
+.container van-uploader .van-uploader image {
+  width: 145rpx !important;
+  height: 145rpx !important;
+}
+.container van-uploader .van-uploader .van-uploader__preview:nth-child(4n) {
+  margin: 0 0 16rpx 0 !important;
+}
