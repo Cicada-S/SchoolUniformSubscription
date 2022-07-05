@@ -31,16 +31,7 @@ Page({
 
   // 页面初始化
   onLoad() {
-    wx.getUserProfile({
-      desc: '获取您的个人基本信息, 用于小程序用户身份识别',
-      success: function (res) {
-        console.log(res)
-        wx.setStorageSync('userInfo', res.userInfo)
-      },
-      fail(res) {
-        console.log(res)
-      }
-    })
+    // this.getDataList()
   },
 
   // 获取初始数据
@@ -54,6 +45,7 @@ Page({
     })
   },
 
+  // 功能栏跳转
   onJump(event) {
     let type = {
       product: 'productAdmin',

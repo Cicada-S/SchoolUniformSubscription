@@ -1,10 +1,10 @@
 // app.js
 App({
   globalData: {
-    stateheight: 0, //手机状态栏高度
-    navhegiht: 0, //导航栏高度
-    customheight: 0, //自定以导航栏高度
-    bottomLift: 0, //底部距离
+    stateheight: 0, // 手机状态栏高度
+    navhegiht: 0, // 导航栏高度
+    customheight: 0, // 自定以导航栏高度
+    bottomLift: 0, // 底部距离
   },
 
   onLaunch() {
@@ -13,6 +13,11 @@ App({
       traceUser: true
     })
 
+    this.getPhoneHeight()
+    this.getSystemInfo()
+  },
+
+  getPhoneHeight() {
     // 获取手机状态栏信息和高度
     const phoneinfo = wx.getSystemInfoSync()
     const stateheight = phoneinfo.statusBarHeight
@@ -23,10 +28,12 @@ App({
     // 计算自定义导航栏高度
     const customheight = navhegiht + stateheight
     // 赋值
-    this.globalData.stateheight = stateheight //给对象globalData里面的变量stateheight赋值
-    this.globalData.navhegiht = navhegiht //给对象globalData里面的变量navhegiht赋值
-    this.globalData.customheight = customheight //给对象globalData里面的变量customheight赋值
+    this.globalData.stateheight = stateheight 
+    this.globalData.navhegiht = navhegiht 
+    this.globalData.customheight = customheight
+  },
 
+  getSystemInfo() {
     //获取当前设备信息
     wx.getSystemInfo({
       success: res => {
