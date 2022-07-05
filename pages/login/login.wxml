@@ -1,0 +1,16 @@
+<!--pages/login/login、.wxml-->
+<view class="container">
+  <view class="titleContent">
+    <view class="title">微校</view>
+    <view class="subtitle">学校统一购物平台</view>
+  </view>
+
+  <!-- 背景 -->
+  <view class="background">
+    <image class="icon" src="/static/images/login/icon.png" />
+  </view>
+
+  <view class="login">
+    <text>登录</text>
+  </view>
+</view>
