@@ -1,5 +1,5 @@
 <!--pages/login/login、.wxml-->
-<view class="container">
+<view class="container" style="padding-top: {{stateheight}}px">
   <view class="titleContent">
     <view class="title">微校</view>
     <view class="subtitle">学校统一购物平台</view>
@@ -7,10 +7,12 @@
 
   <!-- 背景 -->
   <view class="background">
-    <image class="icon" src="/static/images/login/icon.png" />
+    <view wx:for="{{coordinate}}" wx:key="y">
+      <image class="icon" src="{{icon}}" style="left: {{item.x}}rpx; top: {{item.y}}rpx" />
+    </view>
   </view>
 
-  <view class="login">
+  <view class="login" bindtap="login">
     <text>登录</text>
   </view>
 </view>

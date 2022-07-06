@@ -24,6 +24,7 @@
   opacity: 0.75;
 }
 .container .background image {
+  position: absolute;
   width: 96rpx;
   height: 96rpx;
 }

@@ -13,8 +13,32 @@ App({
       traceUser: true
     })
 
+    this.getOpenId()
     this.getPhoneHeight()
     this.getSystemInfo()
+  },
+
+  getOpenId() {
+    // 获取openId
+    wx.login({
+      success(res) {
+        console.log('login res', res);
+        if (res.code) {
+          wx.cloud.callFunction({
+            name: 'logins',
+            data: { code: res.code },
+          }).then(res => {
+            console.log('res', res)
+            wx.setStorageSync('openid', res.result.openid)
+          }).catch(err => {
+            console.log('err', err)
+          })
+        }
+      },
+      fail(err) {
+        console.log('callFunction err', err)
+      }
+    })
   },
 
   getPhoneHeight() {
