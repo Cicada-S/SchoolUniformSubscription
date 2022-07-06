@@ -12,7 +12,7 @@
     </view>
   </view>
 
-  <view class="login" bindtap="login">
+  <view class="login" bindtap="getUserProfile">
     <text>登录</text>
   </view>
 </view>

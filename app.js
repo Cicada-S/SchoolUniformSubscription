@@ -13,34 +13,21 @@ App({
       traceUser: true
     })
 
-    this.getOpenId()
+    this.isLogin()
     this.getPhoneHeight()
     this.getSystemInfo()
   },
-
-  getOpenId() {
-    // 获取openId
-    wx.login({
-      success(res) {
-        console.log('login res', res);
-        if (res.code) {
-          wx.cloud.callFunction({
-            name: 'logins',
-            data: { code: res.code },
-          }).then(res => {
-            console.log('res', res)
-            wx.setStorageSync('openid', res.result.openid)
-          }).catch(err => {
-            console.log('err', err)
-          })
-        }
-      },
-      fail(err) {
-        console.log('callFunction err', err)
-      }
-    })
+  
+  // 判断用户是否登录
+  isLogin() {
+    if (!wx.getStorageSync('openid')) {
+      wx.redirectTo({url: '/pages/login/login'})
+    } else {
+      wx.switchTab({url: '/pages/index/index'})
+    }
   },
 
+  // 获取 状态栏 导航栏 自定义导航栏 高度
   getPhoneHeight() {
     // 获取手机状态栏信息和高度
     const phoneinfo = wx.getSystemInfoSync()
@@ -57,14 +44,11 @@ App({
     this.globalData.customheight = customheight
   },
 
+  // 获取 iPhoneX底部 高度
   getSystemInfo() {
-    //获取当前设备信息
     wx.getSystemInfo({
-      success: res => {
+      success: (res) => {
         this.globalData.bottomLift = res.screenHeight - res.safeArea.bottom;
-      },
-      fail(err) {
-        console.log(err);
       }
     })
   }

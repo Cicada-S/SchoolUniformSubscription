@@ -1,3 +1,7 @@
+// pages/index/index.js
+const db = wx.cloud.database();
+const user = db.collection('User');
+
 Page({
   data: {
     chart: '/static/images/home/chart.png',
@@ -32,6 +36,8 @@ Page({
   // 页面初始化
   onLoad() {
     // this.getDataList()
+
+    this.getUserInfo()
   },
 
   // 获取初始数据
@@ -55,6 +61,30 @@ Page({
     const page = type[event.target.id]
     wx.navigateTo({
       url: `/pages/${page}/${page}`
+    })
+  },
+
+  getUserInfo() {
+    user.get({
+      success(res) {
+        if (res.data.length != 1) {
+          let user = { nickName: '', avatarUrl: '' }
+          // 添加用户
+          user.add({
+            data: user,
+            success(res) {
+              wx.reLaunch({
+                url: '/pages/login/login'
+              })
+            }
+          })
+        }
+        try {
+          wx.setStorageSync('currentUser', this.data.currentUser);
+        } catch (err) {
+          console.log(err)
+        }
+      }
     })
   }
 })

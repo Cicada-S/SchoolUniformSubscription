@@ -1,5 +1,8 @@
-// pages/login/login、.js
+// pages/login/login.js
 const app = getApp()
+
+const db = wx.cloud.database();
+const user = db.collection('User');
 
 Page({
   data: {
@@ -17,23 +20,51 @@ Page({
       {x: 650, y: 1200},
       {x: 180, y: 1460},
     ],
-    adminOpenId: [
-      
-    ]
+    adminOpenId: []
   },
 
-  login() {
+  // 登录的回调函数
+  getUserProfile() {
+    // 获取用户信息
     wx.getUserProfile({
-      desc: "用于数据展示",
-      success(res) {
+      desc: "用于个人信息展示",
+      // 允许授权
+      success: res => {
+        // 获取openId
+        // this.getOpenId()
+
         wx.setStorageSync('userInfo', res.userInfo)
         wx.navigateTo({
           url: '/pages/index/index'
         })
       },
-      fail(err) {
-        console.log('err', err)
+      // 拒绝授权
+      fail: err => {
+        console.log('解决授权', err)
       }
     }) 
-  }
+  },
+
+  // 获取openId
+  /* getOpenId() {
+    wx.cloud.callFunction({
+      name: 'getOpenId',
+    })
+    // 获取成功
+    .then(res => {
+      wx.setStorageSync('openid', res.result.openid)
+      
+      let userInfo = {
+        nickName: wx.getStorageSync('userInfo').nickName,
+        avatarUrl: wx.getStorageSync('userInfo').avatarUrl,
+        openid: res.result.openid,
+      }
+      // 将用户添加到数据库
+      user.add({data: userInfo})
+    })
+    // 获取失败
+    .catch(err => {
+      console.log('err', err)
+    })
+  }, */
 })
