@@ -51,7 +51,7 @@
         },
         {
           "name": "",
-          "pathName": "pages/login/login",
+          "pathName": "pages/index/index",
           "query": "",
           "launchMode": "default",
           "scene": null

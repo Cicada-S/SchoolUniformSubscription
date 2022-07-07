@@ -1,4 +1,6 @@
 // pages/AddProduct/AddProduct.js
+let app = getApp();
+
 const type = {
   first: 'firstList',
   details: 'detailsList',
@@ -6,11 +8,18 @@ const type = {
 
 Page({
   data: {
+    bottomLift: app.globalData.bottomLift,
     form: {
       titleValue: '',
       descValue: '',
       priceValue: '',
     },
+    Specifications: [
+      {
+        title: '',
+        option: [''],
+      }
+    ],
     firstList: [], // 首图的数据
     detailsList: [], // 详情图的数据
   },
@@ -24,6 +33,45 @@ Page({
     }
     this.setData({
       ['form.' + type[event.target.id]]: event.detail
+    })
+  },
+
+  // 监听规格中输入框的值
+  onChangeSpec(event) { 
+    // index 为规格的索引 id 为规格中选项的索引
+    let { index, id } = event.currentTarget.dataset
+    console.log(index, id);
+    // 不能直接使用 !id 因为 id=0 时为 false
+    if(!id && id !== 0) {
+      this.setData({
+        [`Specifications[${index}].title`]: event.detail
+      })
+    } else {
+      this.setData({
+        [`Specifications[${index}].option[${id}]`]: event.detail
+      })
+    }
+  },
+
+  // 添加规格中的选项
+  addSpecValue(event) {
+    let { id } = event.target
+    let option = this.data.Specifications[id].option
+    option.push('')
+    this.setData({
+      [`Specifications[${id}].option`]: option
+    })
+  },
+
+  // 添加规格
+  addSpec() {
+    let Specifications = this.data.Specifications
+    Specifications.push({
+      title: '',
+      option: ['']
+    })
+    this.setData({
+      Specifications
     })
   },
 

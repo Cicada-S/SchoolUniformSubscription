@@ -13,19 +13,19 @@ App({
       traceUser: true
     })
 
-    this.isLogin()
+    // this.isLogin()
     this.getPhoneHeight()
     this.getSystemInfo()
   },
   
   // 判断用户是否登录
-  isLogin() {
+  /* isLogin() {
     if (!wx.getStorageSync('openid')) {
       wx.redirectTo({url: '/pages/login/login'})
     } else {
       wx.switchTab({url: '/pages/index/index'})
     }
-  },
+  }, */
 
   // 获取 状态栏 导航栏 自定义导航栏 高度
   getPhoneHeight() {
