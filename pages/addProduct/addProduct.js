@@ -1,6 +1,8 @@
 // pages/AddProduct/AddProduct.js
 let app = getApp();
 
+import h from '../../utils/hashCode';
+
 const type = {
   first: 'firstList',
   details: 'detailsList',
@@ -8,20 +10,21 @@ const type = {
 
 Page({
   data: {
-    bottomLift: app.globalData.bottomLift,
+    bottomLift: app.globalData.bottomLift, 
     form: {
-      titleValue: '',
-      descValue: '',
-      priceValue: '',
+      titleValue: '冬季新款',
+      descValue: '冬季新款校服',
+      priceValue: '98.00',
     },
     Specifications: [
       {
-        title: '',
-        option: [''],
+        title: '颜色',
+        option: ['蓝色'],
       }
     ],
     firstList: [], // 首图的数据
     detailsList: [], // 详情图的数据
+    upCloudImage: {}, // 上传的图片
   },
 
   // 监听输入框的值
@@ -34,6 +37,8 @@ Page({
     this.setData({
       ['form.' + type[event.target.id]]: event.detail
     })
+
+    // console.log(uuid());
   },
 
   // 监听规格中输入框的值
@@ -93,11 +98,26 @@ Page({
 
   // 添加商品的处理函数
   addProduct() {
-    let { form, firstList, detailsList } = this.data;
-    let productInfo = {
-      form,
-      firstList,
-      detailsList
-    }
+    this.upCloud(this.data.firstList, 'first')
+    this.upCloud(this.data.detailsList, 'details')
+  },
+
+  // 将图片上传到云存储
+  upCloud(imageList, type) {
+    let hashCode = h()
+    imageList.forEach((item, index) => {
+      let imageName = hashCode + index + item.url.match(/.[^.]+$/)[0]
+      // 上传图片
+      wx.cloud.uploadFile({
+        cloudPath: imageName,
+        filePath: item.url,
+      }).then(res => {
+        console.log(res);
+        /* this.data.upCloudImage[type].push(res.fileID)
+        this.data({
+          upCloudImage: this.data.upCloudImage
+        }) */
+      })
+    })
   }
 })

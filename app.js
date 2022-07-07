@@ -1,4 +1,5 @@
 // app.js
+
 App({
   globalData: {
     stateheight: 0, // 手机状态栏高度
