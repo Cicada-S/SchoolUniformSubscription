@@ -100,6 +100,11 @@ Page({
 
   // 添加商品的处理函数
   async addProduct() {
+    this.data.upCloudImage = { 
+      first: [],
+      details: [],
+    },
+    
     await this.upCloud(this.data.firstList, 'first')
     await this.upCloud(this.data.detailsList, 'details')
 

@@ -10,24 +10,32 @@ exports.main = async (event, context) => {
 
   let { form, upCloudImage, Specifications } = event
 
-  let newImageList = Object.values(upCloudImage).forEach((item, index) => {
-    console.log(item, index);
-
-    let Array = []
-
-    if(index === 0) item.map(item => {
-      item.type = 0
-      Array.push(item)
-    })
-    if(index === 1) item.map(item => {
-      item.type = 1
-      Array.push(item)
-    })
-    
-    return Array
+  let newArr = Object.values(upCloudImage).map((item, index) => {
+    let Arr = []
+    if(index === 0) {
+      let arr = item.map(item => {
+        item.age = 18
+        return item
+      })
+      Arr.push(...arr)
+    }
+    if(index === 1) {
+      let arr = item.map(item => {
+        item.age = 20 
+        return item
+      })
+      Arr.push(...arr)
+    }
+    return Arr
+  })
+  let newImageList = newArr.flat().map((item, index) => {
+    item.index = index,
+    item.productId = id // undfined
+    return item
   })
 
-  console.log("newImageList", newImageList);
+  console.log(newImageList);
+  
 
   let data = {
     Product: {
@@ -35,27 +43,24 @@ exports.main = async (event, context) => {
       name: form.titleValue,
       unitPrice: form.priceValue,
     },
-    /* ProductVideoImage: {
-      productId: id,
-      type: first.type,
-      path: first.fileID,
-      order: first.index,
-    },
-    ProductAttribute: {
+    ProductVideoImage: newImageList,
+    /* ProductAttribute: {
       productId: id,
     } */
   }
  
   try {
-     id = { _id } = await db.collection('Product').add({
+     await db.collection('Product').add({
       data: data.Product
     }).then(async (res) => {
       console.log(res);
+      
+      id = res._id
 
-      /* await db.collection('ProductVideoImage').add({
+      await db.collection('ProductVideoImage').add({
         data: data.ProductVideoImage
       })
-      await db.collection('ProductAttribute').add({
+      /* await db.collection('ProductAttribute').add({
         data: data.ProductAttribute
       }) */
     })
