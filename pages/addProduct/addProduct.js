@@ -13,7 +13,7 @@ Page({
     bottomLift: app.globalData.bottomLift, 
     form: {
       titleValue: '冬季新款',
-      descValue: '冬季新款校服',
+      // descValue: '冬季新款校服',
       priceValue: '98.00',
     },
     Specifications: [
@@ -24,21 +24,23 @@ Page({
     ],
     firstList: [], // 首图的数据
     detailsList: [], // 详情图的数据
-    upCloudImage: {}, // 上传的图片
+    // 添加到数据表中的图片path
+    upCloudImage: { 
+      first: [],
+      details: [],
+    }, 
   },
 
   // 监听输入框的值
   onChange(event) {
     const type = {
       title: 'titleValue',
-      desc: 'descValue',
+      // desc: 'descValue',
       price: 'priceValue',
     }
     this.setData({
       ['form.' + type[event.target.id]]: event.detail
     })
-
-    // console.log(uuid());
   },
 
   // 监听规格中输入框的值
@@ -97,27 +99,49 @@ Page({
   },
 
   // 添加商品的处理函数
-  addProduct() {
-    this.upCloud(this.data.firstList, 'first')
-    this.upCloud(this.data.detailsList, 'details')
+  async addProduct() {
+    await this.upCloud(this.data.firstList, 'first')
+    await this.upCloud(this.data.detailsList, 'details')
+
+    let { form, upCloudImage, Specifications  } = this.data
+
+    console.log("addProduct", upCloudImage);
+
+    let data = {
+      form,
+      upCloudImage,
+      Specifications,
+    }
+    wx.cloud.callFunction({
+      name: 'addProduct',
+      data,
+    })
+    .then(res => {
+      console.log(res);
+    })
   },
 
   // 将图片上传到云存储
-  upCloud(imageList, type) {
+   upCloud(imageList, type) {
     let hashCode = h()
+    let worker = []
     imageList.forEach((item, index) => {
       let imageName = hashCode + index + item.url.match(/.[^.]+$/)[0]
       // 上传图片
-      wx.cloud.uploadFile({
+      let process = wx.cloud.uploadFile({
         cloudPath: imageName,
         filePath: item.url,
       }).then(res => {
-        console.log(res);
-        /* this.data.upCloudImage[type].push(res.fileID)
-        this.data({
-          upCloudImage: this.data.upCloudImage
-        }) */
+        let upCloudImage = {
+          ...this.data.upCloudImage,
+        }
+        upCloudImage[type].push({fileID: res.fileID})
+        this.setData({
+          upCloudImage: upCloudImage
+        })
       })
+      worker.push(process)
     })
+    return Promise.all(worker)
   }
 })

@@ -9,7 +9,7 @@
       id="title"
     />
   </BlockBox>
-  <BlockBox title="描述">
+  <!-- <BlockBox title="描述">
     <van-field
       value="{{ form.descValue }}"
       placeholder="请输入描述"
@@ -17,7 +17,7 @@
       bind:change="onChange"
       id="desc"
     />
-  </BlockBox>
+  </BlockBox> -->
   <BlockBox title="价格">
     <van-field
       value="{{ form.priceValue }}"
