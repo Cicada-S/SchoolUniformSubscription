@@ -12,14 +12,14 @@ Page({
   data: {
     bottomLift: app.globalData.bottomLift, 
     form: {
-      titleValue: '冬季新款',
-      // descValue: '冬季新款校服',
-      priceValue: '98.00',
+      name: '',
+      // desc: '',
+      unitPrice: '',
     },
     Specifications: [
       {
-        title: '颜色',
-        option: ['蓝色'],
+        name: '',
+        value: [''],
       }
     ],
     firstList: [], // 首图的数据
@@ -34,9 +34,9 @@ Page({
   // 监听输入框的值
   onChange(event) {
     const type = {
-      title: 'titleValue',
-      // desc: 'descValue',
-      price: 'priceValue',
+      title: 'name',
+      // desc: 'desc',
+      price: 'unitPrice',
     }
     this.setData({
       ['form.' + type[event.target.id]]: event.detail
@@ -47,15 +47,14 @@ Page({
   onChangeSpec(event) { 
     // index 为规格的索引 id 为规格中选项的索引
     let { index, id } = event.currentTarget.dataset
-    console.log(index, id);
     // 不能直接使用 !id 因为 id=0 时为 false
     if(!id && id !== 0) {
       this.setData({
-        [`Specifications[${index}].title`]: event.detail
+        [`Specifications[${index}].name`]: event.detail
       })
     } else {
       this.setData({
-        [`Specifications[${index}].option[${id}]`]: event.detail
+        [`Specifications[${index}].value[${id}]`]: event.detail
       })
     }
   },
@@ -63,10 +62,10 @@ Page({
   // 添加规格中的选项
   addSpecValue(event) {
     let { id } = event.target
-    let option = this.data.Specifications[id].option
-    option.push('')
+    let value = this.data.Specifications[id].value
+    value.push('')
     this.setData({
-      [`Specifications[${id}].option`]: option
+      [`Specifications[${id}].value`]: value
     })
   },
 
@@ -74,8 +73,8 @@ Page({
   addSpec() {
     let Specifications = this.data.Specifications
     Specifications.push({
-      title: '',
-      option: ['']
+      name: '',
+      value: ['']
     })
     this.setData({
       Specifications
@@ -100,6 +99,9 @@ Page({
 
   // 添加商品的处理函数
   async addProduct() {
+    wx.showLoading({
+      title: '添加中...',
+    })
     this.data.upCloudImage = { 
       first: [],
       details: [],
@@ -110,19 +112,27 @@ Page({
 
     let { form, upCloudImage, Specifications  } = this.data
 
-    console.log("addProduct", upCloudImage);
-
     let data = {
-      form,
-      upCloudImage,
-      Specifications,
+      product: form,
+      ProductVideoImage: upCloudImage,
+      ProductSpecification: Specifications,
     }
     wx.cloud.callFunction({
       name: 'addProduct',
       data,
-    })
-    .then(res => {
-      console.log(res);
+    }).then(res => {
+      console.log('添加商品成功', res);
+      wx.hideLoading()
+      wx.showToast({
+        title: '添加成功',
+        icon: 'success',
+        duration: 1000
+      })
+      wx.navigateBack({
+        delta: 1,
+      })
+    }).catch(err => {
+      console.log('添加商品失败', err);
     })
   },
 

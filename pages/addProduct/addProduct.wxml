@@ -2,7 +2,7 @@
 <view class="container" style="padding-bottom: {{bottomLift*2+70}}rpx">
   <BlockBox>
     <van-field
-      value="{{ form.titleValue }}"
+      value="{{ form.name }}"
       placeholder="请输入标题"
       border="{{ false }}"
       bind:change="onChange"
@@ -20,7 +20,7 @@
   </BlockBox> -->
   <BlockBox title="价格">
     <van-field
-      value="{{ form.priceValue }}"
+      value="{{ form.unitPrice }}"
       placeholder="请输入价格"
       border="{{ false }}"
       bind:change="onChange"
@@ -30,7 +30,7 @@
   <BlockBox title="规格">
     <van-cell-group wx:for="{{Specifications}}" wx:key="title">
       <van-field
-        value="{{ item.title }}"
+        value="{{ item.name }}"
         placeholder="请输入规格"
         border="{{ false }}"
         input-class="optionTitle"
@@ -39,7 +39,7 @@
       >
         <van-icon custom-class="customIcon" id="{{index}}" bindtap="addSpecValue" slot="right-icon" name="add-o" />
       </van-field>
-      <block wx:for="{{item.option}}" wx:for-item="items" wx:for-index="idx" wx:key="items">
+      <block wx:for="{{item.value}}" wx:for-item="items" wx:for-index="idx" wx:key="items">
         <van-field
           value="{{ items }}"
           placeholder="请输入选项"
