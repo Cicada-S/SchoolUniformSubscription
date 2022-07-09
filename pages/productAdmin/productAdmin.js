@@ -1,47 +1,50 @@
 // pages/productAdmin.js
+const db = wx.cloud.database()
+const products = db.collection('Product')
+const ProductVideoImage = db.collection('ProductVideoImage')
+
 Page({
   data: {
-    productList: [
-      {
-        id: 1,
-        title: '夏季运动套装',
-        image: '/static/images/productAdmin/product.png',
-        price: '98.00',
-      },
-      {
-        id: 2,
-        title: '夏季运动套装',
-        image: '/static/images/productAdmin/product.png',
-        price: '98.00',
-      },
-      {
-        id: 3,
-        title: '夏季运动套装',
-        image: '/static/images/productAdmin/product.png',
-        price: '98.00',
-      },
-      {
-        id: 4,
-        title: '夏季运动套装',
-        image: '/static/images/productAdmin/product.png',
-        price: '98.00',
-      },
-    ],
+    productList: [],
   },
 
   // 页面初始化
-  onLoad() {
-    // getProductList()
+  onLoad(options) {
+    console.log('页面初始化', options)
+
+    this.getProductList()
   },
 
   // 获取初始数据
-  getProductList() {
-    wx.request({
-      url: 'http://localhost:8080/product/getProductList',
-      method: 'GET',
-      success (res) {
-        console.log(res.data)
-      }
+  async getProductList() {
+    await products.get().then(res => {
+      let productList = []
+
+      let results = res.data.map(item => {
+        productList.push(item)
+        return item._id
+      })
+
+      results.forEach((productId, index) => {
+        ProductVideoImage.where({
+          productId: productId,
+        }).get().then(({ data }) => {
+          console.log('获取商品对应的图片:', productId, "index:", index, data)
+
+          data.map(item => {
+            if (item.type == 0 && item.order == 0) {
+              productList.forEach(product => {
+                if (product._id == productId) {
+                  product.path = item.path
+                }
+              })
+            }
+          })
+          this.setData({
+            productList: productList,
+          })
+        })
+      })
     })
   },
 
@@ -50,7 +53,7 @@ Page({
     wx.showModal({
       title: '提示',
       content: '确定要删除该商品吗？',
-      success (res) {
+      success(res) {
         if (res.confirm) {
           console.log('用户点击确定')
         }

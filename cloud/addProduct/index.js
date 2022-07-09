@@ -35,7 +35,7 @@ exports.main = async (event, context) => {
       return Arr
     })
     await newArr.flat().map((item, index) => {
-      item.order = index,
+      // item.order = index,
       item.productId = res._id 
       db.collection('ProductVideoImage').add({
         data: item

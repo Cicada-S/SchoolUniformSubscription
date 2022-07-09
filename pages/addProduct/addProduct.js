@@ -132,6 +132,12 @@ Page({
         delta: 1,
       })
     }).catch(err => {
+      wx.hideLoading()
+      wx.showToast({
+        title: '添加失败',
+        icon: 'error',
+        duration: 1000
+      })
       console.log('添加商品失败', err);
     })
   },
@@ -150,7 +156,8 @@ Page({
         let upCloudImage = {
           ...this.data.upCloudImage,
         }
-        upCloudImage[type].push({fileID: res.fileID})
+        upCloudImage[type].push({path: res.fileID, order: index})
+        console.log('order', index, 'type', type)
         this.setData({
           upCloudImage: upCloudImage
         })

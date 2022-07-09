@@ -6,14 +6,14 @@
     <view class="productList">
       <view class="productListItem" bindtap="toAddProduct" wx:for="{{productList}}" wx:key="id">
         <view class="productListItemImg">
-          <image src="{{item.image}}" />
+          <image src="{{item.path}}" />
         </view>
         <view class="productListItemInfo">
           <view class="productListItemInfoTitle">
-            <text>{{item.title}}</text>
+            <text>{{item.name}}</text>
           </view>
           <view class="productListItemInfoPrice">
-            <text>¥ {{item.price}}</text>
+            <text>¥ {{item.unitPrice}}</text>
           </view>
         </view>
         <view class="operation">
