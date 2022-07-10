@@ -72,5 +72,5 @@
     />
   </BlockBox>
 
-  <BottomBtn text="添加商品" bindtap="addProduct" />
+  <BottomBtn text="{{type?'添加商品':'修改商品'}}" bindtap="addProduct" />
 </view>

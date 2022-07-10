@@ -36,3 +36,5 @@ $RECYCLE.BIN/
 
 # Node.js
 node_modules/
+
+cloud/node_modules/

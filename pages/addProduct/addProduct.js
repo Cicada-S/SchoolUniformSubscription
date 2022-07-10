@@ -29,10 +29,34 @@ Page({
       first: [],
       details: [],
     },
+    // 当前的状态 true(添加商品) false(编辑商品)
+    type: true
   },
 
   onLoad(options) {
     console.log('初始化页面', options)
+
+    if(options.id){
+      this.setData({
+        type: false
+      })
+      wx.setNavigationBarTitle({
+        title: '编辑商品'
+      })
+      this.getProductInfo(options.id)
+    }
+  },
+
+  // 编辑商品时回填数据
+  async getProductInfo(id) {
+    console.log('id', id)
+
+    await wx.cloud.callFunction({
+      name: 'getProductInfo',
+      data: {id}
+    }).then(res => {
+      console.log(res)
+    })
   },
 
   // 监听输入框的值
