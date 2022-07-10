@@ -1,14 +1,14 @@
 /* components/BottomBtn/BottomBtn.wxss */
 .bottomBtn {
   width: 690rpx;
-  height: 70rpx;
+  height: 80rpx;
   position: fixed;
   bottom: 10rpx;
   margin-top: 10rpx;
   color: #FFFFFF;
-  font-size: 28rpx;
+  font-size: 30rpx;
   text-align: center;
-  line-height: 70rpx;
+  line-height: 80rpx;
   letter-spacing: 10rpx;
   border-radius: 10rpx;
   background-color: #407EF5;

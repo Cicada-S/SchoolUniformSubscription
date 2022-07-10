@@ -1,4 +1,6 @@
 // pages/productAdmin.js
+let app = getApp();
+
 const db = wx.cloud.database()
 const products = db.collection('Product')
 const ProductVideoImage = db.collection('ProductVideoImage')
@@ -6,6 +8,7 @@ const ProductVideoImage = db.collection('ProductVideoImage')
 Page({
   data: {
     productList: [],
+    bottomLift: app.globalData.bottomLift, 
   },
 
   // 页面初始化

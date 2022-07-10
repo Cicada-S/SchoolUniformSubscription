@@ -2,7 +2,7 @@
 <view class="container">
   <Search />
 
-  <view class="content">
+  <view class="content" style="padding-bottom: {{bottomLift*2+85}}rpx">
     <view class="productList">
       <view class="productListItem" wx:for="{{productList}}" wx:key="_id">
         <view class="productListItemImg">

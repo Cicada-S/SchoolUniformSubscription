@@ -1,5 +1,5 @@
 <!--pages/AddProduct/AddProduct.wxml-->
-<view class="container" style="padding-bottom: {{bottomLift*2+70}}rpx">
+<view class="container" style="padding-bottom: {{bottomLift*2+85}}rpx">
   <BlockBox>
     <van-field
       value="{{ form.name }}"
