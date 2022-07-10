@@ -28,7 +28,11 @@ Page({
     upCloudImage: { 
       first: [],
       details: [],
-    }, 
+    },
+  },
+
+  onLoad(options) {
+    console.log('初始化页面', options)
   },
 
   // 监听输入框的值
@@ -112,11 +116,19 @@ Page({
 
     let { form, upCloudImage, Specifications  } = this.data
 
+    // 给商品图片添加序列号(order)
+    upCloudImage = Object.values(upCloudImage).flat().map((item, index) => {
+      item.order = index
+      return item
+    })
+
     let data = {
       product: form,
       ProductVideoImage: upCloudImage,
       ProductSpecification: Specifications,
     }
+
+    // 发起添加商品的请求
     wx.cloud.callFunction({
       name: 'addProduct',
       data,
@@ -146,21 +158,26 @@ Page({
    upCloud(imageList, type) {
     let hashCode = h()
     let worker = []
+    // 遍历上传图片
     imageList.forEach((item, index) => {
       let imageName = hashCode + index + item.url.match(/.[^.]+$/)[0]
       // 上传图片
       let process = wx.cloud.uploadFile({
         cloudPath: imageName,
         filePath: item.url,
-      }).then(res => {
+      })
+      // 上传成功 
+      .then(res => {
         let upCloudImage = {
           ...this.data.upCloudImage,
         }
-        upCloudImage[type].push({path: res.fileID, order: index})
-        console.log('order', index, 'type', type)
-        this.setData({
-          upCloudImage: upCloudImage
+        // 标记图片 首图为 0 详情图为 1 
+        let typeID = type === 'first' ? 0 : 1
+        upCloudImage[type].push({
+          path: res.fileID,
+          type: typeID
         })
+        this.setData({upCloudImage})
       })
       worker.push(process)
     })

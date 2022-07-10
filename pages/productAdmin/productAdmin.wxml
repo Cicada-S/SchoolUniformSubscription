@@ -4,11 +4,11 @@
 
   <view class="content">
     <view class="productList">
-      <view class="productListItem" bindtap="toAddProduct" wx:for="{{productList}}" wx:key="id">
+      <view class="productListItem" wx:for="{{productList}}" wx:key="_id">
         <view class="productListItemImg">
           <image src="{{item.path}}" />
         </view>
-        <view class="productListItemInfo">
+        <view class="productListItemInfo" bindtap="toAddProduct" id="{{item._id}}">
           <view class="productListItemInfoTitle">
             <text>{{item.name}}</text>
           </view>
@@ -17,7 +17,7 @@
           </view>
         </view>
         <view class="operation">
-          <view bindtap="delProduct" class="operationDelete">
+          <view bindtap="delProduct" id="{{item._id}}" class="operationDelete">
             <text>下架</text>
           </view>
         </view>
