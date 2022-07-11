@@ -144,11 +144,23 @@ Page({
     })
   },
 
+  editProduct(){
+    console.log('修改商品')
+    // 删除对于的规格和图片
+
+    // 将图片上传到服务器
+
+    // 发起更新商品的请求 
+  },
+
   // 添加商品的处理函数
   async addProduct() {
+    let text = this.data.type ? '添加' : '修改'
+
     wx.showLoading({
-      title: '添加中...',
+      title: `${text}中...`,
     })
+
     this.data.upCloudImage = { 
       first: [],
       details: [],
@@ -175,7 +187,7 @@ Page({
     }).then(res => {
       wx.hideLoading()
       wx.showToast({
-        title: '添加成功',
+        title: `${text}成功`,
         icon: 'success',
         duration: 1000
       })
@@ -185,7 +197,7 @@ Page({
     }).catch(err => {
       wx.hideLoading()
       wx.showToast({
-        title: '添加失败',
+        title: `${text}失败`,
         icon: 'error',
         duration: 1000
       })
