@@ -34,8 +34,6 @@ Page({
   },
 
   onLoad(options) {
-    console.log('初始化页面', options)
-
     if(options.id){
       this.setData({
         type: false
@@ -43,19 +41,40 @@ Page({
       wx.setNavigationBarTitle({
         title: '编辑商品'
       })
+      wx.showLoading({
+        title: '获取数据中...',
+      })
       this.getProductInfo(options.id)
     }
   },
 
   // 编辑商品时回填数据
   async getProductInfo(id) {
-    console.log('id', id)
-
+    // 获取商品信息
     await wx.cloud.callFunction({
       name: 'getProductInfo',
       data: {id}
     }).then(res => {
-      console.log(res)
+      let {product, ProductSpecification, ProductVideoImage} = res.result.data
+      // 将图片的格式修改成功 vant需要的格式
+      Object.values(ProductVideoImage).forEach((item, index) => {
+        let items = item.map((img, idx) => {
+          img.url = img.path
+          img.name = idx
+          img.thumb = img.path
+          img.type = 'image'
+          return img
+        })
+        index === 0 ? ProductVideoImage.first = items : ProductVideoImage.details = items
+      })
+
+      wx.hideLoading()
+      this.setData({
+        form: product,
+        Specifications: ProductSpecification,
+        firstList: ProductVideoImage.first,
+        detailsList: ProductVideoImage.details
+      })
     })
   },
 
@@ -140,12 +159,9 @@ Page({
 
     let { form, upCloudImage, Specifications  } = this.data
 
-    // 给商品图片添加序列号(order)
-    upCloudImage = Object.values(upCloudImage).flat().map((item, index) => {
-      item.order = index
-      return item
-    })
-
+    // 扁平化 然后转成数组 
+    upCloudImage = Object.values(upCloudImage).flat().map(item => item)
+    
     let data = {
       product: form,
       ProductVideoImage: upCloudImage,
@@ -157,7 +173,6 @@ Page({
       name: 'addProduct',
       data,
     }).then(res => {
-      console.log('添加商品成功', res);
       wx.hideLoading()
       wx.showToast({
         title: '添加成功',
@@ -174,7 +189,6 @@ Page({
         icon: 'error',
         duration: 1000
       })
-      console.log('添加商品失败', err);
     })
   },
 
@@ -199,7 +213,8 @@ Page({
         let typeID = type === 'first' ? 0 : 1
         upCloudImage[type].push({
           path: res.fileID,
-          type: typeID
+          type: typeID,
+          order: index,
         })
         this.setData({upCloudImage})
       })

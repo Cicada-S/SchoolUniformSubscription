@@ -38,7 +38,7 @@
         {
           "name": "",
           "pathName": "pages/addProduct/addProduct",
-          "query": "",
+          "query": "id=0a4ec1f962cb92470fbbe1197bcfe6b7",
           "launchMode": "default",
           "scene": null
         },
