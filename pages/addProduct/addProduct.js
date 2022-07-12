@@ -7,6 +7,7 @@ const type = {
   first: 'firstList',
   details: 'detailsList',
 }
+let id = '' // 编辑商品的id
 
 Page({
   data: {
@@ -33,7 +34,9 @@ Page({
     type: true
   },
 
+  // 页面初始化
   onLoad(options) {
+    id = options.id
     if(options.id){
       this.setData({
         type: false
@@ -63,10 +66,24 @@ Page({
           img.name = idx
           img.thumb = img.path
           img.type = 'image'
+
+          // 将图片下载到临时文件
+          /* wx.downloadFile({ 
+            url: img.path,
+            success: res => {
+              console.log(res.tempFilePath)
+            },
+            fail: err => {
+              console.log(err)
+            }
+          }); */
+
           return img
         })
         index === 0 ? ProductVideoImage.first = items : ProductVideoImage.details = items
       })
+
+      // wx.setStorageSync('upCloudImage', ProductVideoImage);
 
       wx.hideLoading()
       this.setData({
@@ -144,15 +161,6 @@ Page({
     })
   },
 
-  editProduct(){
-    console.log('修改商品')
-    // 删除对于的规格和图片
-
-    // 将图片上传到服务器
-
-    // 发起更新商品的请求 
-  },
-
   // 添加商品的处理函数
   async addProduct() {
     let text = this.data.type ? '添加' : '修改'
@@ -161,11 +169,22 @@ Page({
       title: `${text}中...`,
     })
 
+    // 清空 upCloudImage
     this.data.upCloudImage = { 
       first: [],
       details: [],
-    },
+    }
+
+    // 编辑状态到缓存获取图片路径
+    /* if(!type) {
+      let { first, details } = wx.getStorageSync('upCloudImage')
+      this.setData({
+        firstList: first,
+        detailsList: details
+      })
+    } */
     
+    // 将图片上传到服务器
     await this.upCloud(this.data.firstList, 'first')
     await this.upCloud(this.data.detailsList, 'details')
 
@@ -180,17 +199,19 @@ Page({
       ProductSpecification: Specifications,
     }
 
-    // 发起添加商品的请求
-    wx.cloud.callFunction({
-      name: 'addProduct',
-      data,
-    }).then(res => {
+    // 判断当前状态为 编辑/添加 模式
+    results = this.data.type ? this.request('addProduct', data) : this.request('editProduct', data, id)
+
+    results.then(res => {
       wx.hideLoading()
       wx.showToast({
         title: `${text}成功`,
         icon: 'success',
         duration: 1000
       })
+      // 清除缓存中的upCloudImage
+      // wx.removeStorageSync('upCloudImage')
+      // 返回上一层 到(商品管理)
       wx.navigateBack({
         delta: 1,
       })
@@ -201,6 +222,16 @@ Page({
         icon: 'error',
         duration: 1000
       })
+    })
+  },
+
+  // 添加/修改商品的请求
+  async request(surface, data, id){
+    console.log(id)
+    data.id = id
+    return await wx.cloud.callFunction({
+      name: surface,
+      data
     })
   },
 
