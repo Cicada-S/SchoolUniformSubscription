@@ -5,7 +5,47 @@ Page({
   data: {
     name: '',
     address: '',
-    fileList: []
+    fileList: [],
+    // 当前的状态 true(添加学校) false(编辑学校)
+    type: true
+  },
+
+  // 页面初始化
+  onLoad(options) {
+    console.log('页面初始化', options)
+    let id = options.id
+
+    if(id) {
+      this.setData({
+        type: false
+      })
+      wx.setNavigationBarTitle({
+        title: '编辑商品'
+      })
+      this.getSchoolInfo(options.id)
+    }
+  },
+
+  // 编辑学校时回填数据
+  async getSchoolInfo(id){
+    await wx.cloud.callFunction({
+      name: 'getSchoolInfo',
+      data: {id}
+    }).then(res => {
+      let {name, address, logo} = res.result.data
+      let fileList = [{
+        type: 'image',
+        name: 'logo',
+        url: logo,
+        thumb: logo
+      }]
+
+      this.setData({
+        name,
+        address,
+        fileList
+      })
+    })
   },
 
   // 监听输入框的值

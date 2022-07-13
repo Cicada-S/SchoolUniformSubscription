@@ -19,9 +19,9 @@ Page({
     })
   },
 
-  toAddSchool() {
+  toAddSchool(event) {
     wx.navigateTo({
-      url: '/pages/addSchool/addSchool',
+      url: `/pages/addSchool/addSchool?id=${event.currentTarget.id}`
     })
   }
 })

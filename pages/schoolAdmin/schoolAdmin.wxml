@@ -4,7 +4,7 @@
 
   <view class="content">
     <view class="schoolList">
-      <view class="schoolListItem" bindtap="toAddSchool" wx:for="{{schoolList}}" wx:key="id">
+      <view class="schoolListItem" wx:for="{{schoolList}}" wx:key="id" bindtap="toAddSchool" id="{{item._id}}">
         <view class="schoolListItemLogo">
           <image src="{{item.logo}}"/>
         </view>
