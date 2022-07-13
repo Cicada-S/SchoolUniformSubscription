@@ -6,7 +6,7 @@
     <view class="schoolList">
       <view class="schoolListItem" bindtap="toAddSchool" wx:for="{{schoolList}}" wx:key="id">
         <view class="schoolListItemLogo">
-          <image src="{{item.image}}"/>
+          <image src="{{item.logo}}"/>
         </view>
         <view class="schoolListItemName">
           <text>{{item.name}}</text>

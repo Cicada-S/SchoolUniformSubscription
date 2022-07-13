@@ -1,4 +1,4 @@
-// pages/productAdmin.js
+    // pages/productAdmin.js
 let app = getApp();
 
 const db = wx.cloud.database()
@@ -20,7 +20,7 @@ Page({
 
   // 获取初始数据
   async getProductList() {
-    await products.get().then(res => {
+    await products.get().then(res => {0    
       // 获取到的商品数据
       let productList = res.data
       // 将每条数据的_id取出 用于查找对应的商品图片

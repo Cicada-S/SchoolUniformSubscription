@@ -1,56 +1,21 @@
 // pages/schoolAdmin/schoolAdmin.js
+const db = wx.cloud.database()
+const School = db.collection('School')
+
 Page({
   data: {
-    schoolList: [
-      {
-        id: 1,
-        name: '清华大学幼儿园',
-        image: '/static/images/schoolAdmin/logo.png',
-      },
-      {
-        id: 2,
-        name: '清华大学幼儿园',
-        image: '/static/images/schoolAdmin/logo.png',
-      },
-      {
-        id: 3,
-        name: '清华大学幼儿园',
-        image: '/static/images/schoolAdmin/logo.png',
-      },
-      {
-        id: 4,
-        name: '清华大学幼儿园',
-        image: '/static/images/schoolAdmin/logo.png',
-      },
-      {
-        id: 5,
-        name: '清华大学幼儿园',
-        image: '/static/images/schoolAdmin/logo.png',
-      },
-      {
-        id: 6,
-        name: '清华大学幼儿园',
-        image: '/static/images/schoolAdmin/logo.png',
-      },
-      {
-        id: 7,
-        name: '清华大学幼儿园',
-        image: '/static/images/schoolAdmin/logo.png',
-      },
-    ],
+    schoolList: [],
   },
 
   onLoad() {
-    // this.getSchoolList()
+    this.getSchoolList()
   },
 
-  getSchoolList() {
-    wx.request({
-      url: 'http://localhost:8080/school/getSchoolList',
-      method: 'GET',
-      success: function (res) {
-        console.log(res.data)
-      }
+  async getSchoolList() {
+    await School.get().then(res => {
+      this.setData({
+        schoolList: res.data
+      })
     })
   },
 
