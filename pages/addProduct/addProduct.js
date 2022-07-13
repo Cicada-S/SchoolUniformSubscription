@@ -236,7 +236,7 @@ Page({
   },
 
   // 将图片上传到云存储
-   upCloud(imageList, type) {
+  upCloud(imageList, type) {
     let hashCode = h()
     let worker = []
     // 遍历上传图片

@@ -2,7 +2,7 @@
 <view class="container">
   <BlockBox title="学校名">
     <van-field
-      value="{{ form.schoolName }}"
+      value="{{ name }}"
       placeholder="请输入学校名"
       border="{{ false }}"
       bind:change="onChange"
@@ -11,7 +11,7 @@
   </BlockBox>
   <BlockBox title="学校地址">
     <van-field
-      value="{{ form.schoolAddress }}"
+      value="{{ address }}"
       placeholder="请输入学校地址"
       border="{{ false }}"
       bind:change="onChange"
@@ -26,5 +26,5 @@
     />
   </BlockBox>
 
-  <BottomBtn text="添加学校" bindtap="addSchool" />
+  <BottomBtn text="{{type?'添加':'修改'}}学校" bindtap="addSchool" />
 </view>
