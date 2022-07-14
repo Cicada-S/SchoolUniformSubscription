@@ -9,6 +9,8 @@ const type = {
 }
 let id = '' // 编辑商品的id
 
+let idList = []
+
 Page({
   data: {
     bottomLift: app.globalData.bottomLift, 
@@ -27,6 +29,11 @@ Page({
     detailsList: [], // 详情图的数据
     // 添加到数据表中的图片path
     upCloudImage: { 
+      first: [],
+      details: [],
+    },
+    // 编辑商品时添加的图片
+    upDataCloudImage: { 
       first: [],
       details: [],
     },
@@ -66,24 +73,10 @@ Page({
           img.name = idx
           img.thumb = img.path
           img.type = 'image'
-
-          // 将图片下载到临时文件
-          /* wx.downloadFile({ 
-            url: img.path,
-            success: res => {
-              console.log(res.tempFilePath)
-            },
-            fail: err => {
-              console.log(err)
-            }
-          }); */
-
           return img
         })
         index === 0 ? ProductVideoImage.first = items : ProductVideoImage.details = items
       })
-
-      // wx.setStorageSync('upCloudImage', ProductVideoImage);
 
       wx.hideLoading()
       this.setData({
@@ -152,16 +145,25 @@ Page({
       [type[event.target.id]]: this.data[type[event.target.id]]
     })
   },
-
+ 
   // 删除图片的方法
   onDelete(event) {
+    let { _id, url } = event.detail.file
+    let path = url.match(/(\w+)/)[0]
+
+    if(path === 'cloud') {
+      idList.push(_id)
+    }
+
+    console.log(idList)
+
     let newList = this.data[type[event.target.id]]?.filter((item, index) => index !== event.detail.index)
     this.setData({
       [type[event.target.id]]: newList
     })
   },
 
-  // 添加商品的处理函数
+  // 添加/修改 商品的处理函数
   async addProduct() {
     let text = this.data.type ? '添加' : '修改'
 
@@ -175,24 +177,44 @@ Page({
       details: [],
     }
 
-    // 编辑状态到缓存获取图片路径
-    /* if(!type) {
-      let { first, details } = wx.getStorageSync('upCloudImage')
-      this.setData({
-        firstList: first,
-        detailsList: details
+    /* if(!this.data.type) {
+      // 将url的开头为http的重新上传到云存储
+      console.log(this.data.firstList)
+      console.log(this.data.detailsList)
+
+      let {firstList, detailsList, upDataCloudImage} = this.data
+
+      upDataCloudImage.first = firstList.filter(item => {
+        if(Object.keys(item).length == 4) {
+          return item
+        }
       })
+      upDataCloudImage.details = detailsList.filter(item => {
+        if(Object.keys(item).length == 4) {
+          return item
+        }
+      })
+
+      console.log(upDataCloudImage)
+      await this.upCloud(upDataCloudImage.first, 'first')
+      await this.upCloud(upDataCloudImage.details, 'details')
     } */
-    
+
     // 将图片上传到服务器
     await this.upCloud(this.data.firstList, 'first')
     await this.upCloud(this.data.detailsList, 'details')
 
+    console.log('1111111111111111111111111111111111111111')
+
     let { form, upCloudImage, Specifications  } = this.data
+    console.log('22222222222222222222222222222222222')
+    console.log('upCloudImage', upCloudImage)
 
     // 扁平化 然后转成数组 
     upCloudImage = Object.values(upCloudImage).flat().map(item => item)
-    
+
+    console.log('upCloudImage', upCloudImage)
+
     let data = {
       product: form,
       ProductVideoImage: upCloudImage,
@@ -209,12 +231,10 @@ Page({
         icon: 'success',
         duration: 1000
       })
-      // 清除缓存中的upCloudImage
-      // wx.removeStorageSync('upCloudImage')
       // 返回上一层 到(商品管理)
-      wx.navigateBack({
+      /* wx.navigateBack({
         delta: 1,
-      })
+      }) */
     }).catch(err => {
       wx.hideLoading()
       wx.showToast({
@@ -239,29 +259,38 @@ Page({
   upCloud(imageList, type) {
     let hashCode = h()
     let worker = []
+
+    let upCloudImage = {
+      ...this.data.upCloudImage,
+    }
     // 遍历上传图片
     imageList.forEach((item, index) => {
       let imageName = hashCode + index + item.url.match(/.[^.]+$/)[0]
-      // 上传图片
-      let process = wx.cloud.uploadFile({
-        cloudPath: imageName,
-        filePath: item.url,
-      })
-      // 上传成功 
-      .then(res => {
-        let upCloudImage = {
-          ...this.data.upCloudImage,
-        }
-        // 标记图片 首图为 0 详情图为 1 
-        let typeID = type === 'first' ? 0 : 1
-        upCloudImage[type].push({
-          path: res.fileID,
-          type: typeID,
-          order: index,
+      // 判断是新添加的原图片 还是 新增的图片
+      if(item.url.match(/(\w+)/)[0] !== 'http') {
+        item.order = index
+        upCloudImage[type].push(item)
+        
+      }else {
+        // 上传图片
+        let process = wx.cloud.uploadFile({
+          cloudPath: imageName,
+          filePath: item.url,
+        })
+        // 上传成功 
+        .then(res => {
+          console.log('上传成功', res)
+          // 标记图片 首图为 0 详情图为 1 
+          let typeID = type === 'first' ? 0 : 1
+          upCloudImage[type].push({
+            path: res.fileID,
+            type: typeID,
+            order: index,
+          })
         })
         this.setData({upCloudImage})
-      })
-      worker.push(process)
+        worker.push(process)
+      }
     })
     return Promise.all(worker)
   }
