@@ -18,14 +18,13 @@ exports.main = async (event, context) => {
       productId: event.id
     }).get()
     .then(res => {
-      console.log('ProductVideoImage', res)
       let images = {
         first: [],
         details: [],
       }
       // 获取到的图片（首图，详情图）
       res.data.forEach((item, index) => {
-        if(item.type === 0) { // 首图
+        if(item.materialType === 0) { // 首图
           images.first.push(item)
         }else{ // 详情图
           images.details.push(item)
@@ -38,7 +37,6 @@ exports.main = async (event, context) => {
       productId: event.id
     }).get()
     .then(res => {
-      console.log('ProductSpecification', res)
       productInfo.ProductSpecification = res.data
     })
 

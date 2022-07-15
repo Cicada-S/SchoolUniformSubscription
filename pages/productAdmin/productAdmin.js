@@ -33,7 +33,7 @@ Page({
         .then(({ data }) => {
           data.map(item => {
             // 获取成功后 选出上传时首图的第一张
-            if (item.type == 0 && item.order == 0) {
+            if (item.materialType == 0 && item.order == 0) {
               // 将图片追加到对应的对象中
               productList.forEach(product => {
                 if (product._id == productId) {

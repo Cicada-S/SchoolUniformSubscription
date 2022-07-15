@@ -6,13 +6,15 @@ const db = cloud.database()
 // 云函数入口函数
 exports.main = async (event, context) => {
   console.log(event)
-  let { id, product, ProductVideoImage, ProductSpecification } = event
+  let { id, idList, product, ProductVideoImage, ProductSpecification } = event
 
   try {
-    // 删除对于的规格和图片
-    await db.collection('ProductVideoImage').where({
-      productId: id
-    }).remove()
+    // 删除对应的图片
+    idList.forEach(async item => {
+      await db.collection('ProductVideoImage').doc(item).remove()
+    })
+
+    // 删除规格
     await db.collection('ProductSpecification').where({
       productId: id
     }).remove()
@@ -28,11 +30,15 @@ exports.main = async (event, context) => {
     // 添加图片
     Object.values(ProductVideoImage).forEach(item => {
       let newItem = { ...item }
-      newItem.productId = id
-      db.collection('ProductVideoImage').add({
-        data: newItem
-      })
+      // 添加新上传图片
+      if(!newItem._id) {
+        newItem.productId = id
+        db.collection('ProductVideoImage').add({
+          data: newItem
+        })
+      }
     })
+
     // 添加规格
     Object.values(ProductSpecification).forEach((item, index) => {
       let newItem = { ...item }
@@ -43,6 +49,7 @@ exports.main = async (event, context) => {
       })
     })
 
+    // 成功返回
     return {
       code: 0,
       success: true
@@ -50,6 +57,7 @@ exports.main = async (event, context) => {
   }
   catch (err) {
     console.error('transaction error')
+    // 失败返回
     return {
       code: 1,
       success: false
