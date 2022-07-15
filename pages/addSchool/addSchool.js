@@ -1,6 +1,9 @@
 // pages/addSchool/addSchool.js
 import h from '../../utils/hashCode';
 
+let editLogo = false  // 是否修改logo
+let id = '' // 编辑学校的id
+
 Page({
   data: {
     name: '',
@@ -12,9 +15,7 @@ Page({
 
   // 页面初始化
   onLoad(options) {
-    console.log('页面初始化', options)
-    let id = options.id
-
+    id = options.id
     if(id) {
       this.setData({
         type: false
@@ -22,7 +23,7 @@ Page({
       wx.setNavigationBarTitle({
         title: '编辑商品'
       })
-      this.getSchoolInfo(options.id)
+      this.getSchoolInfo(id)
     }
   },
 
@@ -57,6 +58,7 @@ Page({
 
   // 文件读取完成后
   afterRead(event) {
+    editLogo = true
     this.setData({
       fileList: [event.detail.file]
     })
@@ -64,34 +66,36 @@ Page({
 
   // 添加学校的处理函数
   async addSchool() {
+    let text = this.data.type ? '添加' : '修改'
     wx.showLoading({
-      title: '加载中'
+      title: `${text}中...`
     })
     let { name, address, fileList } = this.data;
     let schoolInfo = {
       name,
       address,
-      logo: '',
+      logo: fileList[0].url,
       remark: ''
     }
 
-    let imageName = h() + fileList[0].url.match(/.[^.]+$/)[0]
-    // 将图片上传到云存储
-    await wx.cloud.uploadFile({
-      cloudPath: imageName,
-      filePath: fileList[0].url
-    }).then(res => {
-      schoolInfo.logo = res.fileID
-    })
+    if(editLogo) {
+      let imageName = h() + fileList[0].url.match(/.[^.]+$/)[0]
+      // 将图片上传到云存储
+      await wx.cloud.uploadFile({
+        cloudPath: imageName,
+        filePath: fileList[0].url
+      }).then(res => {
+        schoolInfo.logo = res.fileID
+      })
+    }
 
-    // 添加学校
-    await wx.cloud.callFunction({
-      name: 'addSchool',
-      data: schoolInfo
-    }).then(res => {
+    // 添加/修改 学校
+    let results = this.data.type ? this.request('addSchool', schoolInfo) : this.request('editSchool', schoolInfo)
+    
+    results.then(res => {
       wx.hideLoading()
       wx.showToast({
-        title: '上传成功',
+        title: `${text}成功`,
         icon: 'success',
         duration: 1000
       })
@@ -101,10 +105,19 @@ Page({
     }).catch(err => {
       wx.hideLoading()
       wx.showToast({
-        title: '上传失败',
+        title: `${text}失败`,
         icon: 'error',
         duration: 1000
       })
+    })
+  },
+
+  // 添加/修改商品的请求
+  async request(surface, data) {
+    data.id = id
+    return await wx.cloud.callFunction({
+      name: surface,
+      data
     })
   }
 })
