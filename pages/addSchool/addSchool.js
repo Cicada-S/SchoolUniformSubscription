@@ -8,6 +8,12 @@ Page({
   data: {
     name: '',
     address: '',
+    grade: [
+      {
+        name: '',
+        value: [''],
+      }
+    ],
     fileList: [],
     // 当前的状态 true(添加学校) false(编辑学校)
     type: true
@@ -53,6 +59,44 @@ Page({
   onChange(event) {
     this.setData({
       [event.target.id]: event.detail
+    })
+  },
+
+  // 监听年级中输入框的值
+  onChangeSpec(event) { 
+    // index 为年级的索引 id 为年级中选项的索引
+    let { index, id } = event.currentTarget.dataset
+    // 不能直接使用 !id 因为 id=0 时为 false
+    if(!id && id !== 0) {
+      this.setData({
+        [`grade[${index}].name`]: event.detail
+      })
+    } else {
+      this.setData({
+        [`grade[${index}].value[${id}]`]: event.detail
+      })
+    }
+  },
+
+  // 添加年级中的选项
+  addSpecValue(event) {
+    let { id } = event.target
+    let value = this.data.grade[id].value
+    value.push('')
+    this.setData({
+      [`grade[${id}].value`]: value
+    })
+  },
+
+  // 添加年级
+  addSpec() {
+    let grade = this.data.grade
+    grade.push({
+      name: '',
+      value: ['']
+    })
+    this.setData({
+      grade
     })
   },
 

@@ -18,6 +18,32 @@
       id="address"
     />
   </BlockBox>
+  <BlockBox title="年级">
+    <van-cell-group wx:for="{{grade}}" wx:key="title">
+      <van-field
+        value="{{ item.name }}"
+        placeholder="请输入年级"
+        border="{{ false }}"
+        input-class="optionTitle"
+        bind:change="onChangeSpec"
+        data-index="{{index}}"
+      >
+        <van-icon custom-class="customIcon" id="{{index}}" bindtap="addSpecValue" slot="right-icon" name="add-o" />
+      </van-field>
+      <block wx:for="{{item.value}}" wx:for-item="items" wx:for-index="idx" wx:key="items">
+        <van-field
+          value="{{ items }}"
+          placeholder="请输入班级"
+          border="{{ false }}"
+          input-class="optionInput"
+          bind:change="onChangeSpec"
+          data-index="{{index}}"  
+          data-id="{{idx}}"
+        />
+      </block>
+    </van-cell-group>
+    <van-button type="default" custom-class="addBtn" bindtap="addSpec" block>添加规格</van-button>
+  </BlockBox>
   <BlockBox title="LOGO">
     <van-uploader 
       file-list="{{ fileList }}" 

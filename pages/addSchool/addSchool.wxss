@@ -6,6 +6,30 @@
   flex-direction: column;
   padding: 20rpx 30rpx 0 30rpx;
 }
+.container .optionTitle {
+  font-size: 30rpx;
+}
+.container .customIcon {
+  font-size: 40rpx;
+}
+.container .optionInput {
+  padding-left: 30rpx;
+  color: #757575;
+  font-size: 28rpx;
+}
+.container .addBtn {
+  border: none;
+  border-top: 1rpx solid #dedede;
+}
 .container van-uploader .van-uploader {
   margin: 20rpx 30rpx 10rpx 30rpx;
+}
+.container van-uploader .van-uploader .van-uploader__upload {
+  width: 145rpx !important;
+  height: 145rpx !important;
+  margin: 0 0 16rpx 0 !important;
+}
+.container van-uploader .van-uploader image {
+  width: 145rpx !important;
+  height: 145rpx !important;
 }
