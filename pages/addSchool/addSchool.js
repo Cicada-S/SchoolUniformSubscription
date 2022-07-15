@@ -11,7 +11,7 @@ Page({
     grade: [
       {
         name: '',
-        value: [''],
+        className: [''],
       }
     ],
     fileList: [],
@@ -73,7 +73,7 @@ Page({
       })
     } else {
       this.setData({
-        [`grade[${index}].value[${id}]`]: event.detail
+        [`grade[${index}].className[${id}]`]: event.detail
       })
     }
   },
@@ -81,10 +81,10 @@ Page({
   // 添加年级中的选项
   addSpecValue(event) {
     let { id } = event.target
-    let value = this.data.grade[id].value
-    value.push('')
+    let className = this.data.grade[id].className
+    className.push('')
     this.setData({
-      [`grade[${id}].value`]: value
+      [`grade[${id}].className`]: className
     })
   },
 
@@ -93,7 +93,7 @@ Page({
     let grade = this.data.grade
     grade.push({
       name: '',
-      value: ['']
+      className: ['']
     })
     this.setData({
       grade
@@ -114,12 +114,13 @@ Page({
     wx.showLoading({
       title: `${text}中...`
     })
-    let { name, address, fileList } = this.data;
+    let { name, address, fileList, grade} = this.data;
     let schoolInfo = {
       name,
       address,
+      grade,
       logo: fileList[0].url,
-      remark: ''
+      remark: '',
     }
 
     if(editLogo) {

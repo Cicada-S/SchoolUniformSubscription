@@ -17,6 +17,15 @@ exports.main = async (event, context) => {
   try {
     await db.collection('School').add({
       data: school
+    }).then(res => {
+      Object.values(event.grade).forEach((item, index) => {
+        let newItem = {...item}
+        newItem.order = index
+        newItem.productId = res._id
+        db.collection('Grade').add({
+          data: newItem
+        })
+      })
     })
 
     // 成功返回
