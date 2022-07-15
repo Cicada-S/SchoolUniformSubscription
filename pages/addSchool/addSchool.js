@@ -27,30 +27,32 @@ Page({
         type: false
       })
       wx.setNavigationBarTitle({
-        title: '编辑商品'
+        title: '编辑学校'
       })
       this.getSchoolInfo(id)
     }
   },
 
   // 编辑学校时回填数据
-  async getSchoolInfo(id){
+  async getSchoolInfo(id) {
     await wx.cloud.callFunction({
       name: 'getSchoolInfo',
-      data: {id}
+      data: { id }
     }).then(res => {
-      let {name, address, logo} = res.result.data
+      console.log(res.result.data)
+      let { school, grade } = res.result.data
       let fileList = [{
         type: 'image',
         name: 'logo',
-        url: logo,
-        thumb: logo
+        url: school.logo,
+        thumb: school.logo
       }]
 
       this.setData({
-        name,
-        address,
-        fileList
+        name: school.name,
+        address: school.address,
+        fileList,
+        grade
       })
     })
   },

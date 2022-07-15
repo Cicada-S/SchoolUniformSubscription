@@ -7,5 +7,5 @@
     "van-icon": "@vant/weapp/icon/index",
     "van-button": "@vant/weapp/button/index"
   },
-  "navigationBarTitleText": "添加商品"
+  "navigationBarTitleText": "添加学校"
 }

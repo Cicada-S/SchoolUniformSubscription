@@ -5,12 +5,25 @@ const db = cloud.database()
 
 // 云函数入口函数
 exports.main = async (event, context) => {
+  let data = {}
   try {
-    let results = await db.collection('School').doc(event.id).get()
+    await db.collection('School').doc(event.id).get()
+    .then(res => {
+      data.school = res.data
+    })
+
+    await db.collection('ProductSpecification').where({
+      productId: event.id
+    }).get()
+    .then(res => {
+      console.log(res)
+      data.grade = res.data
+    })
+
     // 成功返回
     return {
       code: 0,
-      data: results.data,
+      data: data,
       success: true
     }
   }
