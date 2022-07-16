@@ -2,7 +2,7 @@
 <view class="container">
   <Search/>
 
-  <view class="content">
+  <view class="content" style="padding-bottom: {{bottomLift*2+85}}rpx">
     <view class="schoolList">
       <view class="schoolListItem" wx:for="{{schoolList}}" wx:key="id" bindtap="toAddSchool" id="{{item._id}}">
         <view class="schoolListItemLogo">

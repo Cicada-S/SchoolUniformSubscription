@@ -1,10 +1,13 @@
 // pages/schoolAdmin/schoolAdmin.js
+let app = getApp()
+
 const db = wx.cloud.database()
 const School = db.collection('School')
 
 Page({
   data: {
     schoolList: [],
+    bottomLift: app.globalData.bottomLift, 
   },
 
   onLoad() {
