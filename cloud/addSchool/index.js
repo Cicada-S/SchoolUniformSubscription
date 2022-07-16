@@ -5,8 +5,6 @@ const db = cloud.database()
 
 // 云函数入口函数
 exports.main = async (event, context) => {
-  console.log(event)
-
   let school = {
     name: event.name,
     address: event.address,
@@ -18,10 +16,11 @@ exports.main = async (event, context) => {
     await db.collection('School').add({
       data: school
     }).then(res => {
+      
       Object.values(event.grade).forEach((item, index) => {
         let newItem = {...item}
         newItem.order = index
-        newItem.productId = res._id
+        newItem.schoolId = res._id
         db.collection('Grade').add({
           data: newItem
         })

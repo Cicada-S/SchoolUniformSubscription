@@ -35,6 +35,7 @@ Page({
 
   // 编辑学校时回填数据
   async getSchoolInfo(id) {
+    console.log(id)
     await wx.cloud.callFunction({
       name: 'getSchoolInfo',
       data: { id }
@@ -117,6 +118,8 @@ Page({
       title: `${text}中...`
     })
     let { name, address, fileList, grade} = this.data;
+    console.log(grade)
+    
     let schoolInfo = {
       name,
       address,

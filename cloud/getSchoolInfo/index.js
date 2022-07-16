@@ -12,11 +12,10 @@ exports.main = async (event, context) => {
       data.school = res.data
     })
 
-    await db.collection('ProductSpecification').where({
-      productId: event.id
+    await db.collection('Grade').where({
+      schoolId: event.id
     }).get()
     .then(res => {
-      console.log(res)
       data.grade = res.data
     })
 
