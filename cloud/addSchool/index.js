@@ -17,7 +17,7 @@ exports.main = async (event, context) => {
       data: school
     }).then(res => {
       
-      Object.values(event.grade).forEach((item, index) => {
+      event.grade.forEach((item, index) => {
         let newItem = {...item}
         newItem.order = index
         newItem.schoolId = res._id

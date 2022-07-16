@@ -23,7 +23,7 @@ exports.main = async (event, context) => {
         })
       })
 
-      Object.values(ProductSpecification).forEach((item, index) => {
+      ProductSpecification.forEach((item, index) => {
         let newItem = {...item}
         newItem.order = index
         newItem.productId = res._id

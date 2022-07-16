@@ -40,7 +40,7 @@ exports.main = async (event, context) => {
     })
 
     // 添加规格
-    Object.values(ProductSpecification).forEach((item, index) => {
+    ProductSpecification.forEach((item, index) => {
       let newItem = { ...item }
       newItem.order = index
       newItem.productId = id
