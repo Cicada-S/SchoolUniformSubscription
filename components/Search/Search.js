@@ -22,6 +22,8 @@ Component({
    * 组件的方法列表
    */
   methods: {
-
+    search(e) {
+      this.triggerEvent('search', {'searchValue': e.detail.value})
+    },
   }
 })

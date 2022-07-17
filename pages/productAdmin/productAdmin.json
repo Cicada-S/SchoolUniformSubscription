@@ -3,5 +3,6 @@
     "Search": "/components/Search/Search",
     "BottomBtn": "/components/BottomBtn/BottomBtn"
   },
-  "navigationBarTitleText": "商品管理"
+  "navigationBarTitleText": "商品管理",
+  "enablePullDownRefresh":true
 }
