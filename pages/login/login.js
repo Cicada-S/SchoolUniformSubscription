@@ -2,7 +2,7 @@
 const app = getApp()
 
 const db = wx.cloud.database();
-const user = db.collection('User');
+const userCollection = db.collection('User');
 
 Page({
   data: {
@@ -30,17 +30,31 @@ Page({
       desc: "用于个人信息展示",
       // 允许授权
       success: res => {
-        // 获取openId
-        // this.getOpenId()
 
-        wx.setStorageSync('userInfo', res.userInfo)
-        wx.navigateTo({
-          url: '/pages/index/index'
+        console.info('userInfo', res.userInfo)
+        let user = {
+          avatarUrl: res.userInfo.avatarUrl,
+          nickName: res.userInfo.nickName,
+          gender: res.userInfo.gender,
+          mobile: '',
+          createDate: new Date()
+        }
+
+        userCollection.add({
+          data: user,
+          success: function(res) {
+            wx.reLaunch({
+              url: '../index/index'
+            })
+          }
         })
       },
       // 拒绝授权
       fail: err => {
         console.log('解决授权', err)
+        wx.navigateTo({
+          url: '/pages/login/login'
+        })
       }
     }) 
   },
