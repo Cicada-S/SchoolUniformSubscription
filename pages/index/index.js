@@ -67,22 +67,17 @@ Page({
   getUserInfo() {
     user.get({
       success(res) {
-        if (res.data.length != 1) {
-          let user = { nickName: '', avatarUrl: '' }
-          // 添加用户
-          user.add({
-            data: user,
-            success(res) {
-              wx.reLaunch({
-                url: '/pages/login/login'
-              })
-            }
+        if (res.data.length == 1) {
+          try {
+            console.info('currentUser = ' + JSON.stringify(res.data[0]))
+            wx.setStorageSync('currentUser', res.data[0]);
+          } catch (err) {
+            console.log(err)
+          }
+        } else {
+          wx.navigateTo({
+            url: `/pages/login/login`
           })
-        }
-        try {
-          wx.setStorageSync('currentUser', this.data.currentUser);
-        } catch (err) {
-          console.log(err)
         }
       }
     })
