@@ -1,12 +1,18 @@
 // pages/QRCode/QRCode.js
-const app = getApp() 
+const app = getApp()
+
+import { toDates } from '../../utils/util'
 
 Page({
   data: {
     titleValue: '', // 标题
     school: '请选择学校', // 学校
-    timeType: '', // 时间类型
-    time: { // 时间
+    timeType: '', // 时间类型 开始 结束
+    time: { // 时间戳
+      startTime: '',
+      endTime: '',
+    },
+    date: { // 显示在页面的日期
       startTime: '',
       endTime: '',
     },
@@ -77,16 +83,10 @@ Page({
   onConfirm(event) {
     console.log(event, 'onConfirm');
     let newDate = event.detail
-    let time = {
-      startTime: '',
-      endTime: ''
-    }
-    // 判断当前时间选择器的是不是开始时间
-    let type = this.data.timeType === 'startTime' ? true : false
-    type ? time.startTime = newDate : time.endTime = newDate
     this.setData({
-      // 代码只是写给机器运行的 顺带给人看一下 看不懂也没关系
-      ['time.' + this.data.timeType]: time[this.data.timeType],
+      // 代码只是写给机器运行的 顺带给人看一下
+      ['time.' + this.data.timeType]: newDate,
+      ['date.' + this.data.timeType]: toDates(newDate),
       timeShow: false
     })
   },
@@ -107,5 +107,10 @@ Page({
   onDelete(event) {
     console.log(event, 'onDelete');
     let id = event.target.id
+  },
+
+  // 生成二维码
+  addQRCode() {
+    console.log('生成')
   }
-});
+})

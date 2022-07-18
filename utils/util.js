@@ -1,19 +1,15 @@
-const formatTime = date => {
-  const year = date.getFullYear()
-  const month = date.getMonth() + 1
-  const day = date.getDate()
-  const hour = date.getHours()
-  const minute = date.getMinutes()
-  const second = date.getSeconds()
-
-  return `${[year, month, day].map(formatNumber).join('/')} ${[hour, minute, second].map(formatNumber).join(':')}`
+// 将时间戳转换具体时间
+const toDates = (times) => {
+  const date = new Date(times)
+  const Y = date.getFullYear()
+  const M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1)
+  const D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate())
+  const H = date.getHours() < 10 ? '0' + date.getHours() : date.getHours()
+  const Min = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()
+  const dateTime = Y + '-' + M + '-' + D + ' ' + H + ':' + Min
+  return dateTime
 }
 
-const formatNumber = n => {
-  n = n.toString()
-  return n[1] ? n : `0${n}`
-}
-
-module.exports = {
-  formatTime
+export {
+  toDates
 }

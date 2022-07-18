@@ -23,7 +23,7 @@
       border="{{false}}"  
       bindtap="isActionSheet" 
       id="startTime"
-      value="{{time.startTime}}" 
+      value="{{date.startTime}}" 
       is-link 
     />
     <van-cell   
@@ -31,7 +31,7 @@
       border="{{false}}" 
       bindtap="isActionSheet" 
       id="endTime"
-      value="{{time.endTime}}"
+      value="{{date.endTime}}"
       is-link 
     />
   </BlockBox>
@@ -80,5 +80,5 @@
   </van-action-sheet>
 
   <!-- 底部按钮 -->
-  <BottomBtn text="生成二维码" />
+  <BottomBtn text="生成二维码" bindtap="addQRCode" />
 </view>
