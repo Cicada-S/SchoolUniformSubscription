@@ -4,7 +4,7 @@
     "pages/login/login",
     "pages/me/me",
     "pages/productAdmin/productAdmin",
-    "pages/QRCode/QRCode",
+    "pages/addQRCode/addQRCode",
     "pages/schoolAdmin/schoolAdmin",
     "pages/addProduct/addProduct",
     "pages/addSchool/addSchool",

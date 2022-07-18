@@ -31,7 +31,7 @@
         },
         {
           "name": "",
-          "pathName": "pages/QRCode/QRCode",
+          "pathName": "pages/addQRCode/addQRCode",
           "query": "",
           "launchMode": "default",
           "scene": null

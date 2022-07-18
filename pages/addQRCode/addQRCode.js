@@ -1,6 +1,9 @@
 // pages/QRCode/QRCode.js
 const app = getApp()
 
+const db = wx.cloud.database()
+const School = db.collection('School')
+
 import { toDates } from '../../utils/util'
 
 Page({
@@ -25,15 +28,7 @@ Page({
     maxDate: new Date(2050, 12, 31).getTime(),
     currentDate: new Date().getTime(),
     // 学校选择器 
-    actions: [
-      {name: '清华大学'},
-      {name: '北京大学'},
-      {name: '复旦大学'},
-      {name: '上海交通大学'},
-      {name: '华东师范大学'},
-      {name: '上海大学'},
-      {name: '上海理工大学'},
-    ],
+    actions: [],
     // 商品数据
     goodsDataList: [
       {
@@ -48,6 +43,11 @@ Page({
       },
     ],
     bottomLift: app.globalData.bottomLift,
+  },
+
+  // 页面初始化
+  onLoad() {
+    this.getSchoolList()
   },
 
   // 点击 弹出选择框 的回调函数
@@ -108,6 +108,17 @@ Page({
     console.log(event, 'onDelete');
     let id = event.target.id
   },
+
+  // 获取学校
+  async getSchoolList() {
+    console.log('getSchool')
+    await School.get().then(res => {
+      this.setData({
+        actions: res.data
+      })
+    })
+  },
+
 
   // 生成二维码
   addQRCode() {
