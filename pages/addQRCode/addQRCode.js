@@ -46,7 +46,9 @@ Page({
   },
 
   // 页面初始化
-  onLoad() {
+  onLoad(options) {
+    console.log(JSON.parse(options.data))
+
     this.getSchoolList()
   },
 
@@ -99,8 +101,10 @@ Page({
   },
   
   // 选择商品 的回调函数
-  isProduct(event) {
-    console.log(event, 'isProduct');
+  isProduct() {
+    wx.navigateTo({
+      url: '/pages/selectProduct/selectProduct'
+    })
   },
 
   // 删除商品 的回调函数

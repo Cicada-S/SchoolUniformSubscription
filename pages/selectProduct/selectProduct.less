@@ -1,0 +1,80 @@
+/* pages/selectProduct/selectProduct.wxss */
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+    
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .productList {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0 30rpx;
+      background-color: #FFFFFF;
+
+      .productListItem {
+        width: 100%;
+        height: 160rpx;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 20rpx 0;
+
+        .productListItemImg image {
+          width: 160rpx;
+          height: 160rpx;
+        }
+
+        .productListItemInfo {
+          flex: 1;
+          height: 100%;
+          font-size: 28rpx;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          justify-content: space-between; 
+          padding: 10rpx 20rpx;
+
+          .productListItemInfoPrice {
+            color: #DB211B;
+          }
+        } 
+
+        .operation {
+          width: 120rpx;
+          height: 100%;
+          display: flex;
+
+          .operationSelect   {
+            width: 100%;
+            height: 60rpx;
+            align-self: flex-end;
+            line-height: 60rpx;
+            text-align: center;
+            color: #FFFFFF;
+            background-color: #407EF5;
+            border-radius: 10rpx;
+            font-size: 28rpx;
+            letter-spacing: 4rpx;
+          }
+        }
+      }
+    }
+
+    .tips {
+      font-size: 28rpx;
+      color: #757575;
+      margin: 20rpx 0;
+    }
+  }
+  
+  BottomBtn {
+    margin: 0 30rpx;
+  }
+}

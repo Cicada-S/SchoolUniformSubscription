@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "Search": "/components/Search/Search",
+    "BottomBtn": "/components/BottomBtn/BottomBtn"
+  },
+  "navigationBarTitleText": "选择商品",
+  "enablePullDownRefresh":true
+}

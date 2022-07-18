@@ -1,0 +1,70 @@
+/* pages/selectProduct/selectProduct.wxss */
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.container .content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.container .content .productList {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 30rpx;
+  background-color: #FFFFFF;
+}
+.container .content .productList .productListItem {
+  width: 100%;
+  height: 160rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20rpx 0;
+}
+.container .content .productList .productListItem .productListItemImg image {
+  width: 160rpx;
+  height: 160rpx;
+}
+.container .content .productList .productListItem .productListItemInfo {
+  flex: 1;
+  height: 100%;
+  font-size: 28rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 10rpx 20rpx;
+}
+.container .content .productList .productListItem .productListItemInfo .productListItemInfoPrice {
+  color: #DB211B;
+}
+.container .content .productList .productListItem .operation {
+  width: 120rpx;
+  height: 100%;
+  display: flex;
+}
+.container .content .productList .productListItem .operation .operationSelect {
+  width: 100%;
+  height: 60rpx;
+  align-self: flex-end;
+  line-height: 60rpx;
+  text-align: center;
+  color: #FFFFFF;
+  background-color: #407EF5;
+  border-radius: 10rpx;
+  font-size: 28rpx;
+  letter-spacing: 4rpx;
+}
+.container .content .tips {
+  font-size: 28rpx;
+  color: #757575;
+  margin: 20rpx 0;
+}
+.container BottomBtn {
+  margin: 0 30rpx;
+}

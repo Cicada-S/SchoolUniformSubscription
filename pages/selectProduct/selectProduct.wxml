@@ -1,0 +1,33 @@
+<!--pages/selectProduct/selectProduct.wxml-->
+<view class="container">
+  <Search bind:search = "search"/>
+
+  <view class="content" style="padding-bottom: {{bottomLift*2+85}}rpx">
+    <view class="productList">
+      <view class="productListItem" wx:for="{{productList}}" wx:key="_id">
+        <view class="productListItemImg">
+          <image src="{{item.path}}" />
+        </view>
+        <view class="productListItemInfo" id="{{item._id}}">
+          <view class="productListItemInfoTitle">
+            <text>{{item.name}}</text>
+          </view>
+          <view class="productListItemInfoPrice">
+            <text>¥ {{item.unitPrice}}</text>
+          </view>
+        </view>
+        <view class="operation">
+          <view bindtap="selectProduct" id="{{item._id}}" class="operationSelect" style="{{item.isSelect?'background-color:#DB211B':''}}">
+            <text>{{item.isSelect?'取消':'选中'}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="tips"  wx:if="{{reachBottom}}">
+      <text>没有更多商品啦~</text>
+    </view>
+  </view>
+
+  <!-- 底部按钮 -->
+  <BottomBtn text="完成" bindtap="complete" />
+</view>

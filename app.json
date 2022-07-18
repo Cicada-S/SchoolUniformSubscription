@@ -8,7 +8,8 @@
     "pages/schoolAdmin/schoolAdmin",
     "pages/addProduct/addProduct",
     "pages/addSchool/addSchool",
-    "pages/QRCodeAdmin/QRCodeAdmin"
+    "pages/QRCodeAdmin/QRCodeAdmin",
+    "pages/selectProduct/selectProduct"
   ],
   "window": {
     "backgroundTextStyle": "light",
