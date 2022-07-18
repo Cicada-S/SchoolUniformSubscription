@@ -1,6 +1,6 @@
 <!-- pages/productAdmin.wxml -->
 <view class="container">
-  <Search bind:search = "search"/>
+  <Search bind:search="search" />
 
   <view class="content" style="padding-bottom: {{bottomLift*2+85}}rpx">
     <view class="productList">
