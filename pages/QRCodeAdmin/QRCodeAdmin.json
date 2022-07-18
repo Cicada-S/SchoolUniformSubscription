@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "Search": "/components/Search/Search",
+    "BottomBtn": "/components/BottomBtn/BottomBtn"
+  },
+  "navigationBarTitleText": "二维码管理"
+}

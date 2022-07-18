@@ -1,0 +1,44 @@
+/* pages/QRCodeAdmin/QRCodeAdmin.wxss */
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.container .content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.container .content .qrcodeList {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  padding-top: 30rpx;
+  padding: 30rpx 30rpx 0 30rpx;
+  background-color: #FFFFFF;
+}
+.container .content .qrcodeList .qrcodeListItem {
+  width: 231rpx;
+  height: 210rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 28rpx;
+  white-space: nowrap;
+  margin-bottom: 40rpx;
+  overflow: hidden;
+}
+.container .content .qrcodeList .qrcodeListItem .qrcodeListItemLogo image {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 50%;
+}
+.container .content .tips {
+  font-size: 28rpx;
+  color: #757575;
+  margin: 20rpx 0;
+}
+.container BottomBtn {
+  margin: 0 30rpx;
+}

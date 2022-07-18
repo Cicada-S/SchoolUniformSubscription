@@ -55,7 +55,7 @@ Page({
   onJump(event) {
     let type = {
       product: 'productAdmin',
-      code: 'QRCode',
+      code: 'QRCodeAdmin',
       school: 'schoolAdmin',
     }
     const page = type[event.target.id]

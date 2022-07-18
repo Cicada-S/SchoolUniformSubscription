@@ -56,6 +56,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/QRCodeAdmin/QRCodeAdmin",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

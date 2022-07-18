@@ -1,0 +1,23 @@
+<!--pages/QRCodeAdmin/QRCodeAdmin.wxml-->
+<view class="container">
+  <Search/>
+
+  <view class="content" style="padding-bottom: {{bottomLift*2+85}}rpx">
+    <view class="qrcodeList">
+      <view class="qrcodeListItem" wx:for="{{QRCodelList}}" wx:key="id" bindtap="toAddQRCode" id="{{item._id}}">
+        <view class="qrcodeListItemLogo">
+          <image src="{{item.code}}"/>
+        </view>
+        <view class="qrcodeListItemName">
+          <text>{{item.title}}</text>
+        </view>
+      </view>
+    </view>
+    <view class="tips">
+      <text>没有更多二维码啦~</text>
+    </view>
+  </view>
+
+  <!-- 底部按钮 -->
+  <BottomBtn text="添加二维码" bindtap="toAddQRCode" />
+</view>
