@@ -6,6 +6,7 @@ const productsCollection = db.collection('Product')
 const ProductVideoImage = db.collection('ProductVideoImage')
 
 let selectProductList = [] // 选中的商品
+let selectProductId = [] // 回显时选中的商品id
 
 Page({
   data: {
@@ -19,6 +20,8 @@ Page({
 
   // 页面初始化
   onLoad(options) {
+    console.log(JSON.parse(options.id))
+    selectProductId = JSON.parse(options.id)
     wx.showToast({
       title: '加载中...',
       icon: 'loading',
@@ -98,7 +101,18 @@ Page({
         // 赋值到 productList
         let oldProductListd = this.data.productList
         let newProductList = oldProductListd.concat(productList)
-        
+
+        // 将原本选中的标记出来
+        selectProductId.forEach(id => {
+          newProductList.map(item => {
+            if(item._id === id) {
+              item.isSelect = true
+              return item
+            }
+          })
+        })
+        selectProductList = newProductList.filter(item => item.isSelect)
+
         this.setData({
           productList: newProductList
         })
@@ -121,7 +135,7 @@ Page({
     })
   },
 
-  // 添加/修改 商品
+  // 完成跳转
   complete() {
     wx.redirectTo({
       url: `/pages/addQRCode/addQRCode?data=${JSON.stringify(selectProductList)}`
