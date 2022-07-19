@@ -54,6 +54,13 @@ Page({
     catch(err) {}
   },
 
+  // 标题
+  onChange(event) {
+    this.setData({
+      titleValue: event.detail
+    })
+  },
+ 
   // 点击 弹出选择框 的回调函数
   isActionSheet(event) {
     if (event.target.id === 'school') {

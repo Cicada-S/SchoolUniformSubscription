@@ -5,6 +5,7 @@
       value="{{ titleValue }}" 
       placeholder="请输入标题" 
       border="{{ false }}" 
+      bind:change="onChange"
     />
   </BlockBox>
   <BlockBox title="学校">
