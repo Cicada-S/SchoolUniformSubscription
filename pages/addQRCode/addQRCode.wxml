@@ -10,7 +10,7 @@
   </BlockBox>
   <BlockBox title="学校">
     <van-cell 
-      title="{{school}}" 
+      title="{{school.name}}" 
       border="{{false}}" 
       bindtap="isActionSheet" 
       id="school"

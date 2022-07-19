@@ -11,7 +11,10 @@ let selectProductId = [] // 选中的商品id
 Page({
   data: {
     titleValue: '', // 标题
-    school: '请选择学校', // 学校
+    school: {
+      id: '',
+      name: '请选择学校'
+    }, // 学校
     timeType: '', // 时间类型 开始 结束
     time: { // 时间戳
       startTime: '',
@@ -45,7 +48,7 @@ Page({
   onShow() {
     try {
       let data = JSON.parse(wx.getStorageSync('selectProductList'))
-      wx.removeStorageSync('selectProductList');
+      wx.removeStorageSync('selectProductList')
       selectProductId = data?.map(item => item._id)
       this.setData({
         goodsDataList: data
@@ -77,9 +80,12 @@ Page({
 
   // 学校选择器 选择时 的回调函数
   onSelect(event) {
-    console.log(event.detail.name, 'onSelect');
+    let school = {
+      id: event.detail._id,
+      name: event.detail.name
+    }
     this.setData({
-      school: event.detail.name,
+      school: school
     })
   },
 
@@ -138,7 +144,33 @@ Page({
   },
 
   // 生成二维码
-  addQRCode() {
+  async addQRCode() {
     console.log('生成二维码')
+    
+    wx.showLoading({
+      title: '上传中...'
+    })
+
+    let { titleValue, time, school} = this.data
+
+    await wx.cloud.callFunction({
+      name: 'addQRCode',
+      data: {
+        title: titleValue,
+        beginTime: time.startTime,
+        endTime: time.endTime,
+        schoolId: school.id,
+        schoolName: school.name,
+        createTime: new Date(),
+        selectProductId: selectProductId
+      }
+    }).then(res => {
+      console.log(res)
+
+      wx.hideLoading()
+      wx.navigateBack({
+        delta: 1
+      })
+    })
   }
 })
