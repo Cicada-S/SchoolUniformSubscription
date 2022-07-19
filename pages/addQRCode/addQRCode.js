@@ -37,14 +37,21 @@ Page({
   },
 
   // 页面初始化
-  onLoad(options) {
-    let data = JSON.parse(options.data)
-    selectProductId = data.map(item => item._id)
-    this.setData({
-      goodsDataList: data
-    })
-
+  onLoad() {
     this.getSchoolList()
+  },
+
+  // 页面显示
+  onShow() {
+    try {
+      let data = JSON.parse(wx.getStorageSync('selectProductList'))
+      wx.removeStorageSync('selectProductList');
+      selectProductId = data?.map(item => item._id)
+      this.setData({
+        goodsDataList: data
+      })
+    }
+    catch(err) {}
   },
 
   // 点击 弹出选择框 的回调函数
@@ -104,6 +111,9 @@ Page({
   // 删除商品 的回调函数
   onDelete(event) {
     let newGoodsDataList = this.data.goodsDataList.filter(item => {
+      if(item._id === event.target.id) {
+        selectProductId.splice(selectProductId.indexOf(item._id), 1)
+      }
       return item._id !== event.target.id
     })
     this.setData({

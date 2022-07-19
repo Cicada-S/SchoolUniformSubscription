@@ -20,7 +20,6 @@ Page({
 
   // 页面初始化
   onLoad(options) {
-    console.log(JSON.parse(options.id))
     selectProductId = JSON.parse(options.id)
     wx.showToast({
       title: '加载中...',
@@ -137,8 +136,9 @@ Page({
 
   // 完成跳转
   complete() {
-    wx.redirectTo({
-      url: `/pages/addQRCode/addQRCode?data=${JSON.stringify(selectProductList)}`
+    wx.setStorageSync('selectProductList', JSON.stringify(selectProductList))
+    wx.navigateBack({
+      delta: 1
     })
   },
   
