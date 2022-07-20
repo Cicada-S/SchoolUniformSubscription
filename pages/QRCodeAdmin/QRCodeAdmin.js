@@ -51,7 +51,7 @@ Page({
 
   toAddQRCode(event) {
     wx.navigateTo({
-      url: `/pages/QRCode/QRCode?id=${event.currentTarget.id}`
+      url: `/pages/addQRCode/addQRCode?id=${event.currentTarget.id}`
     })
   }
 })

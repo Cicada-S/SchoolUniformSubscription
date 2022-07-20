@@ -165,12 +165,14 @@ Page({
         selectProductId: selectProductId
       }
     }).then(res => {
-      console.log(res)
-
+      console.log('生成成功', res)
       wx.hideLoading()
       wx.navigateBack({
         delta: 1
       })
+    }).catch(err => {
+      console.log('生成失败', err)
+      wx.hideLoading()
     })
   }
 })
