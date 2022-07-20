@@ -21,8 +21,9 @@ exports.main = async (event, context) => {
 
     // 生成小程序码
     const result = await cloud.openapi.wxacode.getUnlimited({
-      // "page": 'pages/me/me',
+      "page": 'pages/me/me',
       "scene": SellQrCode._id,
+      "checkPath": false,
       "envVersion": 'trial'
     })
     .catch(err => console.log(err))

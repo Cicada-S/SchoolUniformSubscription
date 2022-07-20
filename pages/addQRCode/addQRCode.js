@@ -174,5 +174,9 @@ Page({
       console.log('生成失败', err)
       wx.hideLoading()
     })
+  },
+
+  onUnload() {
+    selectProductId = []
   }
 })

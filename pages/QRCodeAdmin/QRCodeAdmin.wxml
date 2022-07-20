@@ -4,9 +4,9 @@
 
   <view class="content" style="padding-bottom: {{bottomLift*2+85}}rpx">
     <view class="qrcodeList">
-      <view class="qrcodeListItem" wx:for="{{QRCodelList}}" wx:key="id" bindtap="toAddQRCode" id="{{item._id}}">
+      <view class="qrcodeListItem" wx:for="{{QRCodelList}}" wx:key="_id" bindtap="toAddQRCode" id="{{item._id}}">
         <view class="qrcodeListItemLogo">
-          <image src="{{item.code}}"/>
+          <image src="{{item.QrCodePath}}"/>
         </view>
         <view class="qrcodeListItemName">
           <text>{{item.title}}</text>
