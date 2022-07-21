@@ -37,11 +37,21 @@ Page({
     // 商品数据
     goodsDataList: [],
     bottomLift: app.globalData.bottomLift,
+    type: true, // 当前状态  true新增  false查看
   },
 
   // 页面初始化
-  onLoad() {
+  onLoad(options) {
+    if(options.id) {
+      this.setData({
+        type: false
+      })
+      wx.setNavigationBarTitle({
+        title: '二维码'
+      })
+    }
     this.getSchoolList()
+    this.getQRCodeInfo(options.id)
   },
 
   // 页面显示
@@ -55,6 +65,27 @@ Page({
       })
     }
     catch(err) {}
+  },
+
+  // 查看二维码时 数据回填
+  async getQRCodeInfo(id) {
+    await wx.cloud.callFunction({
+      name: 'getQRCodeInfo',
+      data: {id}
+    }).then(res => {
+      console.log('请求成功', res.result.data)
+
+      let { title, schoolName, schoolId, beginTime, endTime } = res.result.data.SellQrCode
+
+      this.setData({
+        titleValue: title,
+        ['school.name']: schoolName,
+        ['school.id']: schoolId,
+        ['date.startTime']: toDates(beginTime),
+        ['date.endTime']: toDates(endTime),
+        goodsDataList: res.result.product
+      })
+    })
   },
 
   // 标题
