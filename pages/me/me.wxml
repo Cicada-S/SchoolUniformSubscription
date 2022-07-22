@@ -6,7 +6,7 @@
     backgroundColor="transparent"
   />
 
-  <view class="userInfo" style="padding-top: {{customheight}}px; height: {{316+stateheight}}rpx;">
+  <view class="userInfo" style="padding-top: {{customheight*2}}rpx; height: {{316+stateheight}}rpx;">
     <image class="userAvatar" src="{{userInfo.avatarUrl}}" />
     <text class="userName">{{userInfo.nickName}}</text>
   </view>
