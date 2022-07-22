@@ -73,17 +73,14 @@ Page({
       name: 'getQRCodeInfo',
       data: {id}
     }).then(res => {
-      console.log('请求成功', res.result.data)
-
-      let { title, schoolName, schoolId, beginTime, endTime } = res.result.data.SellQrCode
-
+      let { title, schoolName, schoolId, beginTime, endTime } = res.result.data.sellQrCode
       this.setData({
         titleValue: title,
         ['school.name']: schoolName,
         ['school.id']: schoolId,
         ['date.startTime']: toDates(beginTime),
         ['date.endTime']: toDates(endTime),
-        goodsDataList: res.result.product
+        goodsDataList: res.result.data.product
       })
     })
   },
