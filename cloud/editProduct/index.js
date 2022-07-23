@@ -30,13 +30,23 @@ exports.main = async (event, context) => {
     })
 
     // 添加图片
-    Object.values(ProductVideoImage).forEach(item => {
-      let newItem = { ...item }
-      // 添加新上传图片
-      if(!newItem._id) {
-        newItem.productId = id
-        db.collection('ProductVideoImage').add({
-          data: newItem
+    ProductVideoImage.forEach(async item => {
+      if (!item._id) {
+        // 添加新上传图片
+        item.productId = id
+        await db.collection('ProductVideoImage').add({
+          data: item
+        })
+      }
+      else {
+        // 更新图片的order
+        console.log('order', item.order, 'id', item._id)
+        await db.collection('ProductVideoImage').doc(item._id).update({
+          data: {
+            order: item.order
+          }
+        }).then(res => {
+          console.log('更新成功', res)
         })
       }
     })
