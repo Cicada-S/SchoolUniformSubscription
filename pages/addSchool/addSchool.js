@@ -1,5 +1,6 @@
 // pages/addSchool/addSchool.js
-import h from '../../utils/hashCode';
+const uuid = require('../../utils/uuid.js');
+import { pathOfDate } from '../../utils/util'
 
 let id = '' // 编辑学校的id
 
@@ -129,10 +130,10 @@ Page({
     }
 
     if(this.data.editLogo) {
-      let imageName = h() + fileList[0].url.match(/.[^.]+$/)[0]
+      let cloudPath = "schoolUniformSubscription/school/" + pathOfDate() + uuid.uuid() + fileList[0].url.match(/.[^.]+$/)[0]
       // 将图片上传到云存储
       await wx.cloud.uploadFile({
-        cloudPath: imageName,
+        cloudPath: cloudPath,
         filePath: fileList[0].url
       }).then(res => {
         schoolInfo.logo = res.fileID

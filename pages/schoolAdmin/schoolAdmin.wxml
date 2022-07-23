@@ -1,6 +1,6 @@
 <!--pages/schoolAdmin/schoolAdmin.wxml-->
 <view class="container">
-  <Search/>
+  <Search bind:search="search" />
 
   <view class="content" style="padding-bottom: {{bottomLift*2+85}}rpx">
     <view class="schoolList">
@@ -13,7 +13,7 @@
         </view>
       </view>
     </view>
-    <view class="tips">
+    <view class="tips"  wx:if="{{reachBottom}}">
       <text>没有更多学校啦~</text>
     </view>
   </view>
