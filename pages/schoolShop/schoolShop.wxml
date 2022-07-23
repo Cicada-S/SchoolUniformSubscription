@@ -1,0 +1,49 @@
+<!--pages/schoolShop/schoolShop.wxml-->
+<view class="container">
+  <view class="student">
+    <view class="studentInfo">
+      <image src="" />
+      <view class="info">
+        <view class="nameGrade">Cicada 一年级1班</view>
+        <view class="school">清华大学幼儿园</view>
+      </view>
+    </view>
+    <view class="switch">
+      <text class="iconfont icon-yqfqiehuan"></text>
+    </view>
+  </view>
+  <view class="promptDox">
+    <view class="tips">
+      <image src="" />
+      <text>请在截止时间前完成预定，时间截止后预定通道将关闭</text>
+    </view>
+    <view class="reciprocal">
+      <text>距离结束还剩</text>
+      <view>29天 17:18:19</view>
+    </view>
+  </view>
+  <view class="productList">
+    <view class="productItem">
+      <view class="productInfo">
+        <image src="" />
+        <view class="info">
+          <text>夏季运动套装</text>
+          <text>¥ 98.00</text>
+        </view>
+      </view>
+      <view class="action">
+        <text>选购</text>
+      </view>
+    </view>
+  </view>
+  <view class="productAction">
+    <view class="productActionInfo">
+      <text wx:if="shoppingCart" class="iconfont icon-gouwuchekong"></text>
+      <text wx:else class="iconfont icon-gouwucheman"></text>
+      <view class="totalPrice">总价 ¥ 198.00</view>
+    </view>
+    <view class="productActionButton">
+      <text>立即结算</text>
+    </view>
+  </view>
+</view>

@@ -9,7 +9,8 @@
     "pages/addProduct/addProduct",
     "pages/addSchool/addSchool",
     "pages/QRCodeAdmin/QRCodeAdmin",
-    "pages/selectProduct/selectProduct"
+    "pages/selectProduct/selectProduct",
+    "pages/schoolShop/schoolShop"
   ],
   "window": {
     "backgroundTextStyle": "light",
