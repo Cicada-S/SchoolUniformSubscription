@@ -12,7 +12,7 @@
   <!-- 提示 -->
   <view class="tips">
     <view class="icon iconfont icon-xiaofu"></view>
-    <text>首页商品皆为演示，请勿购买</text> 
+    <text>首页商品皆为演示</text> 
     <text>PURSUEEXCELLENTQUALITY</text>
   </view>
   <!-- 校服相册 -->

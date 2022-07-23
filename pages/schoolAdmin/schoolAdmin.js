@@ -10,7 +10,7 @@ Page({
     bottomLift: app.globalData.bottomLift, 
   },
 
-  onLoad() {
+  onShow() {
     this.getSchoolList()
   },
 

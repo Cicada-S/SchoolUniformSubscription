@@ -1,7 +1,6 @@
 // pages/addSchool/addSchool.js
 import h from '../../utils/hashCode';
 
-let editLogo = false  // 是否修改logo
 let id = '' // 编辑学校的id
 
 Page({
@@ -16,7 +15,8 @@ Page({
     ],
     fileList: [],
     // 当前的状态 true(添加学校) false(编辑学校)
-    type: true
+    type: true,
+    editLogo: false,
   },
 
   // 页面初始化
@@ -66,7 +66,7 @@ Page({
   },
 
   // 监听年级中输入框的值
-  onChangeSpec(event) { 
+  onChangeSpec(event) {
     // index 为年级的索引 id 为年级中选项的索引
     let { index, id } = event.currentTarget.dataset
     // 不能直接使用 !id 因为 id=0 时为 false
@@ -105,8 +105,8 @@ Page({
 
   // 文件读取完成后
   afterRead(event) {
-    editLogo = true
     this.setData({
+      editLogo: true,
       fileList: [event.detail.file]
     })
   },
@@ -119,7 +119,7 @@ Page({
     })
     let { name, address, fileList, grade} = this.data;
     console.log(grade)
-    
+
     let schoolInfo = {
       name,
       address,
@@ -128,7 +128,7 @@ Page({
       remark: '',
     }
 
-    if(editLogo) {
+    if(this.data.editLogo) {
       let imageName = h() + fileList[0].url.match(/.[^.]+$/)[0]
       // 将图片上传到云存储
       await wx.cloud.uploadFile({
@@ -141,7 +141,7 @@ Page({
 
     // 添加/修改 学校
     let results = this.data.type ? this.request('addSchool', schoolInfo) : this.request('editSchool', schoolInfo)
-    
+
     results.then(res => {
       wx.hideLoading()
       wx.showToast({
@@ -149,9 +149,14 @@ Page({
         icon: 'success',
         duration: 1000
       })
-      wx.navigateBack({
-        delta: 1,
-      })
+
+      setTimeout(function () {
+        wx.hideToast();
+        wx.navigateBack({
+          delta: 1
+        })
+      }, 1500);
+
     }).catch(err => {
       wx.hideLoading()
       wx.showToast({

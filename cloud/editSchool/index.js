@@ -17,9 +17,11 @@ exports.main = async (event, context) => {
     // 修改学校信息
     await db.collection('School').doc(id).update({
       data: {
-        name,
-        address,
-        logo
+        name: name,
+        address: address,
+        logo: logo,
+        lastModifiedTime: new Date(),
+        lastModifiedOpenid: cloud.getWXContext().OPENID,
       }
     })
 
