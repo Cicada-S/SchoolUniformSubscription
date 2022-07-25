@@ -8,7 +8,7 @@
         <view>{{studentInfo.school}}</view>
       </view>
     </view>
-    <view class="switch">
+    <view class="switch" bindtap="toFamily" id="{{studentInfo.id}}">
       <text class="iconfont icon-yqfqiehuan"></text>
     </view>
   </view>
@@ -51,3 +51,5 @@
     </view>
   </view>
 </view>
+
+<van-popup show="{{ show }}" bind:close="onClose">内容</van-popup>

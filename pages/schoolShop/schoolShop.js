@@ -3,7 +3,8 @@ const app = getApp()
 
 Page({
   data: {
-    bottomLift: app.globalData.bottomLift, 
+    bottomLift: app.globalData.bottomLift,
+    show: false,
     studentInfo: {
       id: 1,
       name: 'Cicada',
@@ -39,5 +40,30 @@ Page({
     ],
     totalPrice: '198.00',
     productNum: 1,
+    
+  },
+
+  // 页面初始化
+  onload(option) {
+    console.log(option)
+
+    // this.getProductList(option.id)
+  },
+
+  // 获取商品列表
+  getProductList(id) {
+    console.log(id)
+    let result = wx.cloud.callFunction({
+      name: '',
+      data: {id}
+    })
+  },
+
+  // 切换学生
+  toFamily(event) {
+    console.log('toFamily', event)
+    wx.navigateTo({
+      url: '/pages/family/family'
+    })
   }
 })
