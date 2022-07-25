@@ -1,7 +1,8 @@
 // pages/AddProduct/AddProduct.js
 let app = getApp();
 
-import h from '../../utils/hashCode';
+const uuid = require('../../utils/uuid.js');
+import { pathOfDate } from '../../utils/util'
 
 const type = {
   first: 'firstList',
@@ -12,7 +13,7 @@ let idList = [] // 编辑时删除图片的id
 
 Page({
   data: {
-    bottomLift: app.globalData.bottomLift, 
+    bottomLift: app.globalData.bottomLift,
     form: {
       name: '',
       // desc: '',
@@ -27,12 +28,12 @@ Page({
     firstList: [], // 首图的数据
     detailsList: [], // 详情图的数据
     // 添加到数据表中的图片path
-    upCloudImage: { 
+    upCloudImage: {
       first: [],
       details: [],
     },
     // 编辑商品时添加的图片
-    upDataCloudImage: { 
+    upDataCloudImage: {
       first: [],
       details: [],
     },
@@ -100,7 +101,7 @@ Page({
   },
 
   // 监听规格中输入框的值
-  onChangeSpec(event) { 
+  onChangeSpec(event) {
     // index 为规格的索引 id 为规格中选项的索引
     let { index, id } = event.currentTarget.dataset
     // 不能直接使用 !id 因为 id=0 时为 false
@@ -144,7 +145,7 @@ Page({
       [type[event.target.id]]: this.data[type[event.target.id]]
     })
   },
- 
+
   // 删除图片的方法
   onDelete(event) {
     let { _id, url } = event.detail.file
@@ -174,7 +175,7 @@ Page({
     await this.upCloud(this.data.detailsList, 'details')
 
     let { form, upCloudImage, Specifications  } = this.data
-    // 扁平化 然后转成数组 
+    // 扁平化 然后转成数组
     upCloudImage = Object.values(upCloudImage).flat().map(item => item)
 
     let data = {
@@ -224,19 +225,19 @@ Page({
     // 遍历上传图片
     imageList.forEach((item, index) => {
       // 判断是新添加的原图片 还是 新增的图片
-      if(item.url.match(/(\w+)/)[0] !== 'http') {
+      if(item.url.startsWith("cloud://")) {
         item.order = index
         upCloudImage[type].push(item)
       } else {
-        let imageName = h() + index + item.url.match(/.[^.]+$/)[0]
+        let cloudPath = "schoolUniformSubscription/product/" + pathOfDate() + uuid.uuid() + item.url.match(/.[^.]+$/)[0]
         // 上传图片
         let process = wx.cloud.uploadFile({
-          cloudPath: imageName,
+          cloudPath: cloudPath,
           filePath: item.url,
         })
-        // 上传成功 
+        // 上传成功
         .then(res => {
-          // 标记图片 首图为 0 详情图为 1 
+          // 标记图片 首图为 0 详情图为 1
           let typeID = type === 'first' ? 0 : 1
           upCloudImage[type].push({
             path: res.fileID,
