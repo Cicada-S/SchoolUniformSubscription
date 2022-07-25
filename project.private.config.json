@@ -70,6 +70,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/schoolShop/schoolShop",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }
