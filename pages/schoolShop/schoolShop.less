@@ -191,7 +191,148 @@
       letter-spacing: 10rpx;
       border-radius: 10rpx;
       background: #407EF5;
-      
     }
   }
+
+  .popupProductInfo {
+    padding: 30rpx 20rpx 0;
+
+    .productInfo {
+      display: flex;
+  
+      image {
+        width: 140rpx;
+        height: 140rpx;
+      }
+  
+      .icon {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        color: #DB211B;
+        font-size: 24rpx;
+        margin-left: 20rpx;
+  
+        .selected {
+          color: #979797;
+          font-size: 20rpx;
+        }
+      }
+    }
+
+    .specification {
+      display: flex;
+      flex-direction: column;
+
+      .specificationItem {
+        font-size: 24rpx;
+        border-bottom: 2rpx solid #cccccc;
+
+        .name {
+          color: #6b6b6b;
+          margin: 20rpx 0;
+        }
+
+        .values {
+          display: flex;
+          flex-wrap: wrap;
+          
+          text {
+            padding: 10rpx;
+            background: #efefef;
+            border-radius: 8rpx;
+            margin: 0 15rpx 15rpx 0;
+          }
+        }
+      }
+    }
+
+    .quantity {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 28rpx;
+      padding: 30rpx 0;
+
+      .operation text {
+        font-size: 32rpx;
+        text-align: center;
+        padding: 10rpx 20rpx;
+        margin-left: 3rpx;
+        background: #efefef;
+      }
+    }
+
+    .addBtn {
+      color: #FFFFFF;
+      border: none;
+      border-radius: 10rpx;
+      letter-spacing: 10rpx;
+      background: #407EF5;
+    }
+  } 
+
+  .shopCart {
+    padding: 0 20rpx 30rpx;
+
+    .titleTips {
+      padding: 20rpx;
+      border-bottom: 1rpx solid #cccccc;
+    }
+
+    .shopCartProductItem {
+      height: 160rpx;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 28rpx;
+      margin: 20rpx 0;
+
+      image {
+        width: 160rpx;
+        height: 160rpx;
+      }
+
+      .info {
+        flex: 1;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        margin-left: 20rpx;
+
+        .parameter {
+          color: #979797;
+          font-size: 24rpx;
+        }
+
+        .price {
+          color: #DB211B;
+          font-size: 26rpx;
+        }
+      }
+
+      .operation {
+        align-self: flex-end;
+
+        text {
+          font-size: 32rpx;
+          text-align: center;
+          padding: 10rpx 20rpx;
+          margin-left: 3rpx;
+          background: #efefef;
+        }
+      }
+    } 
+
+    .delete {
+      width: 120rpx;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFFFFF;
+      background-color: #DB211B;
+    }
+  }  
 }

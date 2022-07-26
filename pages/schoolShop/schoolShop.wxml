@@ -33,14 +33,14 @@
           <text>{{item.title}}</text>
           <text class="price">¥ <text>{{item.price}}</text></text>
         </view>
-      <view class="action">
+      <view class="action" bindtap="choose">
         <text>选购</text>
       </view>
     </view>
   </view>
   <view class="productAction" style="margin-bottom:{{bottomLift}}px">
     <view class="productActionInfo">
-      <text wx:if="{{productNum}}" class="iconfont icon-gouwucheman">
+      <text wx:if="{{productNum}}" class="iconfont icon-gouwucheman" bindtap="shopCart">
         <text class="productNum">{{productNum}}</text>
       </text>
       <text wx:else class="iconfont icon-gouwuchekong"></text>
@@ -50,6 +50,59 @@
       <text>立即结算</text>
     </view>
   </view>
-</view>
 
-<van-popup show="{{ show }}" bind:close="onClose">内容</van-popup>
+  <van-popup
+    show="{{ show }}" 
+    position="bottom"
+    bind:close="onClose"
+    bind:click-overlay="overlay"
+  > 
+    <!-- 选购 -->
+    <view class="popupProductInfo" wx:if="{{popupType}}">
+      <view class="productInfo">
+        <image src="{{ProductInfo.path}}" />
+        <view class="icon">
+          <text class="price">¥ {{ProductInfo.unitPrice}}</text>
+          <text class="selected">已选：</text>
+        </view>
+      </view>
+      <view class="specification">
+        <view class="specificationItem" wx:for="{{ProductInfo.specification}}" wx:key="name">
+          <view class="name">{{item.name}}</view>
+          <view class="values" >
+            <text wx:for="{{item.value}}" wx:for-item="valueItem" wx:key="valueItem">{{valueItem}}</text>
+          </view>
+        </view>
+      </view>
+      <view class="quantity"> 
+        <text class="text">购买数量</text>
+        <view class="operation">
+          <text>-</text>
+          <text>1</text>
+          <text>+</text>
+        </view>
+      </view>
+      <van-button type="default" custom-class="addBtn" bindtap="addCart" block>加入购物车</van-button>
+    </view>
+    <!-- 购物车 -->
+    <view class="shopCart" wx:else>
+      <view class="titleTips">已选商品</view>
+      <van-swipe-cell right-width="{{ 65 }}" wx:for="{{shopCart}}" wx:key="id">
+        <view class="shopCartProductItem">  
+          <image src="{{item.path}}" />
+          <view class="info">
+            <view class="title">{{item.title}}</view>
+            <view class="parameter">规格: {{item.parameter}}</view>
+            <view class="price">¥ {{item.price}}</view>
+          </view>
+          <view class="operation">
+            <text>-</text>
+            <text>1</text>
+            <text>+</text>
+          </view>
+        </view>
+        <view class="delete" slot="right" bindtap="onDelete" id="{{item._id}}">删除</view>
+      </van-swipe-cell>
+    </view>
+  </van-popup>
+</view>

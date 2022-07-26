@@ -30,17 +30,43 @@ Page({
         title: '夏季运动套装',
         price: '198.00',
         path: '/static/images/schoolShop/clothes.png'
-      },
-      {
-        id: 4,
-        title: '夏季运动套装',
-        price: '198.00',
-        path: '/static/images/schoolShop/clothes.png'
       }
     ],
+    ProductInfo: {
+      id: '1',
+      name: '夏季运动套装',
+      unitPrice: '98.00', 
+      path: '/static/images/schoolShop/clothes.png',
+      specification: [
+        {
+          name: '颜色',
+          value: ['蓝色', '红色'],
+        },
+        {
+          name: '尺寸',
+          value: ['120', '130'],
+        }
+      ]
+    },
+    shopCart: [
+      {
+        id: 1,
+        title: '夏季运动套装',
+        parameter: '女款, 160, 蓝色',
+        price: '98.00',
+        path: '/static/images/schoolShop/clothes.png'
+      },
+      {
+        id: 2,
+        title: '夏季运动套装',
+        parameter: ['女款', '160', '蓝色'],
+        price: '98.00',
+        path: '/static/images/schoolShop/clothes.png'
+        }
+    ],
+    popupType: true,
     totalPrice: '198.00',
     productNum: 1,
-    
   },
 
   // 页面初始化
@@ -65,5 +91,26 @@ Page({
     wx.navigateTo({
       url: '/pages/family/family'
     })
+  },
+
+  // 选购
+  choose() {
+    this.setData({ 
+      show: true,
+      popupType: true
+    })
+  },
+  
+  // 购物车
+  shopCart() {
+    this.setData({ 
+      show: true,
+      popupType: false
+    })
+  },
+
+  // 点击遮罩层时触发
+  overlay() {
+    this.setData({ show: false })
   }
 })

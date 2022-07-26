@@ -1,5 +1,8 @@
 {
   "usingComponents": {
-    "van-popup": "@vant/weapp/popup/index"
+    "BottomBtn": "/components/BottomBtn/BottomBtn",
+    "van-popup": "@vant/weapp/popup/index",
+    "van-button": "@vant/weapp/button/index",
+    "van-swipe-cell": "@vant/weapp/swipe-cell/index"
   }
 }
