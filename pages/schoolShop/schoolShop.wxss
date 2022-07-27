@@ -159,6 +159,9 @@
 .container .productAction .productActionInfo .totalPrice {
   margin-left: 25rpx;
 }
+.container .productAction .productActionInfo .totalPrice text {
+  color: #DB211B;
+}
 .container .productAction .productActionButton {
   width: 280rpx;
   height: 76rpx;
@@ -212,6 +215,10 @@
   background: #efefef;
   border-radius: 8rpx;
   margin: 0 15rpx 15rpx 0;
+}
+.container .popupProductInfo .specification .specificationItem .values .isChoice {
+  color: #FFFFFF;
+  background: #407EF5;
 }
 .container .popupProductInfo .quantity {
   display: flex;

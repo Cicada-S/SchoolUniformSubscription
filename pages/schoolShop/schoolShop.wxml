@@ -30,21 +30,21 @@
         <image src="{{item.path}}" />
       </view>
         <view class="info">
-          <text>{{item.title}}</text>
-          <text class="price">¥ <text>{{item.price}}</text></text>
+          <text>{{item.name}}</text>
+          <text class="price">¥ <text>{{item.unitPrice}}</text></text>
         </view>
-      <view class="action" bindtap="choose">
+      <view class="action" bindtap="choose" id="{{item.id}}">
         <text>选购</text>
       </view>
     </view>
   </view>
   <view class="productAction" style="margin-bottom:{{bottomLift}}px">
     <view class="productActionInfo">
-      <text wx:if="{{productNum}}" class="iconfont icon-gouwucheman" bindtap="shopCart">
-        <text class="productNum">{{productNum}}</text>
+      <text wx:if="{{shopCart.length}}" class="iconfont icon-gouwucheman" bindtap="shopCart">
+        <text class="productNum">{{shopCart.length}}</text>
       </text>
       <text wx:else class="iconfont icon-gouwuchekong"></text>
-      <view class="totalPrice">总价 ¥ {{totalPrice}}</view>
+      <view class="totalPrice">总价 <text>¥ {{totalPrice}}</text></view>
     </view>
     <view class="productActionButton">
       <text>立即结算</text>
@@ -63,23 +63,33 @@
         <image src="{{ProductInfo.path}}" />
         <view class="icon">
           <text class="price">¥ {{ProductInfo.unitPrice}}</text>
-          <text class="selected">已选：</text>
+          <text class="selected">已选：{{ProductInfo.choice}}</text>
         </view>
       </view>
       <view class="specification">
         <view class="specificationItem" wx:for="{{ProductInfo.specification}}" wx:key="name">
           <view class="name">{{item.name}}</view>
-          <view class="values" >
-            <text wx:for="{{item.value}}" wx:for-item="valueItem" wx:key="valueItem">{{valueItem}}</text>
+          <view class="values">
+            <text 
+              wx:for="{{item.value}}" 
+              wx:for-item="valueItem" 
+              wx:for-index="idx" 
+              wx:key="valueItem" 
+              bindtap="choice" 
+              data-idx="{{idx}}" 
+              data-name_index="{{index}}"
+              class="{{valueItem.isChoice?'isChoice':''}}"
+              >{{valueItem.text}}
+            </text>
           </view>
         </view>
       </view>
       <view class="quantity"> 
         <text class="text">购买数量</text>
         <view class="operation">
-          <text>-</text>
+          <text bindtap="reduce">-</text>
           <text>1</text>
-          <text>+</text>
+          <text bindtap="increase">+</text>
         </view>
       </view>
       <van-button type="default" custom-class="addBtn" bindtap="addCart" block>加入购物车</van-button>
@@ -91,9 +101,9 @@
         <view class="shopCartProductItem">  
           <image src="{{item.path}}" />
           <view class="info">
-            <view class="title">{{item.title}}</view>
-            <view class="parameter">规格: {{item.parameter}}</view>
-            <view class="price">¥ {{item.price}}</view>
+            <view class="title">{{item.name}}</view>
+            <view class="parameter">规格: {{item.choice}}</view>
+            <view class="price">¥ {{item.unitPrice}}</view>
           </view>
           <view class="operation">
             <text>-</text>
