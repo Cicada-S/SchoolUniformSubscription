@@ -28,7 +28,7 @@ Page({
               {
                 text: '蓝色',
                 isChoice: 0
-              }, 
+              },
               {
                 text: '红色',
                 isChoice: 0
@@ -218,6 +218,16 @@ Page({
     this.setData({
       totalPrice
     })
+  },
+
+  // 监听Calculator组件的 减
+  onReduce(event) {
+    console.log('onReduce', event)
+  },
+
+  // 监听Calculator组件的 加
+  onIncrease(event) {
+    console.log('onIncrease', event)
   },
   
   // 购物车

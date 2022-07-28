@@ -51,6 +51,7 @@
     </view>
   </view>
 
+  <!-- 选购/购物车 弹窗 -->
   <van-popup
     show="{{ show }}" 
     position="bottom"
@@ -86,11 +87,7 @@
       </view>
       <view class="quantity"> 
         <text class="text">购买数量</text>
-        <view class="operation">
-          <text bindtap="reduce">-</text>
-          <text>1</text>
-          <text bindtap="increase">+</text>
-        </view>
+        <Calculator operation="{{1}}" bind:reduce="onReduce" bind:increase="onIncrease" />
       </view>
       <van-button type="default" custom-class="addBtn" bindtap="addCart" block>加入购物车</van-button>
     </view>
@@ -106,9 +103,7 @@
             <view class="price">¥ {{item.unitPrice}}</view>
           </view>
           <view class="operation">
-            <text>-</text>
-            <text>1</text>
-            <text>+</text>
+            <Calculator operation="{{1}}" bind:reduce="onReduce" bind:increase="onIncrease" />
           </view>
         </view>
         <view class="delete" slot="right" bindtap="onDelete" id="{{item._id}}">删除</view>
