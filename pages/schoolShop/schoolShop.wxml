@@ -41,7 +41,7 @@
   <view class="productAction" style="margin-bottom:{{bottomLift}}px">
     <view class="productActionInfo">
       <text wx:if="{{shopCart.length}}" class="iconfont icon-gouwucheman" bindtap="shopCart">
-        <text class="productNum">{{shopCart.length}}</text>
+        <text class="productNum">{{cartNum}}</text>
       </text>
       <text wx:else class="iconfont icon-gouwuchekong"></text>
       <view class="totalPrice">总价 <text>¥ {{totalPrice}}</text></view>
@@ -87,15 +87,15 @@
       </view>
       <view class="quantity"> 
         <text class="text">购买数量</text>
-        <Calculator operation="{{1}}" bind:reduce="onReduce" bind:increase="onIncrease" />
+        <Calculator operation="{{ProductInfo.operation}}" bind:reduce="onReduce" bind:increase="onIncrease" />
       </view>
-      <van-button type="default" custom-class="addBtn" bindtap="addCart" block>加入购物车</van-button>
+      <van-button type="default" custom-class="addBtn" bindtap="addCart" id="{{ProductInfo.id}}" block>加入购物车</van-button>
     </view>
     <!-- 购物车 -->
     <view class="shopCart" wx:else>
       <view class="titleTips">已选商品</view>
-      <van-swipe-cell right-width="{{ 65 }}" wx:for="{{shopCart}}" wx:key="id">
-        <view class="shopCartProductItem">  
+      <van-swipe-cell right-width="{{ 65 }}" wx:for="{{shopCart}}" wx:key="index">
+        <view class="shopCartProductItem">
           <image src="{{item.path}}" />
           <view class="info">
             <view class="title">{{item.name}}</view>
@@ -103,10 +103,10 @@
             <view class="price">¥ {{item.unitPrice}}</view>
           </view>
           <view class="operation">
-            <Calculator operation="{{1}}" bind:reduce="onReduce" bind:increase="onIncrease" />
+            <Calculator operation="{{item.operation}}" index="{{index}}" bind:reduce="onReduce" bind:increase="onIncrease" />
           </view>
         </view>
-        <view class="delete" slot="right" bindtap="onDelete" id="{{item._id}}">删除</view>
+        <view class="delete" slot="right" bindtap="onDelete" id="{{index}}">删除</view>
       </van-swipe-cell>
     </view>
   </van-popup>

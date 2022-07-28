@@ -235,6 +235,7 @@
   background: #407EF5;
 }
 .container .shopCart {
+  min-height: 800rpx;
   padding: 0 20rpx 30rpx;
 }
 .container .shopCart .titleTips {

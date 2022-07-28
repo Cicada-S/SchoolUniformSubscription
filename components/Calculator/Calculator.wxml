@@ -1,6 +1,6 @@
 <!--components/Calculator/Calculator.wxml-->
 <view class="Calculator">
-  <text class="text" bindtap="reduce">-</text>
-  <text class="text">{{operation}}</text>
-  <text class="text" bindtap="increase">+</text>
+  <text class="text" id="{{ index }}" bindtap="reduce">-</text>
+  <text class="text">{{ operation }}</text>
+  <text class="text" id="{{ index }}" bindtap="increase">+</text>
 </view>

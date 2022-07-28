@@ -18,7 +18,7 @@ Page({
         id: '1',
         name: '夏季运动套装',
         unitPrice: '68.00', 
-        choice: [],
+        choice: '',
         operation: 1,
         path: '/static/images/schoolShop/clothes.png',
         specification: [
@@ -54,7 +54,7 @@ Page({
         id: '2',
         name: '冬季运动套装',
         unitPrice: '98.88',
-        choice: [], 
+        choice: '', 
         operation: 1,
         path: '/static/images/schoolShop/clothes.png',
         specification: [
@@ -90,7 +90,7 @@ Page({
         id: '3',
         name: '春季运动套装',
         unitPrice: '78.00',
-        choice: [],
+        choice: '',
         operation: 1,
         path: '/static/images/schoolShop/clothes.png',
         specification: [
@@ -125,14 +125,19 @@ Page({
     ],
     ProductInfo: {}, // 选购
     shopCart: [], // 购物车
+    cartNum: 0, // 购物车商品数量
     totalPrice: 0, // 总价
   },
 
   // 页面初始化
-  onload(option) {
-    console.log(option)
-
+  onLoad(option) {
     // this.getProductList(option.id)
+
+    // 获取本地存储的购物车数据
+    this.setData({
+      shopCart: wx.getStorageSync('shopCart')
+    })
+    this.countTotalPrice()
   },
 
   // 获取商品列表
@@ -197,45 +202,127 @@ Page({
   },
 
   // 加入购物车
-  addCart() {
+  addCart(event) {
+    let id = event.currentTarget.id
     let { shopCart, ProductInfo } = this.data
-    shopCart.push(ProductInfo)
-    this.setData({
-      show: false,
-      ProductInfo: [],
-      shopCart
-    })
-    this.countTotalPrice()
-  },
+    
+    if(ProductInfo.choice.split('，').length === ProductInfo.specification.length) {
 
-  // 计算总价
+      let newShopCart = shopCart.map((item, index) => {
+        // 如果购物车中有该商品且规格一样 则把数量加上去
+        if(item.id === id && ProductInfo.choice === item.choice) {
+          return item.operation += ProductInfo.operation
+        }
+        // 有bug待调试
+        /* else if(index === shopCart.length - 1) {
+          shopCart.unshift(ProductInfo)
+        } */
+        return item
+      })
+
+      console.log(newShopCart)
+
+      this.setData({
+        show: false,
+        ProductInfo: [],
+        shopCart
+      })
+      wx.setStorageSync('shopCart', shopCart)
+      this.countTotalPrice()
+
+    }else {
+      wx.showToast({
+        title: '请选择规格',
+        icon: 'none'
+      })
+    }
+  },
+  
+  // 计算总价、购物车商品的数量
   countTotalPrice() {
     let { shopCart } = this.data
+    let cartNum = 0
     let totalPrice = 0
     shopCart.forEach(item => {
-      totalPrice = (parseFloat(totalPrice) + parseFloat(item.unitPrice)).toFixed(2)
+      cartNum += item.operation
+      totalPrice = (parseFloat(totalPrice) + parseFloat(item.unitPrice*item.operation)).toFixed(2)
     })
     this.setData({
+      cartNum,
       totalPrice
     })
   },
 
-  // 监听Calculator组件的 减
-  onReduce(event) {
-    console.log('onReduce', event)
-  },
-
-  // 监听Calculator组件的 加
-  onIncrease(event) {
-    console.log('onIncrease', event)
-  },
-  
   // 购物车
   shopCart() {
     this.setData({
       show: true,
       popupType: false
     })
+  },
+
+  // 监听Calculator组件的 减
+  onReduce(event) {
+    let index = parseFloat(event.detail.index)
+    if(index) {
+      let { shopCart } = this.data
+      let operation = 1
+      shopCart.forEach((item, idx) => {
+        if(idx === index) {
+          operation = item.operation <= 1 ? item.operation : --item.operation
+        }
+      })
+      this.setData({
+        [`shopCart[${index}].operation`]: operation
+      })
+      wx.setStorageSync('shopCart', shopCart)
+      this.countTotalPrice()
+    }else {
+      let { operation } = this.data.ProductInfo
+      operation <= 1 ? operation = 1 : --operation
+      this.setData({
+        ['ProductInfo.operation']: operation
+      })
+    }
+  },
+
+  // 监听Calculator组件的 加
+  onIncrease(event) {
+    let index = parseFloat(event.detail.index)
+    if(index) {
+      let { shopCart } = this.data
+      let operation = 1
+      shopCart.forEach((item, idx) => {
+        if(idx === index) {
+          operation = ++item.operation
+        }
+      })
+      this.setData({
+        [`shopCart[${index}].operation`]: operation
+      })
+      wx.setStorageSync('shopCart', shopCart)
+      this.countTotalPrice()
+    }else {
+      let { operation } = this.data.ProductInfo
+      this.setData({
+        ['ProductInfo.operation']: ++operation
+      })
+    }
+  },
+
+  // 删除购物车的商品
+  onDelete(event) {
+    let id = parseFloat(event.currentTarget.id)
+    let { shopCart } = this.data
+
+    let newShopCart = shopCart.filter((item, index) => {
+      if(index !== id) return item
+    })
+    this.setData({
+      shopCart: newShopCart
+    })
+    wx.setStorageSync('shopCart', newShopCart)
+    this.countTotalPrice()
   },
 
   // 点击遮罩层时触发

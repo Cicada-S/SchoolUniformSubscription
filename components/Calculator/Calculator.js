@@ -7,6 +7,10 @@ Component({
     operation: {
       type: Number,
       value: 1
+    },
+    index: {
+      type: Number,
+      value: null
     }
   },
 
@@ -22,11 +26,15 @@ Component({
    */
   methods: {
     reduce(event) {
-      this.triggerEvent('reduce')
+      this.triggerEvent('reduce', {
+        index: event.currentTarget.id
+      })
     },
 
     increase(event) {
-      this.triggerEvent('increase')
+      this.triggerEvent('increase', {
+        index: event.currentTarget.id
+      })
     }
   }
 })
