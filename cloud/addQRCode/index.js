@@ -23,12 +23,11 @@ exports.main = async (event, context) => {
 
     // 生成小程序码
     const result = await cloud.openapi.wxacode.getUnlimited({
-      "page": 'pages/me/me',
+      "page": 'pages/schoolShop/schoolShop',
       "scene": SellQrCode._id,
       "checkPath": false,
       "envVersion": 'trial'
     })
-    .catch(err => console.log(err))
 
     // 生成的小程序码上传到云存储中
     const upload = await cloud.uploadFile({

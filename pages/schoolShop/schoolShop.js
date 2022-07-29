@@ -208,7 +208,7 @@ Page({
   addCart(event) {
     let id = event.currentTarget.id
     let { shopCart, ProductInfo } = this.data
-    
+
     if(ProductInfo.choice.split('，').length === ProductInfo.specification.length) {
       let isNewProduct = true
       shopCart = shopCart.map(item => {
@@ -220,7 +220,8 @@ Page({
         return item
       })
       
-      if(isNewProduct) shopCart.unshift(ProductInfo)
+      let newProductInfo = {...ProductInfo}
+      if(isNewProduct) shopCart.unshift(newProductInfo)
 
       this.setData({
         show: false,
@@ -229,7 +230,6 @@ Page({
       })
       wx.setStorageSync('shopCart', shopCart)
       this.countTotalPrice()
-
     }else {
       wx.showToast({
         title: '请选择规格',
@@ -263,10 +263,6 @@ Page({
 
   // 监听Calculator组件的 减
   onReduce(event) {
-
-    console.log(Date.now())
-
-
     let index = parseFloat(event.detail.index)
     if(index !== '') {
       let { shopCart } = this.data
