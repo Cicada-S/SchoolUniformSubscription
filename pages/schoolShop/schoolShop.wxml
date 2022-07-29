@@ -18,9 +18,9 @@
       <text>请在截止时间前完成预定，时间截止后预定通道将关闭</text>
     </view>
     <view class="reciprocal">
-      <text>距离结束还剩</text>
+      <text>结束时间</text>
       <view class="time">
-        <text>29天</text><text>17</text>:<text>18</text>:<text>19</text>
+        <text>{{endDate}}</text>
       </view>
     </view>
   </view> 
@@ -46,7 +46,7 @@
       <text wx:else class="iconfont icon-gouwuchekong"></text>
       <view class="totalPrice">总价 <text>¥ {{totalPrice}}</text></view>
     </view>
-    <view class="productActionButton">
+    <view class="productActionButton" bindtap="toOrder">
       <text>立即结算</text>
     </view>
   </view>

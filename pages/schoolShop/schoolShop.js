@@ -1,6 +1,8 @@
 // pages/schoolShop/schoolShop.js
 const app = getApp()
 
+import { toDates } from '../../utils/util'
+
 Page({
   data: {
     bottomLift: app.globalData.bottomLift,
@@ -127,6 +129,7 @@ Page({
     shopCart: [], // 购物车
     cartNum: 0, // 购物车商品数量
     totalPrice: 0, // 总价
+    endDate: toDates(1667008980000)
   },
 
   // 页面初始化
@@ -207,20 +210,17 @@ Page({
     let { shopCart, ProductInfo } = this.data
     
     if(ProductInfo.choice.split('，').length === ProductInfo.specification.length) {
-
-      let newShopCart = shopCart.map((item, index) => {
+      let isNewProduct = true
+      shopCart = shopCart.map(item => {
         // 如果购物车中有该商品且规格一样 则把数量加上去
         if(item.id === id && ProductInfo.choice === item.choice) {
-          return item.operation += ProductInfo.operation
+          isNewProduct = false
+          item.operation += ProductInfo.operation
         }
-        // 有bug待调试
-        /* else if(index === shopCart.length - 1) {
-          shopCart.unshift(ProductInfo)
-        } */
         return item
       })
-
-      console.log(newShopCart)
+      
+      if(isNewProduct) shopCart.unshift(ProductInfo)
 
       this.setData({
         show: false,
@@ -263,8 +263,12 @@ Page({
 
   // 监听Calculator组件的 减
   onReduce(event) {
+
+    console.log(Date.now())
+
+
     let index = parseFloat(event.detail.index)
-    if(index) {
+    if(index !== '') {
       let { shopCart } = this.data
       let operation = 1
       shopCart.forEach((item, idx) => {
@@ -289,7 +293,7 @@ Page({
   // 监听Calculator组件的 加
   onIncrease(event) {
     let index = parseFloat(event.detail.index)
-    if(index) {
+    if(index !== '') {
       let { shopCart } = this.data
       let operation = 1
       shopCart.forEach((item, idx) => {
@@ -330,6 +334,13 @@ Page({
     this.setData({
       show: false,
       ProductInfo: []
+    })
+  },
+
+  // 立即结算的回调函数
+  toOrder() {
+    wx.navigateTo({
+      url: '/pages/order/order'
     })
   }
 })

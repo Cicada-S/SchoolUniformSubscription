@@ -73,8 +73,9 @@
 }
 .container .promptDox .reciprocal .time text {
   color: #FFFFFF;
-  padding: 8rpx 6rpx;
+  padding: 8rpx;
   margin: 0 10rpx;
+  letter-spacing: 2rpx;
   border-radius: 10rpx;
   background: #172ACA;
 }
