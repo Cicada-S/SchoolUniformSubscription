@@ -211,7 +211,7 @@ Page({
 
     if(ProductInfo.choice.split('，').length === ProductInfo.specification.length) {
       let isNewProduct = true
-      shopCart = shopCart.map(item => {
+      if(shopCart.length) shopCart = shopCart.map(item => {
         // 如果购物车中有该商品且规格一样 则把数量加上去
         if(item.id === id && ProductInfo.choice === item.choice) {
           isNewProduct = false
@@ -243,7 +243,7 @@ Page({
     let { shopCart } = this.data
     let cartNum = 0
     let totalPrice = 0
-    shopCart.forEach(item => {
+    if(shopCart.length) shopCart.forEach(item => {
       cartNum += item.operation
       totalPrice = (parseFloat(totalPrice) + parseFloat(item.unitPrice*item.operation)).toFixed(2)
     })
@@ -264,6 +264,7 @@ Page({
   // 监听Calculator组件的 减
   onReduce(event) {
     let index = parseFloat(event.detail.index)
+    console.log(index)
     if(index !== '') {
       let { shopCart } = this.data
       let operation = 1
@@ -289,6 +290,7 @@ Page({
   // 监听Calculator组件的 加
   onIncrease(event) {
     let index = parseFloat(event.detail.index)
+    console.log(index)
     if(index !== '') {
       let { shopCart } = this.data
       let operation = 1
