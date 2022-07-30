@@ -4,6 +4,7 @@ const user = db.collection('User');
 
 Page({
   data: {
+    hiddenFunctionManage: true,
     chart: '/static/images/home/chart.png',
     moreUrl: [
       '/static/images/home/more1.png',
@@ -65,12 +66,26 @@ Page({
   },
 
   getUserInfo() {
+    let _this = this
     user.get({
       success(res) {
         if (res.data.length == 1) {
           try {
-            console.info('currentUser = ' + JSON.stringify(res.data[0]))
+            // console.info('currentUser = ' + JSON.stringify(res.data[0]))
             wx.setStorageSync('currentUser', res.data[0]);
+
+            //管理员才可以管理产品等信息
+            const _ = db.command
+            let whereConditiion = {'key': 'adminOpenIds',  'value': _.in([res.data[0]._openid]) };
+            db.collection('SystemConfig').where(whereConditiion).get().then(systemConfig => {
+              console.info('systemConfig = ' + JSON.stringify(systemConfig))
+              if(systemConfig.data.length > 0){
+                _this.setData({
+                  hiddenFunctionManage: false
+                })
+              }
+            })
+
           } catch (err) {
             console.log(err)
           }
