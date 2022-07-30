@@ -3,6 +3,7 @@ const uuid = require('../../utils/uuid.js');
 import { pathOfDate } from '../../utils/util'
 
 let id = '' // 编辑学校的id
+const db = wx.cloud.database()
 
 Page({
   data: {
@@ -18,6 +19,7 @@ Page({
     // 当前的状态 true(添加学校) false(编辑学校)
     type: true,
     editLogo: false,
+    showSchoolManageButton: false
   },
 
   // 页面初始化
@@ -31,6 +33,22 @@ Page({
         title: '编辑学校'
       })
       this.getSchoolInfo(id)
+
+      //如果没有关联二维码则允许修改
+      db.collection('SellQrCode').where({
+        schoolId: id
+      }).get().then(res => {
+        if(res.data.length == 0){
+          this.setData({
+            showSchoolManageButton: true
+          })
+        }
+      })
+
+    }else{
+      this.setData({
+        showSchoolManageButton: true
+      })
     }
   },
 
@@ -115,19 +133,23 @@ Page({
   // 添加学校的处理函数
   async addSchool() {
     let text = this.data.type ? '添加' : '修改'
-    wx.showLoading({
-      title: `${text}中...`
-    })
     let { name, address, fileList, grade} = this.data;
-    console.log(grade)
-
     let schoolInfo = {
       name,
       address,
       grade,
-      logo: fileList[0].url,
+      logo: '',
       remark: '',
     }
+
+    //内容检验
+    if(!this.check(schoolInfo)){
+      return;
+    }
+    
+    wx.showLoading({
+      title: `${text}中...`
+    })
 
     if(this.data.editLogo) {
       let cloudPath = "schoolUniformSubscription/school/" + pathOfDate() + uuid.uuid() + fileList[0].url.match(/.[^.]+$/)[0]
@@ -166,6 +188,67 @@ Page({
         duration: 1000
       })
     })
+  },
+
+  check(schoolInfo){
+    if(!schoolInfo.name){
+      wx.showToast({
+        title: `学校名不能为空`,
+        icon: 'none',
+        duration: 1000
+      })
+      return false;
+    }
+
+    if(!schoolInfo.address){
+      wx.showToast({
+        title: `学校地址不能为空`,
+        icon: 'none',
+        duration: 1000
+      })
+      return false;
+    }
+
+    let gradeCheck = true
+    schoolInfo.grade.forEach(item => {
+      if(!item.name){
+        wx.showToast({
+          title: `年级不能为空`,
+          icon: 'none',
+          duration: 1000
+        })
+        gradeCheck = false
+        return;
+      }
+
+      item.className.forEach(c => {
+        if(!c){
+          wx.showToast({
+            title: `班级不能为空`,
+            icon: 'none',
+            duration: 1000
+          })
+          gradeCheck = false
+          return;
+        }
+      })
+
+    })
+
+    if(!gradeCheck){
+      return false
+    }
+
+    if(this.data.fileList.length == 0){
+      wx.showToast({
+        title: `LOGO不能为空`,
+        icon: 'none',
+        duration: 1000
+      })
+      return false
+    }
+
+    return true;
   },
 
   // 添加/修改商品的请求

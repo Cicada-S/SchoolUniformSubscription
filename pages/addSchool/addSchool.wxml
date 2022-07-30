@@ -52,5 +52,5 @@
     />
   </BlockBox>
 
-  <BottomBtn text="{{type?'添加':'修改'}}学校" bindtap="addSchool" />
+  <BottomBtn text="{{type?'添加':'修改'}}学校" isShow="{{showSchoolManageButton}}" bindtap="addSchool" />
 </view>

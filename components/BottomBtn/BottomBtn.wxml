@@ -1,4 +1,4 @@
 <!--components/BottomBtn/BottomBtn.wxml-->
-<view class="bottomBtn" style="margin-bottom:{{bottomLift}}px">
+<view class="bottomBtn" style="margin-bottom:{{bottomLift}}px" hidden="{{!isShow}}">
   <text>{{ text }}</text>
 </view>

@@ -9,8 +9,11 @@ Component({
     text: {
       type: String,
       value: '按钮'
+    },
+    isShow:{
+      type: Boolean,
+      value: true
     }
-
   },
 
   /**
