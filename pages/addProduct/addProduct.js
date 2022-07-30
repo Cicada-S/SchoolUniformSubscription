@@ -115,7 +115,8 @@ Page({
       price: 'unitPrice',
     }
     this.setData({
-      ['form.' + type[event.target.id]]: event.detail
+      ['form.' + type[event.target.id]]: 
+      (event.target.id == 'price' ? event.detail.replace(/[^\d]/g, '')  : event.detail)
     })
   },
 
