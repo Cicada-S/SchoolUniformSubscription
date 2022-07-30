@@ -16,7 +16,12 @@ Page({
   },
 
   // 页面初始化
-  onLoad(options) {
+  onShow(options) {
+    this.setData({
+      pageIndex: 1,
+      productList: [],
+      reachBottom: false
+    })
     wx.showToast({
       title: '加载中...',
       icon: 'loading',
@@ -39,7 +44,7 @@ Page({
 
   // 获取初始数据
   getProductList() {
-
+    
     //查询条件
     let whereConditiion = {}
     if (this.data.searchValue) {

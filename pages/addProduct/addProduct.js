@@ -4,6 +4,7 @@ let app = getApp();
 const uuid = require('../../utils/uuid.js');
 import { pathOfDate } from '../../utils/util'
 
+const db = wx.cloud.database()
 const type = {
   first: 'firstList',
   details: 'detailsList',
@@ -38,7 +39,8 @@ Page({
       details: [],
     },
     // 当前的状态 true(添加商品) false(编辑商品)
-    type: true
+    type: true,
+    showProductManageButton: false
   },
 
   // 页面初始化
@@ -46,6 +48,7 @@ Page({
     id = options.id
     idList = []
     if(options.id){
+      console.info(id)
       this.setData({
         type: false
       })
@@ -56,6 +59,22 @@ Page({
         title: '获取数据中...',
       })
       this.getProductInfo(options.id)
+
+      //如果没有关联二维码则允许修改
+      db.collection('SellQrCodeProduct').where({
+        productId: id
+      }).get().then(res => {
+        if(res.data.length == 0){
+          this.setData({
+            showProductManageButton: true
+          })
+        }
+      })
+
+    }else{
+      this.setData({
+        showProductManageButton: true
+      })
     }
   },
 
@@ -159,9 +178,85 @@ Page({
     })
   },
 
+  check(){
+    if(!this.data.form.name){
+      wx.showToast({
+        title: `标题不能为空`,
+        icon: 'none',
+        duration: 1000
+      })
+      return false;
+    }
+
+    if(!this.data.form.unitPrice){
+      wx.showToast({
+        title: `价格不能为空`,
+        icon: 'none',
+        duration: 1000
+      })
+      return false;
+    }
+
+    let specificationCheck = true
+    this.data.Specifications.forEach(item => {
+      if(!item.name){
+        wx.showToast({
+          title: `规格名称不能为空`,
+          icon: 'none',
+          duration: 1000
+        })
+        specificationCheck = false
+        return;
+      }
+
+      item.value.forEach(c => {
+        if(!c){
+          wx.showToast({
+            title: `规格选项不能为空`,
+            icon: 'none',
+            duration: 1000
+          })
+          specificationCheck = false
+          return;
+        }
+      })
+
+    })
+
+    if(!specificationCheck){
+      return false
+    }
+
+    if(this.data.firstList.length == 0){
+      wx.showToast({
+        title: `首图不能为空`,
+        icon: 'none',
+        duration: 1000
+      })
+      return false;
+    }
+
+    
+    if(this.data.detailsList.length == 0){
+      wx.showToast({
+        title: `详情图不能为空`,
+        icon: 'none',
+        duration: 1000
+      })
+      return false;
+    }
+    return true
+  },
+
   // 添加/修改 商品的处理函数
   async addProduct() {
     let text = this.data.type ? '添加' : '修改'
+
+    //内容检验
+    if(!this.check()){
+      return;
+    }
+
     wx.showLoading({
       title: `${text}中...`,
     })
@@ -195,9 +290,13 @@ Page({
         duration: 1000
       })
       // 返回上一层 到(商品管理)
-      wx.navigateBack({
-        delta: 1,
-      })
+      setTimeout(function () {
+        wx.hideToast();
+        wx.navigateBack({
+          delta: 1
+        })
+      }, 1500);
+
     }).catch(err => {
       wx.hideLoading()
       wx.showToast({
