@@ -16,19 +16,15 @@ Page({
       }
     ],
     fileList: [],
-    // 当前的状态 true(添加学校) false(编辑学校)
-    type: true,
-    editLogo: false,
-    showSchoolManageButton: false
+    showSchoolManageButton: false,
+    type: 0, //0: '新增学校', 1: '修改学校', 2: '删除学校'
+    editLogo: false
   },
 
   // 页面初始化
   onLoad(options) {
     id = options.id
     if(id) {
-      this.setData({
-        type: false
-      })
       wx.setNavigationBarTitle({
         title: '编辑学校'
       })
@@ -39,14 +35,18 @@ Page({
         schoolId: id
       }).get().then(res => {
         if(res.data.length == 0){
-          this.setData({
-            showSchoolManageButton: true
-          })
+          this.setData({  type: 1 })
+        }else{
+          this.setData({ type: 2 })
         }
+        this.setData({
+          showSchoolManageButton: true
+        })
       })
 
     }else{
       this.setData({
+        type: 0, 
         showSchoolManageButton: true
       })
     }
@@ -130,15 +130,60 @@ Page({
     })
   },
 
+  manageSchool(){
+    if(this.data.type === 2){//delete 
+      this.deleteSchool()
+    }else{
+      this.addSchool()
+    }
+  },
+
+  deleteSchool(){
+    let _this = this
+    wx.showModal({
+      title: '提示',
+      content: '确定要删除该学校吗？',
+      success(res) {
+        if (res.confirm) {
+          let user = wx.getStorageSync('currentUser');
+          db.collection('School').doc(id).update({
+            data: {
+              status: -1,
+              lastModifiedTime: new Date(),
+              lastModifiedOpenid: user._openid,
+            },
+            success: res => {
+              console.info('delete info ==' +  JSON.stringify(res))
+              wx.hideLoading()
+              wx.showToast({
+                title: `删除成功`,
+                icon: 'success',
+                duration: 1000
+              })
+
+              setTimeout(function () {
+                wx.hideToast();
+                wx.navigateBack({
+                  delta: 1
+                })
+              }, 1500);
+
+            }
+          })
+        }
+      }
+    })
+  },
+
   // 添加学校的处理函数
   async addSchool() {
-    let text = this.data.type ? '添加' : '修改'
+    let text = this.data.type === 0 ? '添加' : '修改'
     let { name, address, fileList, grade} = this.data;
     let schoolInfo = {
       name,
       address,
       grade,
-      logo: fileList[0].url,
+      logo: fileList.length > 0 ? fileList[0].url : '',
       remark: '',
     }
 
@@ -163,7 +208,7 @@ Page({
     }
 
     // 添加/修改 学校
-    let results = this.data.type ? this.request('addSchool', schoolInfo) : this.request('editSchool', schoolInfo)
+    let results = this.data.type === 0 ? this.request('addSchool', schoolInfo) : this.request('editSchool', schoolInfo)
 
     results.then(res => {
       wx.hideLoading()

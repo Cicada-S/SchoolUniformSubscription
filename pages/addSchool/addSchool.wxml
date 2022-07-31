@@ -51,6 +51,5 @@
       bind:after-read="afterRead" 
     />
   </BlockBox>
-
-  <BottomBtn text="{{type?'添加':'修改'}}学校" isShow="{{showSchoolManageButton}}" bindtap="addSchool" />
+  <BottomBtn text="{{type == 0 ? '新增学校' : (type==1 ? '修改学校' : '删除学校')}}" isShow="{{showSchoolManageButton}}"  bindtap="manageSchool" />
 </view>
