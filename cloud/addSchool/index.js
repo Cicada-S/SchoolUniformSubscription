@@ -17,13 +17,14 @@ exports.main = async (event, context) => {
     createTime: new Date(),
     lastModifiedTime: new Date(),
     lastModifiedOpenid: cloud.getWXContext().OPENID,
+    status: 0
   }
 
   try {
     await db.collection('School').add({
       data: school
     }).then(res => {
-      
+
       event.grade.forEach((item, index) => {
         let newItem = {...item}
         newItem.order = index

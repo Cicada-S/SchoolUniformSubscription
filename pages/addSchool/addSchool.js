@@ -138,7 +138,7 @@ Page({
       name,
       address,
       grade,
-      logo: '',
+      logo: fileList[0].url,
       remark: '',
     }
 
@@ -146,7 +146,7 @@ Page({
     if(!this.check(schoolInfo)){
       return;
     }
-    
+
     wx.showLoading({
       title: `${text}中...`
     })

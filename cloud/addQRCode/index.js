@@ -1,5 +1,3 @@
-// 云函数入口文件
-import {pathOfDate} from "../../utils/util";
 
 const cloud = require('wx-server-sdk')
 cloud.init({
@@ -23,6 +21,7 @@ exports.main = async (event, context) => {
         createTime: new Date(),
         lastModifiedTime: new Date(),
         lastModifiedOpenid: cloud.getWXContext().OPENID,
+        status: 0
       }
     })
 
@@ -31,7 +30,6 @@ exports.main = async (event, context) => {
       "page": 'pages/schoolShop/schoolShop',
       "scene": SellQrCode._id,
       "checkPath": false,
-      "envVersion": 'trial'
     })
 
     // 生成的小程序码上传到云存储中

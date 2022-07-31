@@ -42,6 +42,9 @@ Page({
 
   // 页面初始化
   onLoad(options) {
+    
+    this.getSchoolList()
+
     if(options.id) {
       this.setData({
         type: false
@@ -49,9 +52,8 @@ Page({
       wx.setNavigationBarTitle({
         title: '二维码'
       })
+      this.getQRCodeInfo(options.id)
     }
-    this.getSchoolList()
-    this.getQRCodeInfo(options.id)
   },
 
   // 页面显示
