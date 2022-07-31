@@ -53,6 +53,7 @@ Page({
         options: 'i',
       })
     }
+    whereConditiion.status = 0
 
     //skip(20 * (pageIndex - 1)).limit(20)
     const skin = this.data.pageSize * (this.data.pageIndex - 1);
@@ -118,13 +119,24 @@ Page({
   // 删除商品
   delProduct(event) {
     console.log('删除商品', event.currentTarget.id)
-
+    let _this = this
     wx.showModal({
       title: '提示',
       content: '确定要删除该商品吗？',
       success(res) {
         if (res.confirm) {
           console.log('用户点击确定')
+          let user = wx.getStorageSync('currentUser');
+          db.collection('Product').doc(event.currentTarget.id).update({
+            data: {
+              status: -1,
+              lastModifiedTime: new Date(),
+              lastModifiedOpenid: user._openid,
+            },
+            success: res => {
+              _this.onPullDownRefresh()
+            }
+          })
         }
       }
     })
