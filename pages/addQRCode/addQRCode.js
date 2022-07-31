@@ -37,7 +37,8 @@ Page({
     // 商品数据
     goodsDataList: [],
     bottomLift: app.globalData.bottomLift,
-    type: true, // 当前状态  true新增  false查看
+    type: true, // 当前状态  true新增  false 删除
+    id:''
   },
 
   // 页面初始化
@@ -47,7 +48,8 @@ Page({
 
     if(options.id) {
       this.setData({
-        type: false
+        type: false,
+        id: options.id
       })
       wx.setNavigationBarTitle({
         title: '二维码'
@@ -166,10 +168,56 @@ Page({
 
   // 获取学校
   async getSchoolList() {
-    await School.get().then(res => {
+    await School.where({status: 0}).get().then(res => {
       this.setData({
         actions: res.data
       })
+    })
+  },
+
+  manageQRCode(){
+    if(this.data.type){
+      this.addQRCode()
+    }else{
+      //删除二维码
+      this.deleteQRCode()
+    }
+  },
+
+  deleteQRCode(){
+    let _this = this
+    wx.showModal({
+      title: '提示',
+      content: '确定要删除该二维码吗？',
+      success(res) {
+        if (res.confirm) {
+          let user = wx.getStorageSync('currentUser');
+          db.collection('SellQrCode').doc(_this.data.id).update({
+            data: {
+              status: -1,
+              lastModifiedTime: new Date(),
+              lastModifiedOpenid: user._openid,
+            },
+            success: res => {
+              console.info('delete info ==' +  JSON.stringify(res))
+              wx.hideLoading()
+              wx.showToast({
+                title: `删除成功`,
+                icon: 'success',
+                duration: 1000
+              })
+
+              setTimeout(function () {
+                wx.hideToast();
+                wx.navigateBack({
+                  delta: 1
+                })
+              }, 1500);
+
+            }
+          })
+        }
+      }
     })
   },
 

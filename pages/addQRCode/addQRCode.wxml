@@ -81,5 +81,5 @@
   </van-action-sheet>
 
   <!-- 底部按钮 -->
-  <BottomBtn wx:if="{{type}}" text="生成二维码" bindtap="addQRCode" />
+  <BottomBtn text="{{type ? '生成二维码' : '删除二维码'}}" bindtap="manageQRCode" />
 </view>

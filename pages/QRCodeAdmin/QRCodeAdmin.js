@@ -45,6 +45,7 @@ Page({
         options: 'i',
       })
     }
+    whereConditiion.status = 0
 
     //skip(20 * (pageIndex - 1)).limit(20)
     const skin = this.data.pageSize * (this.data.pageIndex - 1);
