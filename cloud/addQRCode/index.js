@@ -1,4 +1,6 @@
 // 云函数入口文件
+import {pathOfDate} from "../../utils/util";
+
 const cloud = require('wx-server-sdk')
 cloud.init({
   env: cloud.DYNAMIC_CURRENT_ENV
@@ -12,12 +14,15 @@ exports.main = async (event, context) => {
     // 小程序码表
     let SellQrCode = await db.collection('SellQrCode').add({
       data: {
-        title,
-        beginTime,
-        endTime,
-        schoolId,
-        schoolName,
-        createTime,
+        _openid: cloud.getWXContext().OPENID,
+        title: title,
+        beginTime: beginTime,
+        endTime: endTime,
+        schoolId: schoolId,
+        schoolName: schoolName,
+        createTime: new Date(),
+        lastModifiedTime: new Date(),
+        lastModifiedOpenid: cloud.getWXContext().OPENID,
       }
     })
 
@@ -30,8 +35,9 @@ exports.main = async (event, context) => {
     })
 
     // 生成的小程序码上传到云存储中
+    let cloudPath = "schoolUniformSubscription/sellQrCode/" + Date.now() + '.png'
     const upload = await cloud.uploadFile({
-      cloudPath: 'QRCODE' + Date.now() + '.png',
+      cloudPath: cloudPath,
       fileContent: result.buffer
     })
 

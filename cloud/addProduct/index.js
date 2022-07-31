@@ -9,8 +9,10 @@ const db = cloud.database()
 exports.main = async (event, context) => {
 
   let { product, ProductVideoImage, ProductSpecification } = event
-  product.createTime = db.serverDate()
-  product.lastModifiedTime = null
+  product.createTime = new Date()
+  product._openid =cloud.getWXContext().OPENID
+  product.lastModifiedTime = new Date()
+  product.lastModifiedOpenid =cloud.getWXContext().OPENID
   product.status = 0
 
   try {

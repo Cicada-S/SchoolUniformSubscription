@@ -4,7 +4,7 @@
     <image class="chart" mode="aspectFill" src="{{chart}}" />
   </view>
   <!-- 功能区 -->
-  <view class="jump">
+  <view class="jump" hidden="{{hiddenFunctionManage}}" >
     <text class="btn" bindtap="onJump" id="product">商品管理</text>
     <text class="btn" bindtap="onJump" id="code">二维码管理</text>
     <text class="btn" bindtap="onJump" id="school">学校管理</text>

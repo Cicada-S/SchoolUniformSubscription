@@ -25,7 +25,9 @@ exports.main = async (event, context) => {
     await db.collection('Product').doc(id).update({
       data: {
         name: product.name,
-        unitPrice: product.unitPrice 
+        unitPrice: product.unitPrice,
+        lastModifiedTime: new Date(),
+        lastModifiedOpenid: cloud.getWXContext().OPENID,
       }
     })
 
