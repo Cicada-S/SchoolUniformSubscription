@@ -77,6 +77,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/family/family",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

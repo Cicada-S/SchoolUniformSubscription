@@ -10,7 +10,8 @@
     "pages/addSchool/addSchool",
     "pages/QRCodeAdmin/QRCodeAdmin",
     "pages/selectProduct/selectProduct",
-    "pages/schoolShop/schoolShop"
+    "pages/schoolShop/schoolShop",
+    "pages/family/family"
   ],
   "window": {
     "backgroundTextStyle": "light",
