@@ -6,8 +6,9 @@ import { toDates } from '../../utils/util'
 Page({
   data: {
     bottomLift: app.globalData.bottomLift,
-    show: false,
-    popupType: true,
+    show: false, // 显示popup弹窗
+    popupType: true, // popup弹窗的类型 选购/购物车
+    schoolId: '', // 学校id
     studentInfo: {
       id: 1,
       name: 'Cicada',
@@ -15,154 +16,55 @@ Page({
       school: '清华大学幼儿园',
       path: '/static/images/schoolShop/avatar.png',
     },
-    ProductList: [
-      {
-        id: '1',
-        name: '夏季运动套装',
-        unitPrice: '68.00', 
-        choice: '',
-        operation: 1,
-        path: '/static/images/schoolShop/clothes.png',
-        specification: [
-          {
-            name: '颜色',
-            value: [
-              {
-                text: '蓝色',
-                isChoice: 0
-              },
-              {
-                text: '红色',
-                isChoice: 0
-              }
-            ],
-          },
-          {
-            name: '尺寸',
-            value: [
-              {
-                text: '120',
-                isChoice: 0
-              }, 
-              {
-                text: '130',
-                isChoice: 0
-              }
-            ],
-          }
-        ]
-      },
-      {
-        id: '2',
-        name: '冬季运动套装',
-        unitPrice: '98.88',
-        choice: '', 
-        operation: 1,
-        path: '/static/images/schoolShop/clothes.png',
-        specification: [
-          {
-            name: '颜色',
-            value: [
-              {
-                text: '蓝色',
-                isChoice: 0
-              }, 
-              {
-                text: '红色',
-                isChoice: 0
-              }
-            ],
-          },
-          {
-            name: '尺寸',
-            value: [
-              {
-                text: '120',
-                isChoice: 0
-              }, 
-              {
-                text: '130',
-                isChoice: 0
-              }
-            ],
-          }
-        ]
-      },
-      {
-        id: '3',
-        name: '春季运动套装',
-        unitPrice: '78.00',
-        choice: '',
-        operation: 1,
-        path: '/static/images/schoolShop/clothes.png',
-        specification: [
-          {
-            name: '颜色',
-            value: [
-              {
-                text: '蓝色',
-                isChoice: 0
-              }, 
-              {
-                text: '红色',
-                isChoice: 0
-              }
-            ],
-          },
-          {
-            name: '尺寸',
-            value: [
-              {
-                text: '120',
-                isChoice: 0
-              }, 
-              {
-                text: '130',
-                isChoice: 0
-              }
-            ],
-          }
-        ]
-      }
-    ],
+    ProductList: [], // 商品
     ProductInfo: {}, // 选购
     shopCart: [], // 购物车
     cartNum: 0, // 购物车商品数量
     totalPrice: 0, // 总价
-    endDate: toDates(1667008980000)
+    endDate: '' // 结束时间
   },
 
   // 页面初始化
   onLoad(option) {
-    // this.getProductList(option.id)
+    let id = '058dfefe62e354bc0fbd260a403466d4'
+    this.getProductList(id)
 
     // 获取本地存储的购物车数据
-    this.setData({
-      shopCart: wx.getStorageSync('shopCart')
-    })
+    let shopCart = []
+    if(wx.getStorageSync('shopCart')) {
+      shopCart = wx.getStorageSync('shopCart')
+    }
+    this.setData({ shopCart })
     this.countTotalPrice()
   },
 
   // 获取商品列表
   getProductList(id) {
-    console.log(id)
-    let result = wx.cloud.callFunction({
-      name: '',
-      data: {id}
+    wx.cloud.callFunction({
+      name: 'getSellQRCode',
+      data: { id }
+    }).then(res => {
+      let { sellQrCode, ProductList } = res.result.data
+      let endDate = toDates(sellQrCode.endTime)
+      this.setData({
+        schoolId: sellQrCode.schoolId,
+        endDate,
+        ProductList
+      })
     })
   },
 
   // 切换学生
   toFamily(event) {
-    console.log('toFamily', event)
+    let schoolId = event.currentTarget.id
     wx.navigateTo({
-      url: '/pages/family/family'
+      url: `/pages/family/family?schoolId=${schoolId}`
     })
   },
 
   // 选购
   choose(event) {
-    let ProductInfo = this.data.ProductList.filter(item => item.id === event.currentTarget.id)
+    let ProductInfo = this.data.ProductList.filter(item => item._id === event.currentTarget.id)
     this.setData({ 
       show: true,
       popupType: true,
@@ -213,7 +115,7 @@ Page({
       let isNewProduct = true
       if(shopCart.length) shopCart = shopCart.map(item => {
         // 如果购物车中有该商品且规格一样 则把数量加上去
-        if(item.id === id && ProductInfo.choice === item.choice) {
+        if(item._id === id && ProductInfo.choice === item.choice) {
           isNewProduct = false
           item.operation += ProductInfo.operation
         }
@@ -264,8 +166,7 @@ Page({
   // 监听Calculator组件的 减
   onReduce(event) {
     let index = parseFloat(event.detail.index)
-    console.log(index)
-    if(index !== '') {
+    if(index || index === 0) {
       let { shopCart } = this.data
       let operation = 1
       shopCart.forEach((item, idx) => {
@@ -290,8 +191,7 @@ Page({
   // 监听Calculator组件的 加
   onIncrease(event) {
     let index = parseFloat(event.detail.index)
-    console.log(index)
-    if(index !== '') {
+    if(index || index === 0) {
       let { shopCart } = this.data
       let operation = 1
       shopCart.forEach((item, idx) => {
@@ -317,6 +217,7 @@ Page({
     let id = parseFloat(event.currentTarget.id)
     let { shopCart } = this.data
 
+    // 这里使用index做判断 是因为购物车会有同id的商品
     let newShopCart = shopCart.filter((item, index) => {
       if(index !== id) return item
     })
