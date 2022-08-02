@@ -1,1 +1,49 @@
 /* pages/family/family.wxss */
+.container {
+  width: 100vw;
+  padding: 0 30rpx;
+
+  .blockBox {
+    width: 100%;
+    min-height: 100rpx;
+    border-radius: 16rpx;
+    overflow: hidden;
+    background-color: #FFFFFF;
+    box-shadow: 2rpx 4rpx 12rpx 2rpx rgba(0, 0, 0, .16);
+    padding: 20rpx 30rpx;
+    margin: 20rpx 0;
+  }
+
+  .sonItem {
+    display: flex;
+    justify-content: space-between;
+    font-size: 28rpx;
+
+    .avatar image {
+      width: 100rpx;
+      height: 100rpx;
+      border-radius: 50%;
+    }
+
+    .schoolInfo {
+      flex: 1;
+      margin: 0 20rpx;
+
+      view {
+        line-height: 50rpx;
+      }
+    }
+
+    .operation {
+      align-self: flex-end;
+      width: 120rpx;
+      height: 60rpx;
+      color: #FFFFFF;
+      letter-spacing: 8rpx;
+      line-height: 60rpx;
+      text-align: center;
+      border-radius: 10rpx;
+      background-color: #407EF5;
+    }
+  }
+}

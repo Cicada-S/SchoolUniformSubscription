@@ -1,4 +1,6 @@
 {
-  "usingComponents": {},
+  "usingComponents": {
+    "BottomBtn": "/components/BottomBtn/BottomBtn"
+  },
   "navigationBarTitleText": "我的家人"
 }
