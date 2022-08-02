@@ -1,0 +1,42 @@
+<!--pages/addStudent/addStudent.wxml-->
+<view class="container">
+  <BlockBox title="学生信息">
+    <van-field
+      value="{{ studentName }}"
+      label="学生姓名："
+      placeholder="请输入姓名"
+      input-align="right"
+      bind:change="onChangeValue"
+      id="studentName"
+    />
+    <view class="gender">
+      <text>性别：</text>
+      <van-radio-group value="{{ radio }}" bind:change="onChange">
+        <van-radio name="0">女</van-radio>
+        <van-radio name="1">男</van-radio>
+      </van-radio-group>
+    </view>
+    <van-field
+      value="{{ phone }}"
+      label="联系电话："
+      placeholder="请输入手机号"
+      border="{{ false }}"
+      input-align="right"
+      bind:change="onChangeValue"
+      id="phone"
+    />
+  </BlockBox>
+  
+  <BlockBox title="学校信息">
+    <van-cell title="选择班级" is-link bind:click="showPopup" />
+  </BlockBox>
+
+  <van-popup show="{{ show }}" position="bottom" bind:close="onClose">
+    <van-area
+      area-list="{{ areaList }}"
+      columns-placeholder="{{['请选择', '请选择', '请选择']}}"
+    />
+  </van-popup>
+
+  <BottomBtn text="添加学生" bindtap="addStudent" />
+</view>

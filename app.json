@@ -11,7 +11,8 @@
     "pages/QRCodeAdmin/QRCodeAdmin",
     "pages/selectProduct/selectProduct",
     "pages/schoolShop/schoolShop",
-    "pages/family/family"
+    "pages/family/family",
+    "pages/addStudent/addStudent"
   ],
   "window": {
     "backgroundTextStyle": "light",

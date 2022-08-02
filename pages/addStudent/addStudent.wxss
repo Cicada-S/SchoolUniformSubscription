@@ -1,0 +1,18 @@
+/* pages/addStudent/addStudent.wxss */
+.container {
+  width: 100vw;
+  padding: 20rpx 30rpx;
+}
+.container .gender {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 30rpx;
+  border-bottom: 1rpx solid #f7f7f7;
+}
+.container .gender .van-radio-group {
+  display: flex;
+}
+.container .gender .van-radio-group .van-radio {
+  margin-left: 20rpx;
+}

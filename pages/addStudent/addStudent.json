@@ -1,0 +1,13 @@
+{
+  "usingComponents": {
+    "BlockBox": "/components/BlockBox/BlockBox",
+    "BottomBtn": "/components/BottomBtn/BottomBtn",
+    "van-cell": "@vant/weapp/cell/index",
+    "van-radio": "@vant/weapp/radio/index",
+    "van-radio-group": "@vant/weapp/radio-group/index",
+    "van-field": "@vant/weapp/field/index",
+    "van-popup": "@vant/weapp/popup/index",
+    "van-picker": "@vant/weapp/picker/index"
+  },
+  "navigationBarTitleText": "添加学生"
+}
