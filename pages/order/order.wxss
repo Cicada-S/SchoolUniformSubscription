@@ -1,0 +1,33 @@
+/* pages/order/order.wxss */
+.container {
+  width: 100vw;
+  padding: 0 30rpx;
+}
+.container .blockBox {
+  width: 100%;
+  min-height: 100rpx;
+  border-radius: 16rpx;
+  overflow: hidden;
+  background-color: #FFFFFF;
+  box-shadow: 2rpx 4rpx 12rpx 2rpx rgba(0, 0, 0, 0.16);
+  padding: 20rpx 30rpx;
+  margin: 20rpx 0;
+}
+.container .studentInfo {
+  height: 196rpx;
+  display: flex;
+  font-size: 28rpx;
+  align-items: center;
+}
+.container .studentInfo image {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+}
+.container .studentInfo .info {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding: 0 20rpx;
+}

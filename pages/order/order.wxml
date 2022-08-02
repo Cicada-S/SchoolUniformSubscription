@@ -1,0 +1,13 @@
+<!--pages/order/order.wxml-->
+<view class="container">
+  <view class="blockBox studentInfo">
+    <image src="{{studentInfo.path}}" />
+    <view class="info">
+      <view>{{studentInfo.name}} {{studentInfo.Grade}}</view>
+      <view>{{studentInfo.school}}</view>
+    </view>
+  </view>
+  <BlockBox title="已选商品">
+    
+  </BlockBox>
+</view>

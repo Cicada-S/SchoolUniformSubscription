@@ -12,7 +12,8 @@
     "pages/selectProduct/selectProduct",
     "pages/schoolShop/schoolShop",
     "pages/family/family",
-    "pages/addStudent/addStudent"
+    "pages/addStudent/addStudent",
+    "pages/order/order"
   ],
   "window": {
     "backgroundTextStyle": "light",
