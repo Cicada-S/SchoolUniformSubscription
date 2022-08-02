@@ -38,5 +38,5 @@
     />
   </van-popup>
 
-  <BottomBtn text="添加学生" bindtap="addStudent" />
+  <BottomBtn text="{{schoolId?'编辑':'添加'}}学生" bindtap="addStudent" />
 </view>

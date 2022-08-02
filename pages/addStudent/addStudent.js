@@ -19,6 +19,7 @@ const areaList = {
 
 Page({
   data: {
+    schoolId: '', // 学校id
     studentName: '', // 学生姓名
     radio: '', // 性别
     phone: '', // 手机号
@@ -27,8 +28,14 @@ Page({
   },
 
   // 页面初始化
-  onload(options) {
-    console.log('页面初始化', options)
+  onLoad(options) {
+    let id = options.id
+    this.setData({ schoolId: id })
+    if(id) {
+      wx.setNavigationBarTitle({
+        title: '编辑学生'
+      })
+    }
 
     // this.getSchool()
   },
@@ -56,7 +63,7 @@ Page({
 
   // 添加/编辑 学生
   addStudent() {
-    console.log('添加学生')
+    console.log('添加/编辑学生')
   },
 
   // 打开弹出层

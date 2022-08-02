@@ -50,7 +50,7 @@ Page({
   toEditStudentInfo(event) {
     let id = event.currentTarget.id
     wx.navigateTo({
-      url: `/pages/editStudentInfo/editStudentInfo?id=${id}`
+      url: `/pages/addStudent/addStudent?id=${id}`
     })
   }
 })
