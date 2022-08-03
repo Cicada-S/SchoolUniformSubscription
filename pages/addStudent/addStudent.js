@@ -2,29 +2,18 @@
 const db = wx.cloud.database()
 const school = db.collection('School')
 
-const areaList = {
-  province_list: {
-    110000: '北京市',
-    120000: '天津市',
-  },
-  city_list: {
-    110100: '北京市',
-    120100: '天津市',
-  },
-  county_list: {
-    110101: '东城区',
-    110102: '西城区',
-  },
-}
-
 Page({
   data: {
     schoolId: '', // 学校id
+    schoolName: '清华大学幼儿园', // 学校名
     studentName: '', // 学生姓名
     radio: '', // 性别
     phone: '', // 手机号
-    show: false, // 选择班级
-    areaList: {}
+    multiIndex: [],
+    multiArray: [
+      ['一年级', '二年级'], 
+      ['1班', '2班', '3班', '4班', '5班']
+    ],
   },
 
   // 页面初始化
@@ -66,13 +55,34 @@ Page({
     console.log('添加/编辑学生')
   },
 
-  // 打开弹出层
-  showPopup() {
-    this.setData({ show: true });
+  // value 改变时触发
+  bindMultiPickerChange(event) {
+    console.log('picker发送选择改变，携带值为', event.detail.value)
+    this.setData({
+      multiIndex: event.detail.value
+    })
   },
 
-  // 关闭弹出层
-  onClose() {
-    this.setData({ show: false });
+  // 列改变时触发
+  bindMultiPickerColumnChange(event) {
+    console.log('修改的列为', event.detail.column, '，值为', event.detail.value);
+    const data = {
+      multiArray: this.data.multiArray,
+      multiIndex: this.data.multiIndex
+    };
+    data.multiIndex[event.detail.column] = event.detail.value;
+    if(event.detail.column === 0) {
+      switch (data.multiIndex[0]) {
+        case 0:
+          data.multiArray[1] = ['1班', '2班', '3班', '4班', '5班'];
+          break;
+        case 1:
+          data.multiArray[1] = ['1班', '2班', '3班', '4班', '5班'];
+          break;
+      }
+      data.multiIndex[1] = 0;
+    }
+    console.log(data.multiIndex);
+    this.setData(data);
   }
 })

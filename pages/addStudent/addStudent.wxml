@@ -28,15 +28,27 @@
   </BlockBox>
   
   <BlockBox title="学校信息">
-    <van-cell title="选择班级" is-link bind:click="showPopup" />
+    <van-field
+      label="学校"
+      value="{{ schoolName }}"
+      border="{{ false }}"
+      readonly
+      input-align="right"
+    />
+    <!-- 选择班级 -->
+    <picker 
+      mode="multiSelector" 
+      bindchange="bindMultiPickerChange" 
+      bindcolumnchange="bindMultiPickerColumnChange" 
+      value="{{multiIndex}}" 
+      range="{{multiArray}}"
+    >
+      <view class="picker">
+        <van-cell title="选择班级" is-link value="{{multiArray[0][multiIndex[0]]}} {{multiArray[1][multiIndex[1]]}}" />
+      </view>
+    </picker>
   </BlockBox>
 
-  <van-popup show="{{ show }}" position="bottom" bind:close="onClose">
-    <van-area
-      area-list="{{ areaList }}"
-      columns-placeholder="{{['请选择', '请选择', '请选择']}}"
-    />
-  </van-popup>
 
   <BottomBtn text="{{schoolId?'编辑':'添加'}}学生" bindtap="addStudent" />
 </view>
