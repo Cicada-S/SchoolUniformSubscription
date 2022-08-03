@@ -56,7 +56,9 @@ Page({
 
   // 切换学生
   toFamily(event) {
-    let schoolId = event.currentTarget.id
+    // let schoolId = event.currentTarget.id
+    let schoolId = '8f75309d62ea237d102837180c8273de'
+
     wx.navigateTo({
       url: `/pages/family/family?schoolId=${schoolId}`
     })

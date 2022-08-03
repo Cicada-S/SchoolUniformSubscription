@@ -7,6 +7,7 @@ const student = db.collection('Student')
 Page({
   data: {
     bottomLift: app.globalData.bottomLift, 
+    schoolId: '',
     family: [
       {
         id: 1,
@@ -29,11 +30,14 @@ Page({
         }
       }
     ]
-  },
+  },  
 
   // 页面初始化
   onLoad(options) {
     console.log('页面初始化', options)
+    this.setData({
+      schoolId: options.schoolId
+    })
     let id = '16db756f62ce61f80ac247284ecff688'
 
     // this.getStudent(id)
@@ -48,9 +52,10 @@ Page({
 
   // 编辑
   toEditStudentInfo(event) {
-    let id = event.currentTarget.id
+    let { id, schoolid } = event.currentTarget.dataset
+    console.log(id, schoolid)
     wx.navigateTo({
-      url: `/pages/addStudent/addStudent?id=${id}`
+      url: `/pages/addStudent/addStudent?schoolId=${schoolid}&id=${id}`
     })
   }
 })

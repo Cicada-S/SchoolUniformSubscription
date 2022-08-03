@@ -9,11 +9,11 @@
         <view>{{item.name}} {{item.schoolInfo.grade}} {{item.schoolInfo.class}}</view>
         <view>{{item.schoolInfo.school}}</view>
       </view>
-      <view class="operation" bindtap="toEditStudentInfo" id="{{item.id}}">
+      <view class="operation" bindtap="toEditStudentInfo" data-id="{{item.id}}">
         <text>编辑</text>
       </view>
     </view>
   </view>
 
-  <BottomBtn text="添加学生" bindtap="toEditStudentInfo" />
+  <BottomBtn text="添加学生" bindtap="toEditStudentInfo" data-schoolId="{{schoolId}}" />
 </view>
