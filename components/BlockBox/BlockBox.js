@@ -8,6 +8,10 @@ Component({
       type: String,
       value: '标题',
     },
+    distance: {
+      type: Number,
+      value: 0
+    }
   },
 
   /**

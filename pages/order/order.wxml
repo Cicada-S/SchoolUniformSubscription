@@ -7,7 +7,51 @@
       <view>{{studentInfo.school}}</view>
     </view>
   </view>
-  <BlockBox title="已选商品">
-    
+  <BlockBox title="已选商品" distance="30">
+    <view class="productList">
+      <view class="productItem" wx:for="{{productList}}" wx:key="id">
+        <image src="{{item.path}}" />
+        <view class="info">
+          <view class="item title">
+            <view>{{item.name}}</view>
+            <view class="right">¥ {{item.price}}</view>
+          </view>
+          <view class="item parameter">
+            <view>{{item.parameter}}</view>
+            <view class="right">x{{item.num}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="cell">
+      <van-field
+        label="配送方式："
+        value="统一发放到学校"
+        placeholder="请输入用户名"
+        border="{{ false }}"
+        readonly
+        input-align="right"
+      />
+    </view>
+    <view class="cell">
+      <van-field
+        label="备注："
+        value="{{ remarksVlaue }}"
+        placeholder="选填 备注建议提前商议"
+        border="{{ false }}"
+        input-align="right"
+        bind:change="onChange"
+      />
+    </view>
   </BlockBox>
+
+  <view class="productAction" style="margin-bottom:{{bottomLift}}px">
+    <view class="productActionInfo">
+      <view class="quantity">共2件</view>
+      <view class="totalPrice">合计 <text>¥ 198.00</text></view>
+    </view>
+    <view class="productActionButton" bindtap="settlement">
+      <text>立即结算</text>
+    </view>
+  </view>
 </view>

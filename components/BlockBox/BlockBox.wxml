@@ -1,5 +1,5 @@
 <!--components/BlockBox/BlockBox.wxml-->
-<view class="blockBox">
+<view class="blockBox" style="margin: 0 {{distance}}rpx; width:{{distance?'92':'100'}}%">
   <view class="blockBoxTitle">
     <text class="title">{{title}}</text>
   </view>
