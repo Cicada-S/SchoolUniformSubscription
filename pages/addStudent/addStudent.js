@@ -1,7 +1,5 @@
 // pages/addStudent/addStudent.js
 const db = wx.cloud.database()
-/* const school = db.collection('School')
-const grade = db.collection('Grade') */
 
 Page({
   data: {
@@ -11,11 +9,9 @@ Page({
     studentName: '', // 学生姓名
     radio: '', // 性别
     phone: '', // 手机号
-    multiIndex: [],
-    multiArray: [
-      ['一年级', '二年级'], 
-      ['1班', '2班', '3班', '4班', '5班'] // 一年级对应的班级
-    ],
+    multiIndex: [0, 0],
+    multiArray: [], 
+    classArray: [] // 班级
   },
 
   // 页面初始化
@@ -38,19 +34,20 @@ Page({
 
   // 获取学校列表
   getSchool(schoolId) {
-    /* school.doc(schoolId).get().then(res => {
-      console.log('学校', res)
-    })
-
-    grade.where({ schoolId }).get().then(res => {
-      console.log('年级', res)
-    }) */
-
     wx.cloud.callFunction({
       name: 'getGrade',
       data: { schoolId }
     }).then(res => {
-      console.log('获取学校年级', res)
+      let { school, grade } = res.result.data
+
+      let multiArray = grade.slice(0, 2)
+      let classArray = grade.slice(1, grade.length)
+      
+      this.setData({
+        schoolName: school.name,
+        multiArray,
+        classArray
+      })
     })
   },
 
@@ -73,34 +70,33 @@ Page({
     console.log('添加/编辑学生')
   },
 
-  // value 改变时触发
+  // 点击确认时触发
   bindMultiPickerChange(event) {
-    console.log('picker发送选择改变，携带值为', event.detail.value)
+    /* let { multiArray, multiIndex } = this.data
+    let gradeVal = multiArray[0][multiIndex[event.detail.value[0]]]
+    let classVal = multiArray[1][multiIndex[event.detail.value[1]]] */
     this.setData({
-      multiIndex: event.detail.value
+      multiIndex: event.detail.value,
+      // gradeValue: `${gradeVal} ${classVal}`
     })
   },
 
   // 列改变时触发
   bindMultiPickerColumnChange(event) {
-    console.log('修改的列为', event.detail.column, '，值为', event.detail.value)
     const data = {
       multiArray: this.data.multiArray,
       multiIndex: this.data.multiIndex
     }
     data.multiIndex[event.detail.column] = event.detail.value
-    if(event.detail.column === 0) {
-      switch (data.multiIndex[0]) {
-        case 0:
-          data.multiArray[1] = ['1班', '2班', '3班', '4班', '5班']
-          break
-        case 1:
-          data.multiArray[1] = ['1班', '2班', '3班', '4班', '5班']
-          break
+
+    this.data.classArray.forEach((item, index) => {
+      if(event.detail.column === 0) {
+        if(data.multiIndex[0] === index) {
+          data.multiArray[1] = item
+        }
+        data.multiIndex[1] = 0
       }
-      data.multiIndex[1] = 0
-    }
-    console.log(data.multiIndex)
-    this.setData(data);
+      this.setData(data);
+    })
   }
 })

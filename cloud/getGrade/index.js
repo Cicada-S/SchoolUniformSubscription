@@ -7,7 +7,6 @@ const db = cloud.database()
 
 // 云函数入口函数
 exports.main = async (event, context) => {
-  console.log(event)
   let data = {}
   try {
     // 获取学校
@@ -22,22 +21,27 @@ exports.main = async (event, context) => {
       })
     })
 
-    console.log(data)
-
+    // 将grade处理成前端需要的数据
     let grade = [[]]
-
     data.grade.forEach((item, index) => {
-      console.log(item)
       grade[0].push(item.name)
-      
       grade[index + 1] = item.className
     })
-
-    console.log(grade)
-
-    
+    data.grade = grade
+  
+    // 成功返回
+    return {
+      code: 0,
+      data,
+      success: true
+    }
   }
   catch(err) {
-    console.log(err)
+    console.error('transaction error')
+    // 失败返回
+    return {
+      code: 1,
+      success: false
+    }
   }
 }
