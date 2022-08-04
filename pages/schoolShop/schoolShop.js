@@ -9,13 +9,9 @@ Page({
     show: false, // 显示popup弹窗
     popupType: true, // popup弹窗的类型 选购/购物车
     schoolId: '', // 学校id
-    studentInfo: {
-      id: 1,
-      name: 'Cicada',
-      Grade: '一年级 1班',
-      school: '清华大学幼儿园',
-      path: '/static/images/schoolShop/avatar.png',
-    },
+    schoolName: '', // 学校名
+    schoolLogo: '', // 学校logo
+    studentInfo: {},
     ProductList: [], // 商品
     ProductInfo: {}, // 选购
     shopCart: [], // 购物车
@@ -25,7 +21,8 @@ Page({
   },
 
   // 页面初始化
-  onLoad(option) {
+  onLoad(options) {
+    console.log(options)
     let id = '058dfefe62e354bc0fbd260a403466d4'
     this.getProductList(id)
 
@@ -48,6 +45,7 @@ Page({
       let endDate = toDates(sellQrCode.endTime)
       this.setData({
         schoolId: sellQrCode.schoolId,
+        schoolName: sellQrCode.schoolName,
         endDate,
         ProductList
       })

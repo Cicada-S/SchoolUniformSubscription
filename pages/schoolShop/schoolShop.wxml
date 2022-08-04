@@ -2,10 +2,10 @@
 <view class="container">
   <view class="student">
     <view class="studentInfo">
-      <image src="{{studentInfo.path}}" />
+       <image src="/static/images/schoolShop/{{studentInfo.gender==1?'nan':'nv'}}.png" />
       <view class="info">
-        <view>{{studentInfo.name}} {{studentInfo.Grade}}</view>
-        <view>{{studentInfo.school}}</view>
+        <view>{{studentInfo.name}} {{studentInfo.gradeName}} {{studentInfo.classNmae}}</view>
+        <view>{{schoolName}}</view>
       </view>
     </view>
     <view class="switch" bindtap="toFamily" id="{{schoolId}}">
