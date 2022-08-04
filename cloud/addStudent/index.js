@@ -11,7 +11,10 @@ exports.main = async (event, context) => {
   console.log(event)
   try {
     db.collection('Student').add({
-      data: event
+      data: {
+        ...event,
+        _openid: cloud.getWXContext().OPENID,
+      }
     }).then(res => {
       console.log(res)
     })
