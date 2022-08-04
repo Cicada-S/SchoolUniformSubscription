@@ -3,11 +3,11 @@
   <view class="sonList" style="padding-bottom={{bottomLift*2+85}}rpx">
     <view class="blockBox sonItem" wx:for="{{family}}" wx:key="id">
       <view class="avatar">
-        <image src="{{item.path}}" />
+        <image src="/static/images/family/{{item.gender==1?'nan':'nv'}}.png" />
       </view>
-      <view class="schoolInfo">
-        <view>{{item.name}} {{item.schoolInfo.grade}} {{item.schoolInfo.class}}</view>
-        <view>{{item.schoolInfo.school}}</view>
+      <view class="schoolInfo" bindtap="onSelect" data-item="{{item}}">
+        <view>{{item.name}} {{item.gradeName}} {{item.classNmae}}</view>
+        <view>{{schoolName}}</view>
       </view>
       <view class="operation" bindtap="toEditStudentInfo" data-id="{{item.id}}">
         <text>编辑</text>

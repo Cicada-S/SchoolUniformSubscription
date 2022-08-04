@@ -8,45 +8,40 @@ Page({
   data: {
     bottomLift: app.globalData.bottomLift, 
     schoolId: '',
-    family: [
-      {
-        id: 1,
-        name: 'Cicada',
-        path: '/static/images/family/1.jpg',
-        schoolInfo: {
-          school: '清华大学幼儿园',
-          grade: '一年级',
-          class: '1班'
-        }
-      },
-      {
-        id: 2,
-        name: 'Ting',
-        path: '/static/images/family/2.jpg',
-        schoolInfo: {
-          school: '清华大学幼儿园',
-          grade: '一年级',
-          class: '1班'
-        }
-      }
-    ]
+    schoolName: '清华大学幼儿园',
+    family: []
   },  
 
   // 页面初始化
   onLoad(options) {
-    console.log('页面初始化', options)
     this.setData({
       schoolId: options.schoolId
     })
-    let id = '16db756f62ce61f80ac247284ecff688'
-
-    // this.getStudent(id)
+    this.getStudent(options.schoolId)
   },
 
+  // 获取家人列表
   getStudent(id) {
-    student.where({  }).get()
-    then(res => {
-      console.log(res)
+    let { _openid } = wx.getStorageSync('currentUser')
+    student.where({ schoolId: id, _openid }).get()
+    .then(res => {
+      this.setData({
+        family: res.data
+      })
+    })
+  },
+
+  // 选中孩子 
+  onSelect(event) {
+    let item = event.currentTarget.dataset.item
+
+    let pages = getCurrentPages()
+    let prevPage = pages[pages.length - 2]
+    prevPage.setData({
+      studentInfo: item
+    })
+    wx.navigateBack({
+      delta: 1
     })
   },
 
