@@ -16,7 +16,6 @@ Page({
 
   // 页面初始化
   onLoad(options) {
-    console.log(options)
     let { id, schoolId } = options
     this.setData({ 
       id,
@@ -67,17 +66,43 @@ Page({
 
   // 添加/编辑 学生
   addStudent() {
-    console.log('添加/编辑学生')
+    wx.showLoading({
+      title: '添加中...',
+    })
+    let { studentName, radio, phone, schoolId, multiArray, multiIndex } = this.data
+    let gradeName = multiArray[0][multiIndex[0]]
+    let classNmae = multiArray[1][multiIndex[1]]
+
+    let data = {
+      name: studentName,
+      gender: radio,
+      phoneNumber: phone,
+      schoolId: schoolId,
+      gradeName,
+      classNmae
+    }
+
+    wx.cloud.callFunction({
+      name: 'addStudent',
+      data
+    }).then(res => {
+      wx.hideLoading()
+      wx.navigateBack({
+        delta: 1
+      })
+    }).catch(err => {
+      wx.showToast({
+        title: '添加失败',
+        icon: 'error',
+        duration: 2000
+      })
+    })
   },
 
   // 点击确认时触发
   bindMultiPickerChange(event) {
-    /* let { multiArray, multiIndex } = this.data
-    let gradeVal = multiArray[0][multiIndex[event.detail.value[0]]]
-    let classVal = multiArray[1][multiIndex[event.detail.value[1]]] */
     this.setData({
       multiIndex: event.detail.value,
-      // gradeValue: `${gradeVal} ${classVal}`
     })
   },
 
