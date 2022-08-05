@@ -7,7 +7,7 @@ const db = cloud.database()
 
 // 云函数入口函数
 exports.main = async (event, context) => {
-  let { title, beginTime, endTime, schoolId, schoolName, createTime, selectProductId } = event
+  let { title, beginTime, endTime, schoolId, schoolName, selectProductId } = event
   try {
     // 小程序码表
     let SellQrCode = await db.collection('SellQrCode').add({
