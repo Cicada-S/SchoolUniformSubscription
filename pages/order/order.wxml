@@ -1,10 +1,10 @@
 <!--pages/order/order.wxml-->
 <view class="container">
   <view class="blockBox studentInfo">
-    <image src="{{studentInfo.path}}" />
+    <image src="/static/images/order/{{studentInfo.gender==1?'nan':'nv'}}.png" />
     <view class="info">
-      <view>{{studentInfo.name}} {{studentInfo.Grade}}</view>
-      <view>{{studentInfo.school}}</view>
+      <view>{{studentInfo.name}} {{studentInfo.gradeName}} {{studentInfo.classNmae}}</view>
+      <view>{{schoolName}}</view>
     </view>
   </view>
   <BlockBox title="已选商品" distance="30">
@@ -14,11 +14,11 @@
         <view class="info">
           <view class="item title">
             <view>{{item.name}}</view>
-            <view class="right">¥ {{item.price}}</view>
+            <view class="right">¥ {{item.unitPrice}}</view>
           </view>
           <view class="item parameter">
-            <view>{{item.parameter}}</view>
-            <view class="right">x{{item.num}}</view>
+            <view>{{item.choice}}</view>
+            <view class="right">x{{item.operation}}</view>
           </view>
         </view>
       </view>
@@ -47,8 +47,8 @@
 
   <view class="productAction" style="margin-bottom:{{bottomLift}}px">
     <view class="productActionInfo">
-      <view class="quantity">共2件</view>
-      <view class="totalPrice">合计 <text>¥ 198.00</text></view>
+      <view class="quantity">共{{orderNum}}件</view>
+      <view class="totalPrice">合计 <text>¥ {{totalPrice}}</text></view>
     </view>
     <view class="productActionButton" bindtap="settlement">
       <text>立即结算</text>

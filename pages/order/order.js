@@ -4,37 +4,47 @@ const app = getApp()
 Page({
   data: {
     bottomLift: app.globalData.bottomLift,
-    studentInfo: {
-      id: 1,
-      name: 'Cicada',
-      Grade: '一年级 1班',
-      school: '清华大学幼儿园',
-      path: '/static/images/schoolShop/avatar.png',
-    },
-    productList: [
-      {
-        id: 1,
-        name: '夏季运动套装',
-        price: 198.00,
-        parameter: '规格：夏季运动套装, 女款, 160',
-        num: 1,
-        path: '/static/images/order/clothes.png'
-      },
-      {
-        id: 2,
-        name: '夏季运动套装',
-        price: 198.00,
-        parameter: '规格：夏季运动套装, 女款, 160',
-        num: 1,
-        path: '/static/images/order/clothes.png'
-      }
-    ],
-    remarksVlaue: '' // 备注内容
+    schoolNmae: '',
+    studentInfo: {},
+    productList: [],
+    remarksVlaue: '', // 备注内容
+    orderNum: 0,
+    totalPrice: 0,
+  },
+
+  // 页面初次渲染
+  onLoad(options) {
+    let { student, school } = options
+    let shopCart = wx.getStorageSync('shopCart')
+
+    this.setData({
+      schoolName: school,
+      studentInfo: JSON.parse(student),
+      productList: shopCart
+    })
+
+    this.countTotalPrice()
   },
 
   // 监听备注输入框的值
   onChange(event) {
     this.setData({ remarksVlaue: event.detail })
+  },
+
+  // 计算总价和数量
+  countTotalPrice() {
+    let { productList } = this.data
+    let orderNum = 0
+    let totalPrice = 0
+    if(productList.length) productList.forEach(item => {
+      orderNum += item.operation
+      totalPrice = (parseFloat(totalPrice) + parseFloat(item.unitPrice*item.operation)).toFixed(2)
+    })
+
+    this.setData({
+      orderNum,
+      totalPrice
+    })
   },
 
   // 结算

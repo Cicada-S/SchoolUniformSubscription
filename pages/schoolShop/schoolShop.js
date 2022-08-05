@@ -256,7 +256,7 @@ Page({
       return
     } else {
       wx.navigateTo({
-        url: `/pages/order/order?student=${studentInfo}&school=${schoolName}`
+        url: `/pages/order/order?student=${JSON.stringify(studentInfo)}&school=${schoolName}`
       })
     }
   }
