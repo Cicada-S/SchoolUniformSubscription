@@ -50,10 +50,10 @@ Page({
   // 编辑
   toEditStudentInfo(event) {
     let { schoolId, schoolName } = this.data
-    let studentId = event.currentTarget.id
+    let studentInfo = event.currentTarget.dataset.studentinfo
 
     wx.navigateTo({
-      url: `/pages/addStudent/addStudent?schoolId=${schoolId}&schoolName=${schoolName}&studentId=${studentId}`
+      url: `/pages/addStudent/addStudent?schoolId=${schoolId}&schoolName=${schoolName}&studentInfo=${JSON.stringify(studentInfo)}`
     })
   }
 })

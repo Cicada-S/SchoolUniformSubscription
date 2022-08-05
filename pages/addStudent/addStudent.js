@@ -11,20 +11,26 @@ Page({
     phone: '', // 手机号
     multiIndex: [0, 0],
     multiArray: [], 
-    classArray: [] // 班级
+    classArray: [], // 班级
+    studentInfo: {} // 编辑时显示
   },
 
   // 页面初始化
   onLoad(options) {
-    console.log(options)
-    let { studentId, schoolId, schoolName } = options
-    this.setData({ 
-      studentId,
-      schoolId ,
+    let { studentInfo, schoolId, schoolName } = options
+    this.setData({
+      schoolId,
       schoolName
     })
 
-    if(studentId) {
+    // 编辑学生时 数据回填
+    if(studentInfo !== 'undefined') {
+      studentInfo = JSON.parse(studentInfo)
+      this.setData({
+        studentName: studentInfo.name,
+        radio: studentInfo.gender,
+        phone: studentInfo.phoneNumber
+      })
       wx.setNavigationBarTitle({
         title: '编辑学生'
       })
