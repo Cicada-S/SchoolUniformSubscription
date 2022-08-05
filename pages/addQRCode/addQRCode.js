@@ -239,7 +239,6 @@ Page({
         endTime: time.endTime,
         schoolId: school.id,
         schoolName: school.name,
-        createTime: new Date(),
         selectProductId: selectProductId
       }
     }).then(res => {
