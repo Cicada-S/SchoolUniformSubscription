@@ -54,5 +54,5 @@
   </BlockBox>
 
 
-  <BottomBtn text="{{schoolId?'编辑':'添加'}}学生" bindtap="addStudent" />
+  <BottomBtn text="{{studentId?'编辑':'添加'}}学生" bindtap="addStudent" />
 </view>

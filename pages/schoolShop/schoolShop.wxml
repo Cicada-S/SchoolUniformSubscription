@@ -8,7 +8,7 @@
         <view>{{schoolName}}</view>
       </view>
     </view>
-    <view class="switch" bindtap="toFamily" id="{{schoolId}}">
+    <view class="switch" bindtap="toFamily">
       <text class="iconfont icon-yqfqiehuan"></text>
     </view>
   </view>

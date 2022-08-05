@@ -7,17 +7,19 @@ const student = db.collection('Student')
 Page({
   data: {
     bottomLift: app.globalData.bottomLift, 
-    schoolId: '',
-    schoolName: '清华大学幼儿园',
-    family: []
-  },  
+    schoolId: '', // 学校id
+    schoolName: '', // 学校名
+    family: [], // 学生
+  },
 
   // 页面初始化
   onLoad(options) {
+    let { schoolId, schoolName } = options
     this.setData({
-      schoolId: options.schoolId
+      schoolId,
+      schoolName
     })
-    this.getStudent(options.schoolId)
+    this.getStudent(schoolId)
   },
 
   // 获取家人列表
@@ -47,10 +49,11 @@ Page({
 
   // 编辑
   toEditStudentInfo(event) {
-    let { id, schoolid } = event.currentTarget.dataset
-    console.log(id, schoolid)
+    let { schoolId, schoolName } = this.data
+    let studentId = event.currentTarget.id
+
     wx.navigateTo({
-      url: `/pages/addStudent/addStudent?schoolId=${schoolid}&id=${id}`
+      url: `/pages/addStudent/addStudent?schoolId=${schoolId}&schoolName=${schoolName}&studentId=${studentId}`
     })
   }
 })

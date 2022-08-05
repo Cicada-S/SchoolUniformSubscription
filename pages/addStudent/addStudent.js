@@ -3,9 +3,9 @@ const db = wx.cloud.database()
 
 Page({
   data: {
-    id: '', // 学生id
+    studentId: '', // 学生id
     schoolId: '', // 学校id
-    schoolName: '清华大学幼儿园', // 学校名
+    schoolName: '', // 学校名
     studentName: '', // 学生姓名
     radio: '', // 性别
     phone: '', // 手机号
@@ -16,13 +16,15 @@ Page({
 
   // 页面初始化
   onLoad(options) {
-    let { id, schoolId } = options
+    console.log(options)
+    let { studentId, schoolId, schoolName } = options
     this.setData({ 
-      id,
-      schoolId 
+      studentId,
+      schoolId ,
+      schoolName
     })
 
-    if(id) {
+    if(studentId) {
       wx.setNavigationBarTitle({
         title: '编辑学生'
       })
