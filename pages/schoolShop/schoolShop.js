@@ -10,8 +10,7 @@ Page({
     popupType: true, // popup弹窗的类型 选购/购物车
     schoolId: '', // 学校id
     schoolName: '', // 学校名
-    schoolLogo: '', // 学校logo
-    studentInfo: {},
+    studentInfo: {}, // 学生信息
     ProductList: [], // 商品
     ProductInfo: {}, // 选购
     shopCart: [], // 购物车
@@ -22,8 +21,9 @@ Page({
 
   // 页面初始化
   onLoad(options) {
-    console.log(options)
-    let id = '058dfefe62e354bc0fbd260a403466d4'
+    console.log('页面初始化', options)
+
+    let id = options.id
     this.getProductList(id)
 
     // 获取本地存储的购物车数据
@@ -238,8 +238,26 @@ Page({
 
   // 立即结算的回调函数
   toOrder() {
-    wx.navigateTo({
-      url: '/pages/order/order'
-    })
+    let { studentInfo, shopCart, schoolName } = this.data
+
+    if(Object.keys(studentInfo).length===0) {
+      wx.showToast({
+        title: '请选择您的孩子!',
+        icon: 'none',
+        duration: 2000
+      })
+      return
+    } else if(!shopCart.length) {
+      wx.showToast({
+        title: '购物车不能为空!',
+        icon: 'none',
+        duration: 2000
+      })
+      return
+    } else {
+      wx.navigateTo({
+        url: `/pages/order/order?student=${studentInfo}&school=${schoolName}`
+      })
+    }
   }
 })
