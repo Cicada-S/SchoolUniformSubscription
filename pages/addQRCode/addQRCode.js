@@ -225,7 +225,11 @@ Page({
 
   // 生成二维码
   async addQRCode() {
-    console.log('生成二维码')
+
+    //内容检验
+    if(!this.check()){
+      return;
+    }
     
     wx.showLoading({
       title: '上传中...'
@@ -254,7 +258,55 @@ Page({
       wx.hideLoading()
     })
   },
+  check() {
+    if(!this.data.titleValue){
+      wx.showToast({
+        title: `标题不能为空`,
+        icon: 'none',
+        duration: 1000
+      })
+      return false;
+    }
+    if(!this.data.school.id){
+      wx.showToast({
+        title: `请选择学校`,
+        icon: 'none',
+        duration: 1000
+      })
+      return false;
+    }
 
+    if(!this.data.date.startTime){
+      wx.showToast({
+        title: `请选择开始时间`,
+        icon: 'none',
+        duration: 1000
+      })
+      return false;
+    }
+
+    if(!this.data.date.endTime){
+      wx.showToast({
+        title: `请选择结束时间`,
+        icon: 'none',
+        duration: 1000
+      })
+      return false;
+    }
+
+    
+    if(this.data.goodsDataList.length == 0){
+      wx.showToast({
+        title: `请选择商品`,
+        icon: 'none',
+        duration: 1000
+      })
+      return false;
+    }
+
+    return true;
+
+  },
   onUnload() {
     selectProductId = []
   }
