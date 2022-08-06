@@ -11,6 +11,8 @@ Page({
     popupType: true, // popup弹窗的类型 选购/购物车
     schoolId: '', // 学校id
     schoolName: '', // 学校名
+    sellQrCodeId: '', // 二维码id
+    sellQrCodeTitle: '', // 二维码标题
     studentInfo: {}, // 学生信息
     ProductList: [], // 商品
     ProductInfo: {}, // 选购
@@ -25,6 +27,7 @@ Page({
     console.log('页面初始化', options)
 
     let id = options.id
+    this.setData({ sellQrCodeId: id })
     this.getUserInfo(id)
     this.getProductList(id)
 
@@ -58,7 +61,6 @@ Page({
 
   // 页面显示
   onShow() {
-    console.log('onShow')
     let studentInfo = wx.getStorageSync('studentInfo')
     this.setData({
       studentInfo: studentInfo
@@ -76,6 +78,7 @@ Page({
       this.setData({
         schoolId: sellQrCode.schoolId,
         schoolName: sellQrCode.schoolName,
+        sellQrCodeTitle: sellQrCode.title,
         endDate,
         ProductList
       })
@@ -93,7 +96,7 @@ Page({
   // 选购
   choose(event) {
     let ProductInfo = this.data.ProductList.filter(item => item._id === event.currentTarget.id)
-    this.setData({ 
+    this.setData({
       show: true,
       popupType: true,
       ProductInfo: ProductInfo[0]
@@ -149,7 +152,7 @@ Page({
         }
         return item
       })
-      
+
       let newProductInfo = {...ProductInfo}
       if(isNewProduct) shopCart.unshift(newProductInfo)
 
@@ -167,7 +170,7 @@ Page({
       })
     }
   },
-  
+
   // 计算总价、购物车商品的数量
   countTotalPrice() {
     let { shopCart } = this.data
@@ -266,7 +269,7 @@ Page({
 
   // 立即结算的回调函数
   toOrder() {
-    let { studentInfo, shopCart, schoolName } = this.data
+    let { studentInfo, shopCart, schoolName, schoolId, sellQrCodeId, sellQrCodeTitle } = this.data
 
     if(Object.keys(studentInfo).length===0) {
       wx.showToast({
@@ -284,7 +287,7 @@ Page({
       return
     } else {
       wx.navigateTo({
-        url: `/pages/order/order?school=${schoolName}`
+        url: `/pages/order/order?schoolName=${schoolName}&schoolId=${schoolId}&QrCodeId=${sellQrCodeId}&QrCodeTitle=${sellQrCodeTitle}`
       })
     }
   },
