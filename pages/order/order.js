@@ -4,24 +4,31 @@ const app = getApp()
 Page({
   data: {
     bottomLift: app.globalData.bottomLift,
-    schoolNmae: '',
-    studentInfo: {},
-    productList: [],
+    schoolId: '', // 学校id
+    schoolName: '', // 学校名
+    studentInfo: {}, // 学生信息
+    productList: [], // 商品
     remarksVlaue: '', // 备注内容
-    orderNum: 0,
-    totalPrice: 0,
+    orderNum: 0, // 商品数量
+    totalPrice: 0, // 总价
+    sellQrCodeId: '', // 二维码id
+    sellQrCodeTitle: '' // 二维码标题
   },
 
   // 页面初次渲染
   onLoad(options) {
-    let {school } = options
+    let { schoolName, schoolId, sellQrCodeId, QrCodeTitle } = options
+
     let shopCart = wx.getStorageSync('shopCart')
     let studentInfo = wx.getStorageSync('studentInfo')
 
     this.setData({
-      schoolName: school,
+      schoolName: schoolName,
+      schoolId: schoolId,
       studentInfo,
-      productList: shopCart
+      productList: shopCart,
+      sellQrCodeId,
+      QrCodeTitle
     })
 
     this.countTotalPrice()
@@ -50,6 +57,27 @@ Page({
 
   // 结算
   settlement() {
-    console.log('结算')
+    console.log('settlement')
+
+    let { sellQrCodeId, sellQrCodeTitle, schoolId, schoolName, studentInfo, totalPrice  } = this.data
+
+    let data = {
+      sellQrCodeId,
+      sellQrCodeTitle,
+      schoolId,
+      schoolName,
+      studentName: studentInfo.name,
+      studentGender: studentInfo.gender,
+      studentGradeName: studentInfo.gradeName,
+      studentClassName: studentInfo.className,
+      totalPrice
+    }
+
+    wx.cloud.callFunction({
+      name: 'addOrder',
+      data
+    }).then(res => {
+      console.log(res)
+    })
   }
 })
