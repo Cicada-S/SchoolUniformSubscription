@@ -38,7 +38,8 @@ Page({
     goodsDataList: [],
     bottomLift: app.globalData.bottomLift,
     type: true, // 当前状态  true新增  false 删除
-    id:''
+    id:'',
+    qrCodePath:''
   },
 
   // 页面初始化
@@ -77,8 +78,9 @@ Page({
       name: 'getQRCodeInfo',
       data: {id}
     }).then(res => {
-      let { title, schoolName, schoolId, beginTime, endTime } = res.result.data.sellQrCode
+      let { title, schoolName, schoolId, beginTime, endTime, qrCodePath} = res.result.data.sellQrCode
       this.setData({
+        qrCodePath: qrCodePath,
         titleValue: title,
         ['school.name']: schoolName,
         ['school.id']: schoolId,

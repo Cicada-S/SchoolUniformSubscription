@@ -20,11 +20,22 @@ Page({
       {x: 650, y: 1200},
       {x: 180, y: 1460},
     ],
-    adminOpenId: []
+    adminOpenId: [],
+    id:''
+  },
+
+  onLoad(options) {
+    console.log('页面初始化', options)
+    let id = options.id
+    this.setData({id: id})
+    console.info('parmater in login: id = ' + id)
   },
 
   // 登录的回调函数
   getUserProfile() {
+
+    let _this = this
+
     // 获取用户信息
     wx.getUserProfile({
       desc: "用于个人信息展示",
@@ -39,13 +50,21 @@ Page({
           mobile: '',
           createDate: new Date()
         }
-
+        
         userCollection.add({
           data: user,
           success: function(res) {
-            wx.reLaunch({
-              url: '../index/index'
-            })
+            
+            console.info('res ==' +res)
+            if(_this.data.id){
+              wx.reLaunch({
+                url: '../schoolShop/schoolShop?id='+_this.data.id
+              })
+            }else{
+              wx.reLaunch({
+                url: '../index/index'
+              })
+            }
           }
         })
       },
@@ -53,7 +72,7 @@ Page({
       fail: err => {
         console.log('解决授权', err)
         wx.navigateTo({
-          url: '/pages/login/login'
+          url: '/pages/login/login?id='+_this.data.id
         })
       }
     }) 

@@ -42,7 +42,7 @@ exports.main = async (event, context) => {
     // 更新SellQrCode
     db.collection('SellQrCode').doc(SellQrCode._id).update({
       data: {
-        QrCodePath: upload.fileID
+        qrCodePath: upload.fileID
       }
     })
 

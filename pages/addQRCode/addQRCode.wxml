@@ -1,5 +1,10 @@
 <!-- pages/QRCode/QRCode.wxml -->
 <view class="container">
+
+  <BlockBox title="" wx:if="{{qrCodePath}}">
+    <image src="{{qrCodePath}}"/>
+  </BlockBox>
+
   <BlockBox title="标题">
     <van-field 
       value="{{ titleValue }}" 

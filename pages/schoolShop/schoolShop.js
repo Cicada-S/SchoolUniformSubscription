@@ -1,5 +1,6 @@
 // pages/schoolShop/schoolShop.js
 const app = getApp()
+const db = wx.cloud.database();
 
 import { toDates } from '../../utils/util'
 
@@ -24,6 +25,7 @@ Page({
     console.log('页面初始化', options)
 
     let id = options.id
+    this.getUserInfo(id)
     this.getProductList(id)
 
     // 获取本地存储的购物车数据
@@ -33,6 +35,25 @@ Page({
     }
     this.setData({ shopCart })
     this.countTotalPrice()
+  },
+
+  getUserInfo(id) {
+    db.collection('User').get({
+      success(res) {
+        if (res.data.length == 1) {
+          try {
+            // console.info('currentUser = ' + JSON.stringify(res.data[0]))
+            wx.setStorageSync('currentUser', res.data[0]);
+          } catch (err) {
+            console.log(err)
+          }
+        } else {
+          wx.navigateTo({
+            url: '/pages/login/login?id='+id
+          })
+        }
+      }
+    })
   },
 
   // 页面显示
