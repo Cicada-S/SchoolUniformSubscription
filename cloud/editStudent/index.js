@@ -8,7 +8,7 @@ const db = cloud.database()
 // 云函数入口函数
 exports.main = async (event, context) => {
   console.log(event)
-  let { studentId, name, gender, phoneNumber, gradeName, classNmae} = event
+  let { studentId, name, gender, phoneNumber, gradeName, className} = event
   try {
     await db.collection('Student').doc(studentId).update({
       data: {
@@ -16,7 +16,7 @@ exports.main = async (event, context) => {
         gender,
         phoneNumber,
         gradeName,
-        classNmae
+        className
       }
     })
 

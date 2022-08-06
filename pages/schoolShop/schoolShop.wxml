@@ -4,7 +4,7 @@
     <view class="studentInfo">
        <image src="/static/images/schoolShop/{{studentInfo.gender==1?'nan':'nv'}}.png" />
       <view class="info">
-        <view>{{studentInfo.name}} {{studentInfo.gradeName}} {{studentInfo.classNmae}}</view>
+        <view>{{studentInfo.name}} {{studentInfo.gradeName}} {{studentInfo.className}}</view>
         <view>{{schoolName}}</view>
       </view>
     </view>

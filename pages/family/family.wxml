@@ -6,7 +6,7 @@
         <image src="/static/images/family/{{item.gender==1?'nan':'nv'}}.png" />
       </view>
       <view class="schoolInfo" bindtap="onSelect" data-item="{{item}}">
-        <view>{{item.name}} {{item.gradeName}} {{item.classNmae}}</view>
+        <view>{{item.name}} {{item.gradeName}} {{item.className}}</view>
         <view>{{schoolName}}</view>
       </view>
       <view class="operation" bindtap="toEditStudentInfo" data-studentInfo="{{item}}">

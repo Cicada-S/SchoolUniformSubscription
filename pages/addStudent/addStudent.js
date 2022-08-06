@@ -31,10 +31,10 @@ Page({
     studentInfo = JSON.parse(studentInfo)
 
     let { multiArray, classArray } = this.data
-    let { gradeName, classNmae } = studentInfo
+    let { gradeName, className } = studentInfo
     
     let gradeIndex = multiArray[0].indexOf(gradeName)
-    let classIndex = classArray[gradeIndex].indexOf(classNmae)
+    let classIndex = classArray[gradeIndex].indexOf(className)
     multiArray[0] = multiArray[0]
     multiArray[1] = classArray[gradeIndex]
 
@@ -95,7 +95,7 @@ Page({
     })
     let { studentName, radio, phone, schoolId, multiArray, multiIndex, studentId } = this.data
     let gradeName = multiArray[0][multiIndex[0]]
-    let classNmae = multiArray[1][multiIndex[1]]
+    let className = multiArray[1][multiIndex[1]]
 
     let data = {
       name: studentName,
@@ -103,7 +103,7 @@ Page({
       phoneNumber: phone,
       schoolId: schoolId,
       gradeName,
-      classNmae
+      className
     }
 
     let results = !studentId ? this.request('addStudent', data) : this.request('editStudent', data, studentId)
