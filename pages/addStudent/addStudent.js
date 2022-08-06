@@ -23,24 +23,36 @@ Page({
       schoolName
     })
 
-    // 编辑学生时 数据回填
-    if(studentInfo !== 'undefined') {
-      studentInfo = JSON.parse(studentInfo)
-      this.setData({
-        studentName: studentInfo.name,
-        radio: studentInfo.gender,
-        phone: studentInfo.phoneNumber
-      })
-      wx.setNavigationBarTitle({
-        title: '编辑学生'
-      })
-    }
+    this.getSchool(schoolId, studentInfo)
+  },
 
-    this.getSchool(schoolId)
+  // 编辑学生时 数据回填 
+  backfillData(studentInfo) {
+    studentInfo = JSON.parse(studentInfo)
+
+    let { multiArray, classArray } = this.data
+    let { gradeName, classNmae } = studentInfo
+    
+    let gradeIndex = multiArray[0].indexOf(gradeName)
+    let classIndex = classArray[gradeIndex].indexOf(classNmae)
+    multiArray[0] = multiArray[0]
+    multiArray[1] = classArray[gradeIndex]
+
+    this.setData({
+      studentId: studentInfo._id,
+      studentName: studentInfo.name,
+      radio: studentInfo.gender,
+      phone: studentInfo.phoneNumber,
+      multiIndex: [gradeIndex, classIndex],
+      multiArray
+    })
+    wx.setNavigationBarTitle({
+      title: '编辑学生'
+    })
   },
 
   // 获取学校列表
-  getSchool(schoolId) {
+  getSchool(schoolId, studentInfo) {
     wx.cloud.callFunction({
       name: 'getGrade',
       data: { schoolId }
@@ -55,6 +67,8 @@ Page({
         multiArray,
         classArray
       })
+
+      if(studentInfo !== 'undefined') this.backfillData(studentInfo)
     })
   },
 
@@ -74,10 +88,12 @@ Page({
 
   // 添加/编辑 学生
   addStudent() {
+    let text = this.data.studentId ? '编辑' : '添加'
+
     wx.showLoading({
-      title: '添加中...',
+      title: `${text}中...`,
     })
-    let { studentName, radio, phone, schoolId, multiArray, multiIndex } = this.data
+    let { studentName, radio, phone, schoolId, multiArray, multiIndex, studentId } = this.data
     let gradeName = multiArray[0][multiIndex[0]]
     let classNmae = multiArray[1][multiIndex[1]]
 
@@ -90,20 +106,28 @@ Page({
       classNmae
     }
 
-    wx.cloud.callFunction({
-      name: 'addStudent',
-      data
-    }).then(res => {
+    let results = !studentId ? this.request('addStudent', data) : this.request('editStudent', data, studentId)
+
+    results.then(() => {
       wx.hideLoading()
       wx.navigateBack({
         delta: 1
       })
-    }).catch(err => {
+    }).catch(() => {
       wx.showToast({
-        title: '添加失败',
+        title: `${text}失败`,
         icon: 'error',
         duration: 2000
       })
+    })
+  },
+
+  // 添加/编辑学生的请求
+  async request(surface, data, studentId) {
+    data.studentId = studentId
+    return await wx.cloud.callFunction({
+      name: surface,
+      data
     })
   },
 
