@@ -17,7 +17,7 @@ Page({
 
   // 页面初次渲染
   onLoad(options) {
-    let { schoolName, schoolId, sellQrCodeId, QrCodeTitle } = options
+    let { schoolName, schoolId, QrCodeId, QrCodeTitle } = options
 
     let shopCart = wx.getStorageSync('shopCart')
     let studentInfo = wx.getStorageSync('studentInfo')
@@ -27,8 +27,8 @@ Page({
       schoolId: schoolId,
       studentInfo,
       productList: shopCart,
-      sellQrCodeId,
-      QrCodeTitle
+      sellQrCodeId: QrCodeId,
+      sellQrCodeTitle: QrCodeTitle
     })
 
     this.countTotalPrice()
@@ -59,9 +59,10 @@ Page({
   settlement() {
     console.log('settlement')
 
-    let { sellQrCodeId, sellQrCodeTitle, schoolId, schoolName, studentInfo, totalPrice  } = this.data
+    let { sellQrCodeId, sellQrCodeTitle, schoolId, schoolName, studentInfo, totalPrice, productList, remarksVlaue } = this.data
 
-    let data = {
+
+    let order = {
       sellQrCodeId,
       sellQrCodeTitle,
       schoolId,
@@ -70,12 +71,16 @@ Page({
       studentGender: studentInfo.gender,
       studentGradeName: studentInfo.gradeName,
       studentClassName: studentInfo.className,
-      totalPrice
+      totalPrice,
+      remark: remarksVlaue
     }
 
     wx.cloud.callFunction({
       name: 'addOrder',
-      data
+      data: {
+        order,
+        productList
+      }
     }).then(res => {
       console.log(res)
     })
