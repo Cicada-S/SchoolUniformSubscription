@@ -35,13 +35,8 @@ Page({
 
   // 选中孩子 
   onSelect(event) {
-    let item = event.currentTarget.dataset.item
-
-    let pages = getCurrentPages()
-    let prevPage = pages[pages.length - 2]
-    prevPage.setData({
-      studentInfo: item
-    })
+    let studentInfo = event.currentTarget.dataset.item
+    wx.setStorageSync('studentInfo', studentInfo)
     wx.navigateBack({
       delta: 1
     })

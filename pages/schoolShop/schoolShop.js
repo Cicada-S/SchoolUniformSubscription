@@ -35,6 +35,15 @@ Page({
     this.countTotalPrice()
   },
 
+  // 页面显示
+  onShow() {
+    console.log('onShow')
+    let studentInfo = wx.getStorageSync('studentInfo')
+    this.setData({
+      studentInfo: studentInfo
+    })
+  },
+
   // 获取商品列表
   getProductList(id) {
     wx.cloud.callFunction({
@@ -254,8 +263,13 @@ Page({
       return
     } else {
       wx.navigateTo({
-        url: `/pages/order/order?student=${JSON.stringify(studentInfo)}&school=${schoolName}`
+        url: `/pages/order/order?school=${schoolName}`
       })
     }
+  },
+
+  // 页面卸载时触发
+  onUnload() {
+    wx.removeStorageSync('shopCart')
   }
 })

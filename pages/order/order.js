@@ -14,12 +14,13 @@ Page({
 
   // 页面初次渲染
   onLoad(options) {
-    let { student, school } = options
+    let {school } = options
     let shopCart = wx.getStorageSync('shopCart')
+    let studentInfo = wx.getStorageSync('studentInfo')
 
     this.setData({
       schoolName: school,
-      studentInfo: JSON.parse(student),
+      studentInfo,
       productList: shopCart
     })
 
