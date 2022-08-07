@@ -21,14 +21,14 @@ Page({
       {x: 180, y: 1460},
     ],
     adminOpenId: [],
-    id:''
+    scene:''
   },
 
   onLoad(options) {
     console.log('页面初始化', options)
-    let id = options.id
-    this.setData({id: id})
-    console.info('parmater in login: id = ' + id)
+    let scene = options.scene
+    this.setData({scene: scene})
+    console.info('parmater in login: scene = ' + scene)
   },
 
   // 登录的回调函数
@@ -50,15 +50,15 @@ Page({
           mobile: '',
           createDate: new Date()
         }
-        
+
         userCollection.add({
           data: user,
           success: function(res) {
-            
+
             console.info('res ==' +res)
-            if(_this.data.id){
+            if(_this.data.scene){
               wx.reLaunch({
-                url: '../schoolShop/schoolShop?id='+_this.data.id
+                url: '../schoolShop/schoolShop?scene='+_this.data.scene
               })
             }else{
               wx.reLaunch({
@@ -72,10 +72,10 @@ Page({
       fail: err => {
         console.log('解决授权', err)
         wx.navigateTo({
-          url: '/pages/login/login?id='+_this.data.id
+          url: '/pages/login/login?scene='+_this.data.scene
         })
       }
-    }) 
+    })
   },
 
   // 获取openId
@@ -86,7 +86,7 @@ Page({
     // 获取成功
     .then(res => {
       wx.setStorageSync('openid', res.result.openid)
-      
+
       let userInfo = {
         nickName: wx.getStorageSync('userInfo').nickName,
         avatarUrl: wx.getStorageSync('userInfo').avatarUrl,

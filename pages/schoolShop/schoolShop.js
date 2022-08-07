@@ -26,10 +26,10 @@ Page({
   onLoad(options) {
     console.log('页面初始化', options)
 
-    let id = options.id
-    this.setData({ sellQrCodeId: id })
-    this.getUserInfo(id)
-    this.getProductList(id)
+    let scene = options.scene
+    this.setData({ sellQrCodeId: scene })
+    this.getUserInfo(scene)
+    this.getProductList(scene)
 
     // 获取本地存储的购物车数据
     let shopCart = []
@@ -40,7 +40,7 @@ Page({
     this.countTotalPrice()
   },
 
-  getUserInfo(id) {
+  getUserInfo(scene) {
     db.collection('User').get({
       success(res) {
         if (res.data.length == 1) {
@@ -52,7 +52,7 @@ Page({
           }
         } else {
           wx.navigateTo({
-            url: '/pages/login/login?id='+id
+            url: '/pages/login/login?scene='+scene
           })
         }
       }
@@ -68,10 +68,10 @@ Page({
   },
 
   // 获取商品列表
-  getProductList(id) {
+  getProductList(scene) {
     wx.cloud.callFunction({
       name: 'getSellQRCode',
-      data: { id }
+      data: { 'id': scene }
     }).then(res => {
       let { sellQrCode, ProductList } = res.result.data
       let endDate = toDates(sellQrCode.endTime)
