@@ -105,6 +105,13 @@
           "query": "scene=6842667962ec94750d307d1035ea1258",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/productDetails/productDetails",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

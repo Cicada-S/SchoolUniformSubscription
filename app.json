@@ -13,7 +13,8 @@
     "pages/schoolShop/schoolShop",
     "pages/family/family",
     "pages/addStudent/addStudent",
-    "pages/order/order"
+    "pages/order/order",
+    "pages/productDetails/productDetails"
   ],
   "window": {
     "backgroundTextStyle": "light",
