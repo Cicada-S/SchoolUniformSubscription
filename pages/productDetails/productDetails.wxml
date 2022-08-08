@@ -1,4 +1,24 @@
 <!--pages/productDetails/productDetails.wxml-->
 <view class="container">
   <Swiper imageList="{{imageList}}" />
+
+  <view class="productInfo">
+    <view class="info">
+      <view class="price"><text>¥</text> 100</view>
+      <view class="title">夏季运动套装</view>
+    </view>
+    <view class="operation">
+      <text>选购</text>
+    </view>
+  </view>
+
+  <view class="DetailDrawing">
+    <text class="text">图文详情</text>
+    <!-- 图片列表 -->
+    <view class="detailsImage">
+      <block wx:for="{{detailsImage}}" wx:key="_id">
+        <image class="image" src="{{item.path}}" mode="widthFix" />
+      </block>
+    </view>
+  </view>
 </view>

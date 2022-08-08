@@ -2,3 +2,67 @@
 .container {
   width: 100vw;
 }
+.container .productInfo {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 30rpx 30rpx;
+  margin-bottom: 20rpx;
+  background-color: #FFFFFF;
+}
+.container .productInfo .info {
+  font-size: 30rpx;
+}
+.container .productInfo .info .price {
+  color: #DB211B;
+  font-size: 36rpx;
+  margin-bottom: 20rpx;
+}
+.container .productInfo .info .price text {
+  font-size: 24rpx;
+}
+.container .productInfo .operation {
+  width: 120rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  text-align: center;
+  color: #FFFFFF;
+  letter-spacing: 5rpx;
+  border-radius: 10rpx;
+  background-color: #407EF5;
+}
+.container .DetailDrawing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #FFFFFF;
+}
+.container .DetailDrawing .text {
+  align-self: center;
+  font-size: 32rpx;
+  line-height: 80rpx;
+}
+.container .DetailDrawing .text ::before {
+  content: "";
+  display: inline-block;
+  width: 100rpx;
+  height: 1rpx;
+  background-color: #0e0e0e;
+  margin-right: 30rpx;
+  margin-bottom: 10rpx;
+}
+.container .DetailDrawing .text ::after {
+  content: "";
+  display: inline-block;
+  width: 100rpx;
+  height: 1rpx;
+  background-color: #0e0e0e;
+  margin-left: 30rpx;
+  margin-bottom: 10rpx;
+}
+.container .DetailDrawing .detailsImage {
+  width: 100%;
+}
+.container .DetailDrawing .detailsImage image {
+  width: 100%;
+}
