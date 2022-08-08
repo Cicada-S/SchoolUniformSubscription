@@ -5,10 +5,7 @@ Page({
   data: {
     stateheight: app.globalData.stateheight,
     customheight: app.globalData.customheight,
-    userInfo: {
-      avatarUrl: '/static/images/me/avatar.png',
-      nickName: 'Cicada'
-    },
+    userInfo: {},
     orderManage: [
       {
         icon: 'icon-dingdan-daifukuan',
@@ -31,5 +28,13 @@ Page({
         text: '退款/售后',
       }
     ],
+  },
+
+  // 页面初始化
+  onLoad() {
+    let userInfo = wx.getStorageSync('currentUser')
+    this.setData({
+      userInfo
+    })
   }
 })
