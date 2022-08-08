@@ -62,8 +62,10 @@ Page({
   // 页面显示
   onShow() {
     let studentInfo = wx.getStorageSync('studentInfo')
+    let shopCart = wx.getStorageSync('shopCart')
     this.setData({
-      studentInfo: studentInfo
+      studentInfo: studentInfo,
+      shopCart: shopCart
     })
   },
 

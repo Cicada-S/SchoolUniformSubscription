@@ -46,7 +46,7 @@ Page({
     let totalPrice = 0
     if(productList.length) productList.forEach(item => {
       orderNum += item.operation
-      totalPrice = (parseFloat(totalPrice) + parseFloat(item.unitPrice*item.operation)).toFixed(2)
+      totalPrice = parseFloat(totalPrice) + parseFloat(item.unitPrice*item.operation)
     })
 
     this.setData({
@@ -57,11 +57,11 @@ Page({
 
   // 结算
   async settlement() {
-    console.log('settlement')
+    wx.showLoading({
+      title: '正在支付...',
+    })
 
     let { sellQrCodeId, sellQrCodeTitle, schoolId, schoolName, studentInfo, totalPrice, productList, remarksVlaue } = this.data
-
-
     let order = {
       sellQrCodeId,
       sellQrCodeTitle,
@@ -82,9 +82,41 @@ Page({
         productList
       }
     })
-
     let orderId = results.result.orderId
-    console.log(orderId)
-    
+    this.pay(orderId)
+  },
+
+  // 发起微信支付
+  pay(orderId){
+    wx.cloud.callFunction({
+      name: 'pay',
+      data:{ orderId: orderId }
+    }).then(res => {
+      const payment = res.result.payment
+      console.info(JSON.stringify(payment))
+      wx.hideLoading()
+      // 发起微信支付
+      wx.requestPayment({...payment})
+      .then(() => {
+        wx.removeStorageSync('shopCart')
+        wx.showToast({
+          title: '下单成功！',
+          icon: 'success',
+          duration: 2000
+        })
+        setTimeout(()=> {
+          wx.navigateBack({
+            delta: 1
+          })
+        }, 2000)
+      })
+      .catch(() => {
+        wx.showToast({
+          title: '支付失败！',
+          icon: 'success',
+          duration: 2000
+        })
+      })
+    })
   }
 })

@@ -18,7 +18,7 @@
     </view>
     <view class="orderManageContent">
       <view class="contentItem" wx:for="{{orderManage}}" wx:key="text">
-        <view bind:tap="pay" class="contentItemIcon iconfont {{ item.icon }}"></view>
+        <view class="contentItemIcon iconfont {{ item.icon }}"></view>
         <text class="contentItemText">{{item.text}}</text>
       </view>
     </view>
