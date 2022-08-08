@@ -56,7 +56,7 @@ Page({
   },
 
   // 结算
-  settlement() {
+  async settlement() {
     console.log('settlement')
 
     let { sellQrCodeId, sellQrCodeTitle, schoolId, schoolName, studentInfo, totalPrice, productList, remarksVlaue } = this.data
@@ -75,14 +75,16 @@ Page({
       remark: remarksVlaue
     }
 
-    wx.cloud.callFunction({
+    let results = await wx.cloud.callFunction({
       name: 'addOrder',
       data: {
         order,
         productList
       }
-    }).then(res => {
-      console.log(res)
     })
+
+    let orderId = results.result.orderId
+    console.log(orderId)
+    
   }
 })

@@ -32,19 +32,19 @@ exports.main = async (event, context) => {
   })
   
   try {
-    db.collection('Order').add({data: orderData})
-    .then(res => {
-      newProductList.forEach(async item => {
-        item.orderId = res._id
-        await db.collection('OrderProduct').add({
-          data: item
-        })
+    let results = await db.collection('Order').add({data: orderData})
+
+    newProductList.forEach(async item => {
+      item.orderId = results._id
+      await db.collection('OrderProduct').add({
+        data: item
       })
     })
 
     // 成功返回
     return {
       code: 0,
+      orderId : results._id,
       success: true,
     }
   }
