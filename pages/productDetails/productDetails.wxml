@@ -1,20 +1,4 @@
 <!--pages/productDetails/productDetails.wxml-->
 <view class="container">
-  <view class="swiper">
-    <swiper 
-      indicator-dots 
-      indicator-color="{{indicatorColor}}" 
-      indicator-active-color="{{indicatorActiveColor}}" 
-      autoplay 
-      interval="{{interval}}" 
-      duration="{{duration}}"
-      circular
-    >
-      <block wx:for="{{imageList}}" wx:key="*this">
-        <swiper-item>
-          <image class="swiperItemImg" src="{{item}}"  />
-        </swiper-item>
-      </block>
-    </swiper>
-  </view>
+  <Swiper imageList="{{imageList}}" />
 </view>

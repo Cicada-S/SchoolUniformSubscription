@@ -2,11 +2,3 @@
 .container {
   width: 100vw;
 }
-.container .swiper {
-  width: 100%;
-  height: 600rpx;
-}
-.container .swiper .swiperItemImg {
-  width: 100%;
-  height: 100%;
-}

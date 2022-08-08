@@ -1,0 +1,11 @@
+/* components/Search/Swiper.wxss */
+.swiper,
+swiper {
+  width: 100%;
+  height: 600rpx;
+}
+.swiper .swiperItemImg,
+swiper .swiperItemImg {
+  width: 100%;
+  height: 600rpx;
+}

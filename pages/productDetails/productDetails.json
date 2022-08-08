@@ -1,4 +1,6 @@
 {
-  "usingComponents": {},
+  "usingComponents": {
+    "Swiper": "/components/Swiper/Swiper"
+  },
   "navigationBarTitleText": "商品详情"
 }
