@@ -14,19 +14,22 @@
   <!-- 订单管理 -->
   <view class="orderManage">
     <view class="orderManageTitle">
-      <text class="orderManageTitleText">订单管理</text>
+      <text class="orderManageTitleText">订单</text>
     </view>
-    <view class="orderManageContent">
+    <!-- <view class="orderManageContent">
       <view class="contentItem" wx:for="{{orderManage}}" wx:key="text">
         <view class="contentItemIcon iconfont {{ item.icon }}"></view>
         <text class="contentItemText">{{item.text}}</text>
       </view>
-    </view>
+    </view> -->
+
+    <van-cell title="我的订单" is-link border="{{false}}" />
   </view>
 
   <!-- 站位 -->
   <view class="placeholderContent">
-    <view class="placeholderItem"></view>
-    <view class="placeholderItem"></view>
+    <BlockBox title="操作">
+      <van-cell title="申请学校管理员" is-link border="{{false}}" />
+    </BlockBox>
   </view>
 </view>

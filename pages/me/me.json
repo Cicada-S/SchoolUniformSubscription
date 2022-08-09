@@ -1,6 +1,8 @@
 {
   "navigationStyle": "custom",
   "usingComponents": {
-    "NavTop": "/components/NavTop/NavTop"
+    "NavTop": "/components/NavTop/NavTop",
+    "BlockBox": "/components/BlockBox/BlockBox",
+    "van-cell": "@vant/weapp/cell/index"
   }
 }

@@ -6,7 +6,7 @@ Page({
     stateheight: app.globalData.stateheight,
     customheight: app.globalData.customheight,
     userInfo: {},
-    orderManage: [
+    /* orderManage: [
       {
         icon: 'icon-dingdan-daifukuan',
         text: '待付款',
@@ -27,7 +27,7 @@ Page({
         icon: 'icon-tuikuan',
         text: '退款/售后',
       }
-    ],
+    ], */
   },
 
   // 页面初始化
