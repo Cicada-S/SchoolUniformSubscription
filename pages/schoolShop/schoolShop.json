@@ -1,6 +1,5 @@
 {
   "usingComponents": {
-    "BottomBtn": "/components/BottomBtn/BottomBtn",
     "Calculator": "/components/Calculator/Calculator",
     "van-popup": "@vant/weapp/popup/index",
     "van-button": "@vant/weapp/button/index",

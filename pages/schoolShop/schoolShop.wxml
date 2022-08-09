@@ -29,7 +29,7 @@
       <view class="producImg">
         <image src="{{item.path}}" />
       </view>
-        <view class="info">
+        <view class="info" bindtap="toProductDetails" id="{{item._id}}">
           <text>{{item.name}}</text>
           <text class="price">¥ <text>{{item.unitPrice}}</text></text>
         </view>

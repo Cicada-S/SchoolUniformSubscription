@@ -109,7 +109,7 @@
         {
           "name": "",
           "pathName": "pages/productDetails/productDetails",
-          "query": "",
+          "query": "id=0a4ec1f962ec7800180f22962cde75c6",
           "launchMode": "default",
           "scene": null
         }

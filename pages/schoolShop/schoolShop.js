@@ -31,12 +31,6 @@ Page({
     this.getUserInfo(scene)
     this.getProductList(scene)
 
-    // 获取本地存储的购物车数据
-    let shopCart = []
-    if(wx.getStorageSync('shopCart')) {
-      shopCart = wx.getStorageSync('shopCart')
-    }
-    this.setData({ shopCart })
     this.countTotalPrice()
   },
 
@@ -61,11 +55,18 @@ Page({
 
   // 页面显示
   onShow() {
+
+    console.log('show')
+
     let studentInfo = wx.getStorageSync('studentInfo')
-    let shopCart = wx.getStorageSync('shopCart')
+    // 获取本地存储的购物车数据
+    let shopCart = []
+    if(wx.getStorageSync('shopCart')) {
+      shopCart = wx.getStorageSync('shopCart')
+    }
     this.setData({
-      studentInfo: studentInfo,
-      shopCart: shopCart
+      studentInfo,
+      shopCart
     })
   },
 
@@ -92,6 +93,29 @@ Page({
     let { schoolId, schoolName } = this.data
     wx.navigateTo({
       url: `/pages/family/family?schoolId=${schoolId}&schoolName=${schoolName}`
+    })
+  },
+
+  // 跳转到商品详情
+  toProductDetails(event) {
+    let { schoolName, schoolId, sellQrCodeId, sellQrCodeTitle } = this.data
+
+    let orderInfo = {
+      schoolName,
+      schoolId,
+      sellQrCodeId,
+      sellQrCodeTitle,
+    }
+    wx.setStorageSync('orderInfo', orderInfo)
+
+    let ProductInfo = this.data.ProductList.filter(item => {
+      if(item._id === event.currentTarget.id) {
+        return item
+      }
+    })
+    wx.setStorageSync('ProductInfo', ...ProductInfo)
+    wx.navigateTo({
+      url: `/pages/productDetails/productDetails?id=${event.currentTarget.id}`
     })
   },
 
