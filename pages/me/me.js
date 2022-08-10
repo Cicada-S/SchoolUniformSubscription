@@ -5,29 +5,7 @@ Page({
   data: {
     stateheight: app.globalData.stateheight,
     customheight: app.globalData.customheight,
-    userInfo: {},
-    /* orderManage: [
-      {
-        icon: 'icon-dingdan-daifukuan',
-        text: '待付款',
-      },
-      {
-        icon: 'icon-daifahuo',
-        text: '待发货',
-      },
-      {
-        icon: 'icon-daishouhuo',
-        text: '待收货',
-      },
-      {
-        icon: 'icon-pingjiax',
-        text: '待评价',
-      },
-      {
-        icon: 'icon-tuikuan',
-        text: '退款/售后',
-      }
-    ], */
+    userInfo: {}
   },
 
   // 页面初始化
@@ -35,6 +13,14 @@ Page({
     let userInfo = wx.getStorageSync('currentUser')
     this.setData({
       userInfo
+    })
+  },
+
+  // 跳转到申请管理员
+  toApply(event) {
+    console.log(event)
+    wx.navigateTo({
+      url: '/pages/apply/apply'
     })
   }
 })

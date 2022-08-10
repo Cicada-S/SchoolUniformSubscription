@@ -112,6 +112,13 @@
           "query": "id=0a4ec1f962ec7800180f22962cde75c6",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/apply/apply",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

@@ -16,20 +16,13 @@
     <view class="orderManageTitle">
       <text class="orderManageTitleText">订单</text>
     </view>
-    <!-- <view class="orderManageContent">
-      <view class="contentItem" wx:for="{{orderManage}}" wx:key="text">
-        <view class="contentItemIcon iconfont {{ item.icon }}"></view>
-        <text class="contentItemText">{{item.text}}</text>
-      </view>
-    </view> -->
-
     <van-cell title="我的订单" is-link border="{{false}}" />
   </view>
 
   <!-- 站位 -->
   <view class="placeholderContent">
     <BlockBox title="操作">
-      <van-cell title="申请学校管理员" is-link border="{{false}}" />
+      <van-cell title="申请学校管理员" is-link border="{{false}}" bindtap="toApply" />
     </BlockBox>
   </view>
 </view>
