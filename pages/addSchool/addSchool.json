@@ -5,7 +5,8 @@
     "van-field": "@vant/weapp/field/index",
     "van-uploader": "@vant/weapp/uploader/index",
     "van-icon": "@vant/weapp/icon/index",
-    "van-button": "@vant/weapp/button/index"
+    "van-button": "@vant/weapp/button/index",
+    "van-cell": "@vant/weapp/cell/index"
   },
   "navigationBarTitleText": "添加学校"
 }

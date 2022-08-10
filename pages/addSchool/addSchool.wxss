@@ -33,3 +33,6 @@
   width: 145rpx !important;
   height: 145rpx !important;
 }
+.container .agreeButton {
+  color: #407EF5;
+}

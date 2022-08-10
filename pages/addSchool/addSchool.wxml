@@ -1,5 +1,5 @@
 <!--pages/addSchool/addSchool.wxml-->
-<view class="container">
+<view class="container" style="padding-bottom:{{bottomLift*2+85}}rpx">
   <BlockBox title="学校名">
     <van-field
       value="{{ name }}"
@@ -50,6 +50,11 @@
       deletable="{{ false }}"
       bind:after-read="afterRead" 
     />
+  </BlockBox>
+  <BlockBox title="申请列表" wx:if="{{adminList.length}}">
+    <van-cell wx:for="{{adminList}}" wx:key="_id" title="{{item.managerOpenid}}">
+      <view slot="right-icon" class="agreeButton" bindtap="onAgree" id="{{item._id}}">同意</view>
+    </van-cell>
   </BlockBox>
   <BottomBtn text="{{type == 0 ? '新增学校' : (type==1 ? '修改学校' : '删除学校')}}" isShow="{{showSchoolManageButton}}"  bindtap="manageSchool" />
 </view>

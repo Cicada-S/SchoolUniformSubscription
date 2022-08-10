@@ -1,12 +1,16 @@
 // pages/addSchool/addSchool.js
+const app = getApp()
+
 const uuid = require('../../utils/uuid.js');
 import { pathOfDate } from '../../utils/util'
 
 let id = '' // 编辑学校的id
 const db = wx.cloud.database()
+const SchoolManager = db.collection('SchoolManager')
 
 Page({
   data: {
+    bottomLift: app.globalData.bottomLift,
     name: '',
     address: '',
     grade: [
@@ -18,7 +22,8 @@ Page({
     fileList: [],
     showSchoolManageButton: false,
     type: 0, //0: '新增学校', 1: '修改学校', 2: '删除学校'
-    editLogo: false
+    editLogo: false,
+    adminList: [] // 申请成为管理员
   },
 
   // 页面初始化
@@ -29,6 +34,7 @@ Page({
         title: '编辑学校'
       })
       this.getSchoolInfo(id)
+      this.getSchoolManager(id)
 
       //如果没有关联二维码则允许修改
       db.collection('SellQrCode').where({
@@ -54,7 +60,6 @@ Page({
 
   // 编辑学校时回填数据
   async getSchoolInfo(id) {
-    console.log(id)
     await wx.cloud.callFunction({
       name: 'getSchoolInfo',
       data: { id }
@@ -74,6 +79,48 @@ Page({
         fileList,
         grade
       })
+    })
+  },
+
+  // 获取申请成为管理员的列表
+  getSchoolManager(id) {
+    SchoolManager.where({ 
+      schoolId: id, status: 1
+    }).get().then(res => {
+      this.setData({
+        adminList: res.data
+      })
+    })
+  },
+
+  // 点击同意成为管理员 的回调函数
+  onAgree(event) {
+    console.log(event.currentTarget.id)
+    let id = event.currentTarget.id
+    let that = this
+
+    wx.showModal({
+      title: '提示',
+      content: '确定将该用户升级为学校管理员吗？',
+      success (res) {
+        if (res.confirm) {
+          SchoolManager.doc(id).update({data: {status:0}})
+          .then(() => {
+            wx.showToast({
+              title: '成功',
+              icon: 'success',
+              duration: 1000
+            })
+
+            // 删除数组中的 _id等于id 的元素
+            let adminList = that.data.adminList.filter(item => item._id != id)
+
+            that.setData({
+              adminList
+            })
+          })
+        }
+      }
     })
   },
 
