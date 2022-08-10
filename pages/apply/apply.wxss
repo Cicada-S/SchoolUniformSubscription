@@ -1,1 +1,16 @@
 /* pages/apply/apply.wxss */
+.container {
+  padding: 20rpx 30rpx 0;
+}
+.container .applyButton {
+  width: 100%;
+  height: 80rpx;
+  color: #FFFFFF;
+  text-align: center;
+  line-height: 80rpx;
+  letter-spacing: 10rpx;
+  border-radius: 10rpx;
+  margin-top: 30rpx;
+  background-color: #407EF5;
+  box-shadow: 2rpx 4rpx 12rpx 2rpx rgba(64, 126, 245, 0.8);
+}

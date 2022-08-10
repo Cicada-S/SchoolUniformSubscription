@@ -1,4 +1,8 @@
 {
-  "usingComponents": {},
-  "navigationBarTitleText": "申请管理员"
+  "usingComponents": {
+    "BlockBox": "/components/BlockBox/BlockBox",
+    "van-cell": "@vant/weapp/cell/index",
+    "van-action-sheet": "@vant/weapp/action-sheet/index"
+  },
+  "navigationBarTitleText": "管理员申请"
 }

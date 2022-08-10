@@ -1,66 +1,93 @@
 // pages/apply/apply.js
+const db = wx.cloud.database()
+const School = db.collection('School')
+const SchoolManager = db.collection('SchoolManager')
+
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-
+    school: {},
+    show: false,
+    actions: []
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad(options) {
-
+  // 页面初始化
+  onLoad() {
+    this.getSchool()
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
-
+  // 获取学校
+  getSchool() {
+    School.where({status: 0}).get().then(res => {
+      this.setData({
+        actions: res.data
+      })
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
-
+  // 选择学校
+  isActionSheet() {
+    this.setData({
+      show: true,
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
-
+  // 关闭弹出层时触发
+  onClose() {
+    this.setData({
+      show: false
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
-
+  // 选中选项时触发
+  onSelect(event) {
+    console.log(event.detail)
+    this.setData({
+      show: false,
+      school: event.detail
+    })
   },
 
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {
+  // 立即申请
+  async onApply() {
+    let { _id } = this.data.school
+    let { _openid } = wx.getStorageSync('currentUser')
 
-  },
+    let results = await SchoolManager.where({ 
+      managerOpenid: _openid, status: 1 
+    }).get()
 
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {
-
+    if(results.data.length) {
+      wx.showToast({
+        title: '您已经申请！',
+        icon: 'none',
+        duration: 2000
+      })
+      return
+    } else if(!results.data.length && !_id) {
+      wx.showToast({
+        title: '请选择学校',
+        icon: 'none',
+        duration: 2000
+      })
+    } else {
+      SchoolManager.add({
+        data: {
+          schoolId: _id,
+          managerOpenid: _openid,
+          status: 1
+        }
+      }).then(() => {
+        wx.showToast({
+          title: '已提交申请！',
+          icon: 'success',
+          duration: 1000
+        })
+        setTimeout(()=> {
+          wx.navigateBack({
+            delta: 1
+          })
+        }, 1000)
+      })
+    }
   }
 })

@@ -22,7 +22,7 @@
   <!-- 站位 -->
   <view class="placeholderContent">
     <BlockBox title="操作">
-      <van-cell title="申请学校管理员" is-link border="{{false}}" bindtap="toApply" />
+      <van-cell title="成为学校管理员" is-link border="{{false}}" bindtap="toApply" />
     </BlockBox>
   </view>
 </view>

@@ -1,2 +1,19 @@
 <!--pages/apply/apply.wxml-->
-<text>pages/apply/apply.wxml</text>
+<view class="container">
+  <BlockBox title="学校">
+    <van-cell title="选择学校" is-link value="{{school.name}}" boder="{{false}}" bindtap="isActionSheet" />
+  </BlockBox>
+
+  <view class="applyButton" bindtap="onApply">
+    <text>立即申请</text>
+  </view>
+
+  <!-- 学校选择器 -->
+  <van-action-sheet
+    show="{{ show }}"
+    actions="{{ actions }}"
+    description="选择学校"
+    bind:close="onClose"
+    bind:select="onSelect"
+  />
+</view>
