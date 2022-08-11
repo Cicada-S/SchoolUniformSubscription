@@ -22,8 +22,8 @@ exports.main = async (event, context) => {
     "spbillCreateIp": "127.0.0.1", //就是这个值，不要改
     "subMchId": "1628494787",  //你的商户号,
     "totalFee": orderInfo.totalPrice,  //单位为分 *100
-    // "envId": "prod-5gbrg2v163ae3d24",  //填入你的云开发环境ID
     "envId": "cloud1-9ghc7y1j0db0f20d",  //填入你的云开发环境ID
+    // "envId": "prod-5gbrg2v163ae3d24",  //填入你的云开发环境ID
     "functionName": "pay_success",  //支付成功的回调云函数
     "nonceStr": event.orderId,//随便弄的32位字符串，建议自己生成
     "tradeType": "JSAPI"   //默认是JSAPI
