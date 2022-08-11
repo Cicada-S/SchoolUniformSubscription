@@ -52,9 +52,14 @@
     />
   </BlockBox>
   <BlockBox title="申请列表" wx:if="{{adminList.length}}">
-    <van-cell wx:for="{{adminList}}" wx:key="_id" title="{{item.managerOpenid}}">
-      <view slot="right-icon" class="agreeButton" bindtap="onAgree" id="{{item._id}}">同意</view>
-    </van-cell>
+    <view class="applyItem" wx:for="{{adminList}}">
+      <image class="avatarUrl" src="{{item.avatarUrl}}" />
+      <view class="nickName">{{item.nickName}}</view>
+      <view class="operation">
+        <view class="refuseButton" bindtap="onRefuse" id="{{item._id}}">拒绝</view>
+        <view class="agreeButton" bindtap="onAgree" id="{{item._id}}">同意</view>
+      </view>
+    </view>
   </BlockBox>
   <BottomBtn text="{{type == 0 ? '新增学校' : (type==1 ? '修改学校' : '删除学校')}}" isShow="{{showSchoolManageButton}}"  bindtap="manageSchool" />
 </view>

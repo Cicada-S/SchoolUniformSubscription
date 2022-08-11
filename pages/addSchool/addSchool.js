@@ -93,6 +93,37 @@ Page({
     })
   },
 
+  // 点击拒绝成为管理员 的回调函数
+  onRefuse(event) {
+    console.log(event.currentTarget.id)
+    let id = event.currentTarget.id
+    let that = this
+
+    wx.showModal({
+      title: '提示',
+      content: '确定拒绝该用户升级为学校管理员吗？',
+      success (res) {
+        if (res.confirm) {
+          SchoolManager.doc(id).remove()
+          .then(() => {
+            wx.showToast({
+              title: '成功',
+              icon: 'success',
+              duration: 1000
+            })
+
+            // 删除数组中的 _id等于id 的元素
+            let adminList = that.data.adminList.filter(item => item._id != id)
+
+            that.setData({
+              adminList
+            })
+          })
+        }
+      }
+    })
+  },
+
   // 点击同意成为管理员 的回调函数
   onAgree(event) {
     console.log(event.currentTarget.id)

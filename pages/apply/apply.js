@@ -40,7 +40,6 @@ Page({
 
   // 选中选项时触发
   onSelect(event) {
-    console.log(event.detail)
     this.setData({
       show: false,
       school: event.detail
@@ -50,10 +49,11 @@ Page({
   // 立即申请
   async onApply() {
     let { _id } = this.data.school
-    let { _openid } = wx.getStorageSync('currentUser')
+    let { _openid, nickName, avatarUrl } = wx.getStorageSync('currentUser')
 
     let results = await SchoolManager.where({ 
-      managerOpenid: _openid, status: 1 
+      managerOpenid: _openid,
+      status: 1
     }).get()
 
     if(results.data.length) {
@@ -74,6 +74,8 @@ Page({
         data: {
           schoolId: _id,
           managerOpenid: _openid,
+          nickName,
+          avatarUrl,
           status: 1
         }
       }).then(() => {
