@@ -15,7 +15,8 @@
     "pages/addStudent/addStudent",
     "pages/order/order",
     "pages/productDetails/productDetails",
-    "pages/apply/apply"
+    "pages/apply/apply",
+    "pages/myOrder/myOrder"
   ],
   "window": {
     "backgroundTextStyle": "light",

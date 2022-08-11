@@ -16,9 +16,15 @@ Page({
     })
   },
 
+  // 跳转到我的订单
+  toMyOrder() {
+    wx.navigateTo({
+      url: '/pages/myOrder/myOrder'
+    })
+  },
+
   // 跳转到申请管理员
   toApply(event) {
-    console.log(event)
     wx.navigateTo({
       url: '/pages/apply/apply'
     })

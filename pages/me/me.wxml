@@ -16,7 +16,7 @@
     <view class="orderManageTitle">
       <text class="orderManageTitleText">订单</text>
     </view>
-    <van-cell title="我的订单" is-link border="{{false}}" />
+    <van-cell title="我的订单" is-link border="{{false}}" bindtap="toMyOrder" />
   </view>
 
   <!-- 站位 -->

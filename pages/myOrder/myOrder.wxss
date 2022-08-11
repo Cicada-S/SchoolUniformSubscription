@@ -1,0 +1,60 @@
+/* pages/myOrder/myOrder.wxss */
+.container {
+  width: 100vw;
+  padding: 20rpx;
+}
+.container .blockBox {
+  width: 100%;
+  font-size: 32rpx;
+  border-radius: 16rpx;
+  overflow: hidden;
+  background-color: #FFFFFF;
+  box-shadow: 2rpx 4rpx 12rpx 2rpx rgba(0, 0, 0, 0.16);
+  margin-bottom: 20rpx;
+}
+.container .orderItem {
+  display: flex;
+  flex-direction: column;
+  padding: 40rpx 30rpx 30rpx;
+}
+.container .orderItem .productInfo {
+  display: flex;
+  margin-bottom: 20rpx;
+}
+.container .orderItem .productInfo image {
+  width: 160rpx;
+  height: 160rpx;
+  border: 1rpx solid pink;
+}
+.container .orderItem .productInfo .info {
+  flex: 1;
+  padding-left: 20rpx;
+}
+.container .orderItem .productInfo .info .item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10rpx;
+}
+.container .orderItem .productInfo .info .item .right {
+  min-width: 80rpx;
+  max-width: 150rpx;
+  text-align: right;
+}
+.container .orderItem .productInfo .info .title {
+  font-size: 28rpx;
+}
+.container .orderItem .productInfo .info .parameter {
+  color: #757575;
+  font-size: 24rpx;
+}
+.container .orderItem .productInfo .info .totalPrice {
+  align-self: flex-end;
+  justify-self: flex-end;
+}
+.container .orderItem .totalPrice {
+  align-self: flex-end;
+  font-size: 28rpx;
+}
+.container .orderItem .totalPrice .icon {
+  font-size: 24rpx;
+}
