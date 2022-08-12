@@ -15,7 +15,7 @@ Page({
     this.getSchool()
   },
 
-  // 获取学校
+  // 获取买家
   getSchool() {
     School.where({status: 0}).get().then(res => {
       this.setData({
@@ -24,7 +24,7 @@ Page({
     })
   },
 
-  // 选择学校
+  // 选择买家
   isActionSheet() {
     this.setData({
       show: true,
@@ -51,7 +51,7 @@ Page({
     let { _id } = this.data.school
     let { _openid, nickName, avatarUrl } = wx.getStorageSync('currentUser')
 
-    let results = await SchoolManager.where({ 
+    let results = await SchoolManager.where({
       managerOpenid: _openid,
       status: 1
     }).get()
@@ -65,7 +65,7 @@ Page({
       return
     } else if(!results.data.length && !_id) {
       wx.showToast({
-        title: '请选择学校',
+        title: '请选择买家',
         icon: 'none',
         duration: 2000
       })

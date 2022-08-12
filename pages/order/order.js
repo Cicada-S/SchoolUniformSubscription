@@ -4,9 +4,9 @@ const app = getApp()
 Page({
   data: {
     bottomLift: app.globalData.bottomLift,
-    schoolId: '', // 学校id
-    schoolName: '', // 学校名
-    studentInfo: {}, // 学生信息
+    schoolId: '', // 买家id
+    schoolName: '', // 买家名
+    studentInfo: {}, // 小朋友信息
     productList: [], // 商品
     remarksVlaue: '', // 备注内容
     orderNum: 0, // 商品数量

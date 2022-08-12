@@ -2,7 +2,7 @@
 <view class="container" style="padding-top: {{stateheight}}px">
   <view class="titleContent">
     <view class="title">微校</view>
-    <view class="subtitle">学校统一购物平台</view>
+    <view class="subtitle">买家统一购物平台</view>
   </view>
 
   <!-- 背景 -->

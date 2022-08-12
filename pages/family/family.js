@@ -6,10 +6,10 @@ const student = db.collection('Student')
 
 Page({
   data: {
-    bottomLift: app.globalData.bottomLift, 
-    schoolId: '', // 学校id
-    schoolName: '', // 学校名
-    family: [], // 学生
+    bottomLift: app.globalData.bottomLift,
+    schoolId: '', // 买家id
+    schoolName: '', // 买家名
+    family: [], // 小朋友
   },
 
   // 页面初始化
@@ -33,7 +33,7 @@ Page({
     })
   },
 
-  // 选中孩子 
+  // 选中孩子
   onSelect(event) {
     let studentInfo = event.currentTarget.dataset.item
     wx.setStorageSync('studentInfo', studentInfo)

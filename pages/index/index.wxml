@@ -7,12 +7,12 @@
   <view class="jump" hidden="{{hiddenFunctionManage}}" >
     <text class="btn" bindtap="onJump" id="product">商品管理</text>
     <text class="btn" bindtap="onJump" id="code">二维码管理</text>
-    <text class="btn" bindtap="onJump" id="school">学校管理</text>
+    <text class="btn" bindtap="onJump" id="school">买家管理</text>
   </view>
   <!-- 提示 -->
   <view class="tips">
     <view class="icon iconfont icon-xiaofu"></view>
-    <text>首页商品皆为演示</text> 
+    <text>首页商品皆为演示</text>
     <text>PURSUEEXCELLENTQUALITY</text>
   </view>
   <!-- 校服相册 -->

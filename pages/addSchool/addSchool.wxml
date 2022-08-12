@@ -1,28 +1,28 @@
 <!--pages/addSchool/addSchool.wxml-->
 <view class="container" style="padding-bottom:{{bottomLift*2+85}}rpx">
-  <BlockBox title="学校名">
+  <BlockBox title="买家名">
     <van-field
       value="{{ name }}"
-      placeholder="请输入学校名"
+      placeholder="请输入买家名"
       border="{{ false }}"
       bind:change="onChange"
       id="name"
     />
   </BlockBox>
-  <BlockBox title="学校地址">
+  <BlockBox title="买家地址">
     <van-field
       value="{{ address }}"
-      placeholder="请输入学校地址"
+      placeholder="请输入买家地址"
       border="{{ false }}"
       bind:change="onChange"
       id="address"
     />
   </BlockBox>
-  <BlockBox title="年级">
+  <BlockBox title="级别">
     <van-cell-group wx:for="{{grade}}" wx:key="title">
       <van-field
         value="{{ item.name }}"
-        placeholder="请输入年级"
+        placeholder="请输入级别"
         border="{{ false }}"
         input-class="optionTitle"
         bind:change="onChangeSpec"
@@ -33,22 +33,22 @@
       <block wx:for="{{item.className}}" wx:for-item="items" wx:for-index="idx" wx:key="items">
         <van-field
           value="{{ items }}"
-          placeholder="请输入班级"
+          placeholder="请输入班别"
           border="{{ false }}"
           input-class="optionInput"
           bind:change="onChangeSpec"
-          data-index="{{index}}"  
+          data-index="{{index}}"
           data-id="{{idx}}"
         />
       </block>
     </van-cell-group>
-    <van-button type="default" custom-class="addBtn" bindtap="addSpec" block>添加年级</van-button>
+    <van-button type="default" custom-class="addBtn" bindtap="addSpec" block>添加级别</van-button>
   </BlockBox>
   <BlockBox title="LOGO">
-    <van-uploader 
-      file-list="{{ fileList }}" 
+    <van-uploader
+      file-list="{{ fileList }}"
       deletable="{{ false }}"
-      bind:after-read="afterRead" 
+      bind:after-read="afterRead"
     />
   </BlockBox>
   <BlockBox title="申请列表" wx:if="{{adminList.length}}">
@@ -61,5 +61,5 @@
       </view>
     </view>
   </BlockBox>
-  <BottomBtn text="{{type == 0 ? '新增学校' : (type==1 ? '修改学校' : '删除学校')}}" isShow="{{showSchoolManageButton}}"  bindtap="manageSchool" />
+  <BottomBtn text="{{type == 0 ? '新增买家' : (type==1 ? '修改买家' : '删除买家')}}" isShow="{{showSchoolManageButton}}"  bindtap="manageSchool" />
 </view>

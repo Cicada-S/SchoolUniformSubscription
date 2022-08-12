@@ -9,12 +9,12 @@ const db = cloud.database()
 exports.main = async (event, context) => {
   let {id, name, address, logo, grade} = event
   try {
-    // 删除原有的年级
+    // 删除原有的级别
     await db.collection('Grade').where({
       schoolId: id
     }).remove()
 
-    // 修改学校信息
+    // 修改买家信息
     await db.collection('School').doc(id).update({
       data: {
         name: name,
@@ -25,7 +25,7 @@ exports.main = async (event, context) => {
       }
     })
 
-    // 添加年级
+    // 添加级别
     grade.forEach(async (item, index) => {
       let newItem = {...item}
       newItem.order = index
@@ -38,7 +38,7 @@ exports.main = async (event, context) => {
     // 成功返回
     return {
       code: 0,
-      success: true 
+      success: true
     }
   }
   catch (err) {

@@ -8,5 +8,5 @@
     "van-field": "@vant/weapp/field/index",
     "van-picker": "@vant/weapp/picker/index"
   },
-  "navigationBarTitleText": "添加学生"
+  "navigationBarTitleText": "添加小朋友"
 }

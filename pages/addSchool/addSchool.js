@@ -4,7 +4,7 @@ const app = getApp()
 const uuid = require('../../utils/uuid.js');
 import { pathOfDate } from '../../utils/util'
 
-let id = '' // 编辑学校的id
+let id = '' // 编辑买家的id
 const db = wx.cloud.database()
 const SchoolManager = db.collection('SchoolManager')
 
@@ -21,7 +21,7 @@ Page({
     ],
     fileList: [],
     showSchoolManageButton: false,
-    type: 0, //0: '新增学校', 1: '修改学校', 2: '删除学校'
+    type: 0, //0: '新增买家', 1: '修改买家', 2: '删除买家'
     editLogo: false,
     adminList: [] // 申请成为管理员
   },
@@ -31,7 +31,7 @@ Page({
     id = options.id
     if(id) {
       wx.setNavigationBarTitle({
-        title: '编辑学校'
+        title: '编辑买家'
       })
       this.getSchoolInfo(id)
       this.getSchoolManager(id)
@@ -52,13 +52,13 @@ Page({
 
     }else{
       this.setData({
-        type: 0, 
+        type: 0,
         showSchoolManageButton: true
       })
     }
   },
 
-  // 编辑学校时回填数据
+  // 编辑买家时回填数据
   async getSchoolInfo(id) {
     await wx.cloud.callFunction({
       name: 'getSchoolInfo',
@@ -84,7 +84,7 @@ Page({
 
   // 获取申请成为管理员的列表
   getSchoolManager(id) {
-    SchoolManager.where({ 
+    SchoolManager.where({
       schoolId: id, status: 1
     }).get().then(res => {
       this.setData({
@@ -101,7 +101,7 @@ Page({
 
     wx.showModal({
       title: '提示',
-      content: '确定拒绝该用户升级为学校管理员吗？',
+      content: '确定拒绝该用户升级为买家管理员吗？',
       success (res) {
         if (res.confirm) {
           SchoolManager.doc(id).remove()
@@ -132,7 +132,7 @@ Page({
 
     wx.showModal({
       title: '提示',
-      content: '确定将该用户升级为学校管理员吗？',
+      content: '确定将该用户升级为买家管理员吗？',
       success (res) {
         if (res.confirm) {
           SchoolManager.doc(id).update({data: {status:0}})
@@ -162,9 +162,9 @@ Page({
     })
   },
 
-  // 监听年级中输入框的值
+  // 监听级别中输入框的值
   onChangeSpec(event) {
-    // index 为年级的索引 id 为年级中选项的索引
+    // index 为级别的索引 id 为级别中选项的索引
     let { index, id } = event.currentTarget.dataset
     // 不能直接使用 !id 因为 id=0 时为 false
     if(!id && id !== 0) {
@@ -178,7 +178,7 @@ Page({
     }
   },
 
-  // 添加年级中的选项
+  // 添加级别中的选项
   addSpecValue(event) {
     let { id } = event.target
     let className = this.data.grade[id].className
@@ -188,7 +188,7 @@ Page({
     })
   },
 
-  // 添加年级
+  // 添加级别
   addSpec() {
     let grade = this.data.grade
     grade.push({
@@ -209,7 +209,7 @@ Page({
   },
 
   manageSchool(){
-    if(this.data.type === 2){//delete 
+    if(this.data.type === 2){//delete
       this.deleteSchool()
     }else{
       this.addSchool()
@@ -220,7 +220,7 @@ Page({
     let _this = this
     wx.showModal({
       title: '提示',
-      content: '确定要删除该学校吗？',
+      content: '确定要删除该买家吗？',
       success(res) {
         if (res.confirm) {
           let user = wx.getStorageSync('currentUser');
@@ -253,7 +253,7 @@ Page({
     })
   },
 
-  // 添加学校的处理函数
+  // 添加买家的处理函数
   async addSchool() {
     let text = this.data.type === 0 ? '添加' : '修改'
     let { name, address, fileList, grade} = this.data;
@@ -285,7 +285,7 @@ Page({
       })
     }
 
-    // 添加/修改 学校
+    // 添加/修改 买家
     let results = this.data.type === 0 ? this.request('addSchool', schoolInfo) : this.request('editSchool', schoolInfo)
 
     results.then(res => {
@@ -316,7 +316,7 @@ Page({
   check(schoolInfo){
     if(!schoolInfo.name){
       wx.showToast({
-        title: `学校名不能为空`,
+        title: `买家名不能为空`,
         icon: 'none',
         duration: 1000
       })
@@ -325,7 +325,7 @@ Page({
 
     if(!schoolInfo.address){
       wx.showToast({
-        title: `学校地址不能为空`,
+        title: `买家地址不能为空`,
         icon: 'none',
         duration: 1000
       })
@@ -336,7 +336,7 @@ Page({
     schoolInfo.grade.forEach(item => {
       if(!item.name){
         wx.showToast({
-          title: `年级不能为空`,
+          title: `级别不能为空`,
           icon: 'none',
           duration: 1000
         })
@@ -347,7 +347,7 @@ Page({
       item.className.forEach(c => {
         if(!c){
           wx.showToast({
-            title: `班级不能为空`,
+            title: `班别不能为空`,
             icon: 'none',
             duration: 1000
           })

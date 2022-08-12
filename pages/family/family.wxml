@@ -15,5 +15,5 @@
     </view>
   </view>
 
-  <BottomBtn text="添加学生" bindtap="toEditStudentInfo" />
+  <BottomBtn text="添加小朋友" bindtap="toEditStudentInfo" />
 </view>

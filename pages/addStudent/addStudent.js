@@ -3,15 +3,15 @@ const db = wx.cloud.database()
 
 Page({
   data: {
-    studentId: '', // 学生id
-    schoolId: '', // 学校id
-    schoolName: '', // 学校名
-    studentName: '', // 学生姓名
+    studentId: '', // 小朋友id
+    schoolId: '', // 买家id
+    schoolName: '', // 买家名
+    studentName: '', // 小朋友姓名
     radio: '', // 性别
     phone: '', // 手机号
     multiIndex: [0, 0],
-    multiArray: [], 
-    classArray: [], // 班级
+    multiArray: [],
+    classArray: [], // 班别
     studentInfo: {} // 编辑时显示
   },
 
@@ -26,13 +26,13 @@ Page({
     this.getSchool(schoolId, studentInfo)
   },
 
-  // 编辑学生时 数据回填 
+  // 编辑小朋友时 数据回填
   backfillData(studentInfo) {
     studentInfo = JSON.parse(studentInfo)
 
     let { multiArray, classArray } = this.data
     let { gradeName, className } = studentInfo
-    
+
     let gradeIndex = multiArray[0].indexOf(gradeName)
     let classIndex = classArray[gradeIndex].indexOf(className)
     multiArray[0] = multiArray[0]
@@ -47,11 +47,11 @@ Page({
       multiArray
     })
     wx.setNavigationBarTitle({
-      title: '编辑学生'
+      title: '编辑小朋友'
     })
   },
 
-  // 获取学校列表
+  // 获取买家列表
   getSchool(schoolId, studentInfo) {
     wx.cloud.callFunction({
       name: 'getGrade',
@@ -61,7 +61,7 @@ Page({
 
       let multiArray = grade.slice(0, 2)
       let classArray = grade.slice(1, grade.length)
-      
+
       this.setData({
         schoolName: school.name,
         multiArray,
@@ -86,7 +86,7 @@ Page({
     });
   },
 
-  // 添加/编辑 学生
+  // 添加/编辑 小朋友
   addStudent() {
     let text = this.data.studentId ? '编辑' : '添加'
 
@@ -122,7 +122,7 @@ Page({
     })
   },
 
-  // 添加/编辑学生的请求
+  // 添加/编辑小朋友的请求
   async request(surface, data, studentId) {
     data.studentId = studentId
     return await wx.cloud.callFunction({

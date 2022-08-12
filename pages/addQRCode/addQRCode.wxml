@@ -6,53 +6,53 @@
   </BlockBox>
 
   <BlockBox title="标题">
-    <van-field 
-      value="{{ titleValue }}" 
-      placeholder="请输入标题" 
-      border="{{ false }}" 
+    <van-field
+      value="{{ titleValue }}"
+      placeholder="请输入标题"
+      border="{{ false }}"
       bind:change="onChange"
     />
   </BlockBox>
-  <BlockBox title="学校">
-    <van-cell 
-      title="{{school.name}}" 
-      border="{{false}}" 
-      bindtap="isActionSheet" 
+  <BlockBox title="买家">
+    <van-cell
+      title="{{school.name}}"
+      border="{{false}}"
+      bindtap="isActionSheet"
       id="school"
-      title-class="cellTitle" 
-      is-link 
+      title-class="cellTitle"
+      is-link
     />
   </BlockBox>
   <BlockBox title="时间">
-      <van-cell 
-      title="开始时间" 
-      border="{{false}}"  
-      bindtap="isActionSheet" 
+      <van-cell
+      title="开始时间"
+      border="{{false}}"
+      bindtap="isActionSheet"
       id="startTime"
-      value="{{date.startTime}}" 
-      is-link 
+      value="{{date.startTime}}"
+      is-link
     />
-    <van-cell   
-      title="结束时间" 
-      border="{{false}}" 
-      bindtap="isActionSheet" 
+    <van-cell
+      title="结束时间"
+      border="{{false}}"
+      bindtap="isActionSheet"
       id="endTime"
       value="{{date.endTime}}"
-      is-link 
+      is-link
     />
   </BlockBox>
 
   <BlockBox title="商品">
-    <van-cell 
-      title="选择商品" 
-      border="{{false}}" 
-      bindtap="isProduct" 
-      title-class="cellTitle" 
-      is-link 
+    <van-cell
+      title="选择商品"
+      border="{{false}}"
+      bindtap="isProduct"
+      title-class="cellTitle"
+      is-link
     />
-    <van-swipe-cell 
-      right-width="{{ 60 }}" 
-      wx:for="{{ goodsDataList }}" 
+    <van-swipe-cell
+      right-width="{{ 60 }}"
+      wx:for="{{ goodsDataList }}"
       wx:key="_id"
     >
       <view class="goodsItem">
@@ -63,11 +63,11 @@
     </van-swipe-cell>
   </BlockBox>
 
-  <!-- 学校选择器 -->
+  <!-- 买家选择器 -->
   <van-action-sheet
     show="{{ schoolShow }}"
     actions="{{ actions }}"
-    description="选择学校"
+    description="选择买家"
     bind:close="onClose"
     bind:select="onSelect"
   />

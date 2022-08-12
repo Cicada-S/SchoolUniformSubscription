@@ -13,8 +13,8 @@ Page({
     titleValue: '', // 标题
     school: {
       id: '',
-      name: '请选择学校'
-    }, // 学校
+      name: '请选择买家'
+    }, // 买家
     timeType: '', // 时间类型 开始 结束
     time: { // 时间戳
       startTime: '',
@@ -25,14 +25,14 @@ Page({
       endTime: '',
     },
     timeShow: false, // 时间选择器显示状态
-    schoolShow: false, // 学校选择器显示状态
+    schoolShow: false, // 买家选择器显示状态
     // 时间选择器
     minHour: 10,
     maxHour: 20,
     minDate: new Date().getTime(),
     maxDate: new Date(2050, 12, 31).getTime(),
     currentDate: new Date().getTime(),
-    // 学校选择器 
+    // 买家选择器
     actions: [],
     // 商品数据
     goodsDataList: [],
@@ -44,7 +44,7 @@ Page({
 
   // 页面初始化
   onLoad(options) {
-    
+
     this.getSchoolList()
 
     if(options.id) {
@@ -97,7 +97,7 @@ Page({
       titleValue: event.detail
     })
   },
- 
+
   // 点击 弹出选择框 的回调函数
   isActionSheet(event) {
     if (event.target.id === 'school') {
@@ -112,7 +112,7 @@ Page({
     }
   },
 
-  // 学校选择器 选择时 的回调函数
+  // 买家选择器 选择时 的回调函数
   onSelect(event) {
     let school = {
       id: event.detail._id,
@@ -123,7 +123,7 @@ Page({
     })
   },
 
-  // 学校选择器 关闭时 的回调函数
+  // 买家选择器 关闭时 的回调函数
   onClose(event) {
     this.setData({
       schoolShow: false
@@ -147,7 +147,7 @@ Page({
       timeShow: false,
     })
   },
-  
+
   // 选择商品 的回调函数
   isProduct() {
     wx.navigateTo({
@@ -168,7 +168,7 @@ Page({
     })
   },
 
-  // 获取学校
+  // 获取买家
   async getSchoolList() {
     await School.where({status: 0}).get().then(res => {
       this.setData({
@@ -230,7 +230,7 @@ Page({
     if(!this.check()){
       return;
     }
-    
+
     wx.showLoading({
       title: '上传中...'
     })
@@ -269,7 +269,7 @@ Page({
     }
     if(!this.data.school.id){
       wx.showToast({
-        title: `请选择学校`,
+        title: `请选择买家`,
         icon: 'none',
         duration: 1000
       })
@@ -294,7 +294,7 @@ Page({
       return false;
     }
 
-    
+
     if(this.data.goodsDataList.length == 0){
       wx.showToast({
         title: `请选择商品`,

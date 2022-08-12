@@ -9,11 +9,11 @@ Page({
     bottomLift: app.globalData.bottomLift,
     show: false, // 显示popup弹窗
     popupType: true, // popup弹窗的类型 选购/购物车
-    schoolId: '', // 学校id
-    schoolName: '', // 学校名
+    schoolId: '', // 买家id
+    schoolName: '', // 买家名
     sellQrCodeId: '', // 二维码id
     sellQrCodeTitle: '', // 二维码标题
-    studentInfo: {}, // 学生信息
+    studentInfo: {}, // 小朋友信息
     ProductList: [], // 商品
     ProductInfo: {}, // 选购
     shopCart: [], // 购物车
@@ -88,7 +88,7 @@ Page({
     })
   },
 
-  // 切换学生
+  // 切换小朋友
   toFamily() {
     let { schoolId, schoolName } = this.data
     wx.navigateTo({

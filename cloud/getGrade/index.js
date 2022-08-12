@@ -9,12 +9,12 @@ const db = cloud.database()
 exports.main = async (event, context) => {
   let data = {}
   try {
-    // 获取学校
+    // 获取买家
     await db.collection('School').doc(event.schoolId).get()
     .then(async res => {
       data.school = res.data
 
-      // 获取年级
+      // 获取级别
       await db.collection('Grade').where({ schoolId: res.data._id }).get()
       .then(res => {
         data.grade = res.data
@@ -28,7 +28,7 @@ exports.main = async (event, context) => {
       grade[index + 1] = item.className
     })
     data.grade = grade
-  
+
     // 成功返回
     return {
       code: 0,

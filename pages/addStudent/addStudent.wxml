@@ -1,9 +1,9 @@
 <!--pages/addStudent/addStudent.wxml-->
 <view class="container">
-  <BlockBox title="学生信息">
+  <BlockBox title="小朋友信息">
     <van-field
       value="{{ studentName }}"
-      label="学生姓名："
+      label="姓名："
       placeholder="请输入姓名"
       input-align="right"
       bind:change="onChangeValue"
@@ -26,33 +26,33 @@
       id="phone"
     />
   </BlockBox>
-  
-  <BlockBox title="学校信息">
+
+  <BlockBox title="买家信息">
     <van-field
-      label="学校"
+      label="买家"
       value="{{ schoolName }}"
       border="{{ false }}"
       readonly
       input-align="right"
     />
-    <!-- 选择班级 -->
-    <picker 
-      mode="multiSelector" 
-      bindchange="bindMultiPickerChange" 
-      bindcolumnchange="bindMultiPickerColumnChange" 
-      value="{{multiIndex}}" 
+    <!-- 选择班别 -->
+    <picker
+      mode="multiSelector"
+      bindchange="bindMultiPickerChange"
+      bindcolumnchange="bindMultiPickerColumnChange"
+      value="{{multiIndex}}"
       range="{{multiArray}}"
     >
       <view class="picker">
-        <van-cell 
-          title="选择班级" 
-          is-link 
-          value="{{multiArray[0][multiIndex[0]]}} {{multiArray[1][multiIndex[1]]}}" 
+        <van-cell
+          title="选择班别"
+          is-link
+          value="{{multiArray[0][multiIndex[0]]}} {{multiArray[1][multiIndex[1]]}}"
         />
       </view>
     </picker>
   </BlockBox>
 
 
-  <BottomBtn text="{{studentId?'编辑':'添加'}}学生" bindtap="addStudent" />
+  <BottomBtn text="{{studentId?'编辑':'添加'}}小朋友" bindtap="addStudent" />
 </view>
