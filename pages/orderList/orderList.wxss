@@ -3,16 +3,6 @@
   width: 100vw;
   padding: 20rpx 30rpx;
 }
-.container .blockBox {
-  width: 100%;
-  font-size: 32rpx;
-  border-radius: 16rpx;
-  overflow: hidden;
-  background-color: #FFFFFF;
-  box-shadow: 2rpx 4rpx 12rpx 2rpx rgba(0, 0, 0, 0.16);
-  padding: 20rpx;
-  margin-bottom: 20rpx;
-}
 .container .productInfo {
   display: flex;
   padding: 30rpx;
@@ -42,8 +32,4 @@
 .container .productInfo .info .parameter {
   color: #757575;
   font-size: 24rpx;
-}
-.container .productInfo .info .totalPrice {
-  align-self: flex-end;
-  justify-self: flex-end;
 }
