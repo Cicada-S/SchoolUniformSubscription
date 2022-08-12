@@ -17,19 +17,19 @@ exports.main = async (event, context) => {
       return await db.collection('OrderProduct').where({orderId:item._id}).get()
     })
 
-    let orderProductList = []
-    Promise.all(orderList).then(res => {
-      let orderProductList = res.map(item => {
-        orderProductList.push(...item.data)
-      })
+    console.log('orderList', orderList)
+    let orderProductList = await Promise.all(orderList)
+    
+    let data = []
+    orderProductList.forEach(item => {
+      data.unshift(...item.data)
     })
-
-    console.log(orderProductList)
+    console.log(data)
 
     // 成功返回
     return {
       code: 0,
-      data: orderProductList,
+      data,
       success: true
     }
   }

@@ -24,7 +24,6 @@
 .container .orderItem .productInfo image {
   width: 160rpx;
   height: 160rpx;
-  border: 1rpx solid pink;
 }
 .container .orderItem .productInfo .info {
   flex: 1;

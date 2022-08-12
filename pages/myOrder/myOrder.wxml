@@ -2,18 +2,18 @@
 <view class="container">
   <view class="blockBox orderItem" wx:for="{{orderList}}" wx:key="_id">
     <view class="productInfo">
-      <image src="" />
+      <image src="{{item.headImage}}" />
       <view class="info">
         <view class="item title">
-          <view>夏季运动套装</view>
-          <view class="right">¥ {{58}}</view>
+          <view>{{item.productName}}</view>
+          <view class="right">¥ {{item.unitPrice}}</view>
         </view>
         <view class="item parameter">
-          <view>女，120，白蓝</view>
-          <view class="right">x{{2}}</view>
+          <view>{{item.specification}}</view>
+          <view class="right">x{{item.amount}}</view>
         </view>
       </view>
     </view>
-    <view class="totalPrice">实付款 <text class="icon">¥</text> 116</view>
+    <view class="totalPrice">实付款 <text class="icon">¥</text> {{item.totalPrice}}</view>
   </view>
 </view>
