@@ -1,0 +1,58 @@
+/* pages/orderList/orderList.wxss */
+.container {
+  width: 100vw;
+  padding: 20rpx 30rpx;
+
+  .blockBox {
+    width: 100%;
+    font-size: 32rpx;
+    border-radius: 16rpx;
+    overflow: hidden;
+    background-color: #FFFFFF;
+    box-shadow: 2rpx 4rpx 12rpx 2rpx rgba(0, 0, 0, .16);
+    padding: 20rpx;
+    margin-bottom: 20rpx;
+  }
+
+  .productInfo {
+    display: flex;
+    padding: 30rpx;
+
+    image {
+      width: 160rpx;
+      height: 160rpx;
+      border: 1rpx solid pink;
+    }
+
+    .info {
+      flex: 1;
+      padding-left: 20rpx;
+
+      .item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10rpx;
+
+        .right {
+          min-width: 80rpx;
+          max-width: 150rpx;
+          text-align: right;
+        }
+      }
+
+      .title {
+        font-size: 28rpx;
+      }
+
+      .parameter {
+        color: #757575;
+        font-size: 24rpx;
+      }
+
+      .totalPrice {
+        align-self: flex-end;
+        justify-self: flex-end;
+      }
+    }
+  }
+}

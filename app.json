@@ -16,7 +16,8 @@
     "pages/order/order",
     "pages/productDetails/productDetails",
     "pages/apply/apply",
-    "pages/myOrder/myOrder"
+    "pages/myOrder/myOrder",
+    "pages/orderList/orderList"
   ],
   "window": {
     "backgroundTextStyle": "light",

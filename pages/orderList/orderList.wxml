@@ -1,0 +1,18 @@
+<!--pages/orderList/orderList.wxml-->
+<view class="container">
+  <BlockBox title="Cicada">
+    <view class="productInfo" wx:for="{{2}}">
+      <image src="{{item.headImage}}" />
+      <view class="info">
+        <view class="item title">
+          <view>夏季运动套装</view>
+          <view class="right">¥ 98</view>
+        </view>
+        <view class="item parameter">
+          <view>男，175，白蓝</view>
+          <view class="right">x2</view>
+        </view>
+      </view>
+    </view>
+  </BlockBox>
+</view>
