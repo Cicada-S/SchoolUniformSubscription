@@ -1,18 +1,27 @@
 <!--pages/orderList/orderList.wxml-->
 <view class="container">
-  <BlockBox title="Cicada">
-    <view class="productInfo" wx:for="{{2}}">
-      <image src="{{item.headImage}}" />
-      <view class="info">
-        <view class="item title">
-          <view>夏季运动套装</view>
-          <view class="right">¥ 98</view>
-        </view>
-        <view class="item parameter">
-          <view>男，175，白蓝</view>
-          <view class="right">x2</view>
+  <van-dropdown-menu active-color="#407EF5">
+    <van-dropdown-item value="{{ value1 }}" options="{{ option1 }}" />
+    <van-dropdown-item value="{{ value2 }}" options="{{ option2 }}" />
+  </van-dropdown-menu>
+
+  <view class="orderList">
+    <BlockBox title="Cicada">
+      <view class="productInfo">
+        <image src="{{item.headImage}}" />
+        <view class="info">
+          <view class="item title">
+            <view>夏季运动套装</view>
+            <view class="right">¥ 98</view>
+          </view>
+          <view class="item parameter">
+            <view>男，175，白蓝</view>
+            <view class="right">x2</view>
+          </view>
         </view>
       </view>
-    </view>
-  </BlockBox>
+    </BlockBox>
+
+  </view>
+
 </view>

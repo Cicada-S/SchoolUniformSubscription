@@ -1,35 +1,37 @@
 /* pages/orderList/orderList.wxss */
 .container {
   width: 100vw;
+}
+.container .orderList {
   padding: 20rpx 30rpx;
 }
-.container .productInfo {
+.container .orderList .productInfo {
   display: flex;
   padding: 30rpx;
 }
-.container .productInfo image {
+.container .orderList .productInfo image {
   width: 160rpx;
   height: 160rpx;
   border: 1rpx solid pink;
 }
-.container .productInfo .info {
+.container .orderList .productInfo .info {
   flex: 1;
   padding-left: 20rpx;
 }
-.container .productInfo .info .item {
+.container .orderList .productInfo .info .item {
   display: flex;
   justify-content: space-between;
   margin-bottom: 10rpx;
 }
-.container .productInfo .info .item .right {
+.container .orderList .productInfo .info .item .right {
   min-width: 80rpx;
   max-width: 150rpx;
   text-align: right;
 }
-.container .productInfo .info .title {
+.container .orderList .productInfo .info .title {
   font-size: 28rpx;
 }
-.container .productInfo .info .parameter {
+.container .orderList .productInfo .info .parameter {
   color: #757575;
   font-size: 24rpx;
 }
