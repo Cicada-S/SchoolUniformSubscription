@@ -1,8 +1,8 @@
 <!-- pages/QRCode/QRCode.wxml -->
 <view class="container">
-
+  
   <BlockBox title="" wx:if="{{qrCodePath}}">
-    <image src="{{qrCodePath}}"/>
+    <image mode="aspectFit" src="{{qrCodePath}}"/> 
   </BlockBox>
 
   <BlockBox title="标题">

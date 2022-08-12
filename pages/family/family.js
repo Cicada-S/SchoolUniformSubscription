@@ -10,6 +10,7 @@ Page({
     schoolId: '', // 买家id
     schoolName: '', // 买家名
     family: [], // 小朋友
+    flag: 0
   },
 
   // 页面初始化
@@ -21,7 +22,18 @@ Page({
     })
     this.getStudent(schoolId)
   },
-
+  onShow(){
+    //新增或者修改家人信息后需要刷新列表
+    this.setData({
+      flag: this.data.flag + 1
+    })
+    
+    console.info('this.data.flag .........' + this.data.flag)
+    if(this.data.flag > 1 && this.data.schoolId){
+      console.info('refresh .........')
+      this.getStudent(this.data.schoolId)
+    }
+  },
   // 获取家人列表
   getStudent(id) {
     let { _openid } = wx.getStorageSync('currentUser')

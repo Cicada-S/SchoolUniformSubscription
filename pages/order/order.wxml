@@ -26,7 +26,7 @@
     <view class="cell">
       <van-field
         label="配送方式："
-        value="统一发放到买家"
+        value="统一发放"
         placeholder="请输入用户名"
         border="{{ false }}"
         readonly
