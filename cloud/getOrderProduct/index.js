@@ -7,13 +7,11 @@ const db = cloud.database()
 
 // 云函数入口函数
 exports.main = async (event, context) => {
-  console.log(event)
-  let _openid = event._openid
 
   try {
-    let order = await db.collection('Order').where({_openid}).get()
+    let order = await db.collection('Order').where({'_openid': cloud.getWXContext().OPENID, 'status': 1}).get()
 
-    let orderList = order.data?.map(async item => {
+    let orderList = order.data.map(async item => {
       return await db.collection('OrderProduct').where({orderId:item._id}).get()
     })
 

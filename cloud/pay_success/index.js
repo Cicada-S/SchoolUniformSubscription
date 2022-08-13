@@ -7,6 +7,7 @@ const db = cloud.database()
 exports.main = async (event, context) => {
   const orderId = event.outTradeNo
   const returnCode = event.returnCode
+  const totalPrice = event.totalFee
   if(returnCode == 'SUCCESS'){
     //更新云数据库的订单状态，改为已支付的状态即可
     db.collection('Order').where({
@@ -14,6 +15,7 @@ exports.main = async (event, context) => {
     }).update({
       data:{
         status:1,
+        totalPrice: totalPrice,
         lastModifiedTime: new Date(),
         lastModifiedOpenid: cloud.getWXContext().OPENID,
       }
