@@ -12,6 +12,11 @@
       <text class="iconfont icon-yqfqiehuan"></text>
     </view>
   </view>
+
+  <view wx:if="{{true}}" class="orderList">
+    <view class="text" bindtap="toOrderList">查看订单列表</view>
+  </view>
+
   <view class="promptDox">
     <view class="tips">
       <image src="/static/images/schoolShop/reserve.png" />

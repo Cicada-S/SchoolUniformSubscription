@@ -1,6 +1,7 @@
 // pages/schoolShop/schoolShop.js
 const app = getApp()
-const db = wx.cloud.database();
+const db = wx.cloud.database()
+const SchoolManager = db.collection('SchoolManager')
 
 import { toDates } from '../../utils/util'
 
@@ -19,7 +20,8 @@ Page({
     shopCart: [], // 购物车
     cartNum: 0, // 购物车商品数量
     totalPrice: 0, // 总价
-    endDate: '' // 结束时间
+    endDate: '', // 结束时间
+    isSchoolAdmin: false // 是否为管理员
   },
 
   // 页面初始化
@@ -30,6 +32,7 @@ Page({
     this.setData({ sellQrCodeId: scene })
     this.getUserInfo(scene)
     this.getProductList(scene)
+    this.getIdentity()
 
     this.countTotalPrice()
   },
@@ -55,9 +58,6 @@ Page({
 
   // 页面显示
   onShow() {
-
-    console.log('show')
-
     let studentInfo = wx.getStorageSync('studentInfo')
     // 获取本地存储的购物车数据
     let shopCart = []
@@ -88,11 +88,28 @@ Page({
     })
   },
 
+  // 判断是否为管理员
+  async getIdentity() {
+    let schoolId = this.data.schoolId
+    console.log(schoolId)
+    let res = await SchoolManager.where({schoolId}).get()
+    
+    console.log(res)
+  },
+
   // 切换小朋友
   toFamily() {
     let { schoolId, schoolName } = this.data
     wx.navigateTo({
       url: `/pages/family/family?schoolId=${schoolId}&schoolName=${schoolName}`
+    })
+  },
+
+  // 跳转到订单列表
+  toOrderList() {
+    let {schoolId, sellQrCodeId} = this.data
+    wx.navigateTo({
+      url: `/pages/orderList/orderList?schoolId=${schoolId}&sellQrCodeId=${sellQrCodeId}`
     })
   },
 
