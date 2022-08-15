@@ -12,7 +12,6 @@
 .container .orderList .productInfo image {
   width: 160rpx;
   height: 160rpx;
-  border: 1rpx solid pink;
 }
 .container .orderList .productInfo .info {
   flex: 1;

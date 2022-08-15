@@ -3,22 +3,22 @@
   <Search bind:search="search" />
 
   <van-dropdown-menu active-color="#407EF5">
-    <van-dropdown-item value="{{ gradeValue }}" options="{{ gradeList }}" />
-    <van-dropdown-item value="{{ classValue }}" options="{{ classList }}" />
+    <van-dropdown-item value="{{ gradeValue }}" options="{{ gradeList }}" bind:change="onChangeGrade" />
+    <van-dropdown-item value="{{ classValue }}" disabled="{{disabled}}" options="{{ classList }}" bind:change="onChangeClass" />
   </van-dropdown-menu>
 
   <view class="orderList">
-    <BlockBox title="Cicada">
-      <view class="productInfo">
-        <image src="{{item.headImage}}" />
+    <BlockBox title="{{item.studentName}}" wx:for="{{orderList}}" wx:key="_id">
+      <view class="productInfo" wx:for="{{item.orderProduct}}" wx:key="_id" wx:for-item="pItem">
+        <image src="{{pItem.headImage}}" />
         <view class="info">
           <view class="item title">
-            <view>夏季运动套装</view>
-            <view class="right">¥ 98</view>
+            <view>{{pItem.productName}}</view>
+            <view class="right">¥ {{pItem.unitPrice}}</view>
           </view>
           <view class="item parameter">
-            <view>男，175，白蓝</view>
-            <view class="right">x2</view>
+            <view>{{pItem.specification}}</view>
+            <view class="right">x{{pItem.amount}}</view>
           </view>
         </view>
       </view>

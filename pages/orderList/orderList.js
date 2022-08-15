@@ -4,8 +4,10 @@ Page({
     orderList: [],
     gradeList: [],
     classList: [],
+    spareClass: [],
     gradeValue: -1,
     classValue: -1,
+    disabled: true
   },
 
   // 页面初始化
@@ -21,17 +23,20 @@ Page({
   getOrderList(sellQrCodeId, schoolId) {
     wx.cloud.callFunction({
       name: 'getOrderList',
-      data: { sellQrCodeId, schoolId}
+      data: { sellQrCodeId, schoolId }
     }).then(res => {
-      console.log(res.result.data)
       let { gradeList, classList, order } = res.result.data
 
       gradeList.unshift({text: '全校', value: -1})
-      classList[0].unshift({text: '全级', value: -1})
+      classList = classList.map(item => {
+        item.unshift({text: '全级', value: -1})
+        return item
+      })
 
       this.setData({
         gradeList,
         classList: classList[0],
+        spareClass: classList,
         orderList: order
       })
     })
@@ -46,5 +51,31 @@ Page({
       searchValue: event.detail.searchValue
     })
     this.getOrderList()
+  },
+
+  // 选择年级
+  onChangeGrade(event) {
+    let spareClass = this.data.spareClass
+
+    if(event.detail === -1) {
+      this.setData({ 
+        disabled: true,
+        gradeValue: -1
+      })
+    } else {
+      this.setData({
+        disabled: false,
+        classList: spareClass[event.detail],
+        gradeValue: event.detail,
+        classValue: -1
+      })
+    }
+  },
+
+  // 选择班级
+  onChangeClass(event) {
+    this.setData({
+      classValue: event.detail
+    })
   }
 })
