@@ -4,7 +4,7 @@
 
   <van-dropdown-menu active-color="#407EF5">
     <van-dropdown-item value="{{ gradeValue }}" options="{{ gradeList }}" bind:change="onChangeGrade" />
-    <van-dropdown-item value="{{ classValue }}" disabled="{{disabled}}" options="{{ classList }}" bind:change="onChangeClass" />
+    <van-dropdown-item value="{{ classValue }}" options="{{ classList }}" bind:change="onChangeClass" />
   </van-dropdown-menu>
 
   <view class="orderList">

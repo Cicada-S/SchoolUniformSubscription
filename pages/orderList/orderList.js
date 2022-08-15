@@ -1,13 +1,14 @@
 // pages/orderList/orderList.js
 Page({
   data: {
-    orderList: [],
-    gradeList: [],
-    classList: [],
-    spareClass: [],
-    gradeValue: -1,
-    classValue: -1,
-    disabled: true
+    orderList: [], // 订单
+    gradeList: [], // 年级
+    classList: [], // 当前年级的班级
+    spareClass: [], // 全部班级
+    gradeValue: 0, // 年级默认值
+    classValue: -1, // 班级默认值
+    pageIndex: 1, // 当前分页
+    reachBottom: false, // 是否到底
   },
 
   // 页面初始化
@@ -21,13 +22,19 @@ Page({
 
   // 获取订单列表
   getOrderList(sellQrCodeId, schoolId) {
+    let gradeName = ''
+    let className = ''
+    this.data.gradeList.forEach(item => {
+      console.log('item', item)
+      if (item.value == this.data.gradeValue) gradeName = item.text
+    })
+
     wx.cloud.callFunction({
       name: 'getOrderList',
       data: { sellQrCodeId, schoolId }
     }).then(res => {
       let { gradeList, classList, order } = res.result.data
 
-      gradeList.unshift({text: '全校', value: -1})
       classList = classList.map(item => {
         item.unshift({text: '全级', value: -1})
         return item
@@ -46,7 +53,7 @@ Page({
   search(event){
     this.setData({
       pageIndex: 1,
-      QRCodelList: [],
+      orderList: [],
       reachBottom: false,
       searchValue: event.detail.searchValue
     })
@@ -56,20 +63,11 @@ Page({
   // 选择年级
   onChangeGrade(event) {
     let spareClass = this.data.spareClass
-
-    if(event.detail === -1) {
-      this.setData({ 
-        disabled: true,
-        gradeValue: -1
-      })
-    } else {
-      this.setData({
-        disabled: false,
-        classList: spareClass[event.detail],
-        gradeValue: event.detail,
-        classValue: -1
-      })
-    }
+    this.setData({
+      classList: spareClass[event.detail],
+      gradeValue: event.detail,
+      classValue: -1
+    })
   },
 
   // 选择班级
