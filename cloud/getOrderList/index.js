@@ -7,22 +7,58 @@ const db = cloud.database()
 
 // 云函数入口函数
 exports.main = async (event, context) => {
-  console.log(event)
-
+  let data = {}
   try {
-    db.collection('Grade').where({schoolId: event.schoolId}).get()
+    await db.collection('Grade').where({schoolId: event.schoolId}).get()
     .then(res => {
-      console.log(res)
+      let gradeList = []
+      let classList = []
+      
+      res.data.forEach((item, index) => {
+        gradeList.push({
+          text: item.name,
+          value: index
+        })
+        classList.push( item.className )
+      })
+
+      classList = classList.map(item => {
+        return item.map((cla, idx) => {
+          cla = { text: cla, value: idx }
+          return cla
+        })
+      })
+
+      data.gradeList = gradeList
+      data.classList = classList
     })
 
-    db.collection('Order').where({sellQrCodeId: event.sellQrCodeId}).get()
+    await db.collection('Order').aggregate().match({
+      sellQrCodeId: event.sellQrCodeId
+    }).lookup({
+      from: 'OrderProduct',
+      localField: '_id',
+      foreignField: 'orderId',
+      as: 'orderProduct'
+    }).end()
     .then(res => {
-      console.log(res)
+      data.order = res.list
     })
-
-
+    
+    // 成功返回
+    return {
+      code: 0,
+      data,
+      success: true
+    }
   }
   catch(err) {
-    console.log(err)
+    console.error('transaction error')
+    // 失败返回
+    return {
+      code: 1,
+      error: err,
+      success: false
+    }
   }
 }

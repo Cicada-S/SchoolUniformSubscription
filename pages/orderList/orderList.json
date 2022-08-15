@@ -1,6 +1,7 @@
 {
   "usingComponents": {
     "BlockBox": "/components/BlockBox/BlockBox",
+    "Search": "/components/Search/Search",
     "van-dropdown-menu": "@vant/weapp/dropdown-menu/index",
     "van-dropdown-item": "@vant/weapp/dropdown-item/index"
   },

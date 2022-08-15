@@ -2,18 +2,10 @@
 Page({
   data: {
     orderList: [],
-    option1: [
-      { text: '全校', value: 0 },
-      { text: '一年级', value: 1 },
-      { text: '二年级', value: 2 },
-    ],
-    option2: [
-      { text: '全年级', value: 'a' },
-      { text: '1班', value: 'b' },
-      { text: '2班', value: 'c' },
-    ],
-    value1: 0,
-    value2: 'a',
+    gradeList: [],
+    classList: [],
+    gradeValue: -1,
+    classValue: -1,
   },
 
   // 页面初始化
@@ -31,7 +23,28 @@ Page({
       name: 'getOrderList',
       data: { sellQrCodeId, schoolId}
     }).then(res => {
-      console.log(res)
+      console.log(res.result.data)
+      let { gradeList, classList, order } = res.result.data
+
+      gradeList.unshift({text: '全校', value: -1})
+      classList[0].unshift({text: '全级', value: -1})
+
+      this.setData({
+        gradeList,
+        classList: classList[0],
+        orderList: order
+      })
     })
+  },
+
+  // 搜索
+  search(event){
+    this.setData({
+      pageIndex: 1,
+      QRCodelList: [],
+      reachBottom: false,
+      searchValue: event.detail.searchValue
+    })
+    this.getOrderList()
   }
 })

@@ -1,8 +1,10 @@
 <!--pages/orderList/orderList.wxml-->
 <view class="container">
+  <Search bind:search="search" />
+
   <van-dropdown-menu active-color="#407EF5">
-    <van-dropdown-item value="{{ value1 }}" options="{{ option1 }}" />
-    <van-dropdown-item value="{{ value2 }}" options="{{ option2 }}" />
+    <van-dropdown-item value="{{ gradeValue }}" options="{{ gradeList }}" />
+    <van-dropdown-item value="{{ classValue }}" options="{{ classList }}" />
   </van-dropdown-menu>
 
   <view class="orderList">
@@ -21,7 +23,5 @@
         </view>
       </view>
     </BlockBox>
-
   </view>
-
 </view>
