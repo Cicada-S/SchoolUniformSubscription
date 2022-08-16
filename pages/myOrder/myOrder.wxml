@@ -1,19 +1,19 @@
 <!--pages/myOrder/myOrder.wxml-->
 <view class="container">
-  <view class="blockBox orderItem" wx:for="{{orderList}}" wx:key="_id">
-    <view class="productInfo">
-      <image src="{{item.headImage}}" />
+  <BlockBox title="{{item.sellQrCodeTitle}}" wx:for="{{orderList}}" wx:key="_id">
+    <view class="productInfo" wx:for="{{item.orderProduct}}" wx:key="_id" wx:for-item="pItem">
+      <image src="{{pItem.headImage}}" />
       <view class="info">
         <view class="item title">
-          <view>{{item.productName}}</view>
-          <view class="right">¥ {{item.unitPrice}}</view>
+          <view>{{pItem.productName}}</view>
+          <view class="right">¥ {{pItem.unitPrice}}</view>
         </view>
         <view class="item parameter">
-          <view>{{item.specification}}</view>
-          <view class="right">x{{item.amount}}</view>
+          <view>{{pItem.specification}}</view>
+          <view class="right">x{{pItem.amount}}</view>
         </view>
       </view>
     </view>
     <view class="totalPrice">实付款 <text class="icon">¥</text> {{item.totalPrice}}</view>
-  </view>
+  </BlockBox>
 </view>

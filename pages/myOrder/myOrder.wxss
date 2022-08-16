@@ -3,53 +3,40 @@
   width: 100vw;
   padding: 20rpx;
 }
-.container .blockBox {
-  width: 100%;
-  font-size: 32rpx;
-  border-radius: 16rpx;
-  overflow: hidden;
-  background-color: #FFFFFF;
-  box-shadow: 2rpx 4rpx 12rpx 2rpx rgba(0, 0, 0, 0.16);
-  margin-bottom: 20rpx;
-}
-.container .orderItem {
+.container .productInfo {
   display: flex;
-  flex-direction: column;
-  padding: 40rpx 30rpx 30rpx;
+  padding: 30rpx;
 }
-.container .orderItem .productInfo {
-  display: flex;
-  margin-bottom: 20rpx;
-}
-.container .orderItem .productInfo image {
+.container .productInfo image {
   width: 160rpx;
   height: 160rpx;
 }
-.container .orderItem .productInfo .info {
+.container .productInfo .info {
   flex: 1;
   padding-left: 20rpx;
 }
-.container .orderItem .productInfo .info .item {
+.container .productInfo .info .item {
   display: flex;
   justify-content: space-between;
   margin-bottom: 10rpx;
 }
-.container .orderItem .productInfo .info .item .right {
+.container .productInfo .info .item .right {
   min-width: 80rpx;
   max-width: 150rpx;
   text-align: right;
 }
-.container .orderItem .productInfo .info .title {
+.container .productInfo .info .title {
   font-size: 28rpx;
 }
-.container .orderItem .productInfo .info .parameter {
+.container .productInfo .info .parameter {
   color: #757575;
   font-size: 24rpx;
 }
-.container .orderItem .totalPrice {
-  align-self: flex-end;
+.container .totalPrice {
+  text-align: right;
+  padding: 0 30rpx 20rpx;
   font-size: 28rpx;
 }
-.container .orderItem .totalPrice .icon {
+.container .totalPrice .icon {
   font-size: 24rpx;
 }

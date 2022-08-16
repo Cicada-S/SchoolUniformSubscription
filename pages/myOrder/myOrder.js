@@ -10,16 +10,10 @@ Page({
   },
 
   // 获取订单商品列表
-  getOrderList() {
-    let { _openid } = wx.getStorageSync("currentUser")
-
-    wx.cloud.callFunction({
-      name: 'getOrderProduct',
-      data: { _openid }
-    }).then(res => {
-      this.setData({
-        orderList: res.result.data
-      })
+  async getOrderList() {
+    let { result } = await wx.cloud.callFunction({name: 'getOrderProduct'})
+    this.setData({
+      orderList: result.data
     })
   }
 })

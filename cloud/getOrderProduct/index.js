@@ -7,32 +7,26 @@ const db = cloud.database()
 
 // 云函数入口函数
 exports.main = async (event, context) => {
-
   try {
-    let order = await db.collection('Order').where({'_openid': cloud.getWXContext().OPENID, 'status': 1}).get()
-
-    let orderList = order.data.map(async item => {
-      return await db.collection('OrderProduct').where({orderId:item._id}).get()
+    let result = await db.collection('Order').aggregate().match({
+      _openid: cloud.getWXContext().OPENID,
+      status: 1
     })
-
-    console.log('orderList', orderList)
-    let orderProductList = await Promise.all(orderList)
-    
-    let data = []
-    orderProductList.forEach(item => {
-      data.unshift(...item.data)
-    })
-    console.log(data)
+    .lookup({
+      from: 'OrderProduct',
+      localField: '_id',
+      foreignField: 'orderId',
+      as: 'orderProduct'
+    }).end()
 
     // 成功返回
     return {
       code: 0,
-      data,
+      data: result.list,
       success: true
     }
   }
   catch(err) {
-    console.log(err)
     console.error('transaction error')
     // 失败返回
     return {
