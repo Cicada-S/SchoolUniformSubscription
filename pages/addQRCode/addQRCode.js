@@ -44,6 +44,7 @@ Page({
 
   // 页面初始化
   onLoad(options) {
+    console.log(options.id)
 
     this.getSchoolList()
 
@@ -96,6 +97,18 @@ Page({
     wx.previewImage({
       current: event.currentTarget.dataset.current,
       urls: [event.currentTarget.dataset.current]
+    })
+  },
+
+  exportOrderList() {
+    console.log('导出购买清单')
+
+    let id = this.data.id
+    wx.cloud.callFunction({
+      name: 'exportOrderList',
+      data: { id }
+    }).then(res => {
+      console.log(res)
     })
   },
 
