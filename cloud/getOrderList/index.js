@@ -7,11 +7,8 @@ const db = cloud.database()
 
 // 云函数入口函数
 exports.main = async (event, context) => {
-  console.log(event)
-
   let data = {}
   try {
-
     if(event.schoolId) {
       await db.collection('Grade').where({schoolId: event.schoolId}).get()
       .then(res => {
@@ -38,9 +35,20 @@ exports.main = async (event, context) => {
       })
     }
 
-    await db.collection('Order').aggregate().match({
-      sellQrCodeId: event.sellQrCodeId
-    }).lookup({
+    let newScreen = {}
+    if(event.newScreen) {
+      newScreen = {
+        ...event.newScreen,
+        sellQrCodeId: event.sellQrCodeId
+      }
+    } else {
+      newScreen = {
+        sellQrCodeId: event.sellQrCodeId
+      }
+    }
+
+    await db.collection('Order').aggregate().match(newScreen)
+    .lookup({
       from: 'OrderProduct',
       localField: '_id',
       foreignField: 'orderId',

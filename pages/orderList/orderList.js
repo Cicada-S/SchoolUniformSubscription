@@ -52,14 +52,21 @@ Page({
     let { searchValue, gradeText, classText } = this.data
     // 筛选条件
     let screen = {
-      searchValue,
-      gradeText,
-      classText
+      studentName: searchValue,
+      studentGradeName: gradeText,
+      studentClassName: classText
+    }
+
+    let newScreen = {}
+    for(let key in screen) {
+      if(screen[key] !== '') {
+        newScreen[key] = screen[key]
+      }
     }
 
     wx.cloud.callFunction({
       name: 'getOrderList',
-      data: { sellQrCodeId, screen }
+      data: { sellQrCodeId, newScreen }
     }).then(res => {
       this.setData({
         orderList: res.result.data.order
