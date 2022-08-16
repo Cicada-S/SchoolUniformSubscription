@@ -2,7 +2,7 @@
 <view class="container">
   
   <BlockBox title="" wx:if="{{qrCodePath}}">
-    <image mode="aspectFit" src="{{qrCodePath}}"/> 
+    <image mode="aspectFit" src="{{qrCodePath}}" data-current="{{qrCodePath}}" bindtap="preview" /> 
   </BlockBox>
 
   <BlockBox title="标题">
@@ -42,7 +42,7 @@
     />
   </BlockBox>
 
-  <BlockBox title="商品">
+  <BlockBox title="商品" style="margin-bottom:{{bottomLift*2+85}}rpx">
     <van-cell
       title="选择商品"
       border="{{false}}"

@@ -91,6 +91,14 @@ Page({
     })
   },
 
+  // 点击图片放大预览
+  preview(event) {
+    wx.previewImage({
+      current: event.currentTarget.dataset.current,
+      urls: [event.currentTarget.dataset.current]
+    })
+  },
+
   // 标题
   onChange(event) {
     this.setData({
