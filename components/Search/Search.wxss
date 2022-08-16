@@ -11,6 +11,8 @@
   background-color: #FFFFFF;
 }
 .searchContainer .input {
+  width: 100%;
+  height: 100%;
   line-height: 84rpx;
   outline: none;
 }

@@ -1,12 +1,12 @@
 <!--pages/orderList/orderList.wxml-->
 <view class="container">
-  
   <van-dropdown-menu active-color="#407EF5">
     <van-dropdown-item value="{{ gradeValue }}" options="{{ gradeList }}" bind:change="onChangeGrade" />
     <van-dropdown-item value="{{ classValue }}" options="{{ classList }}" bind:change="onChangeClass" />
   </van-dropdown-menu>
 
-    <Search bind:search="search" />
+  <Search bind:search="search" />
+
   <view class="orderList">
     <BlockBox title="{{item.studentName}}" wx:for="{{orderList}}" wx:key="_id">
       <view class="productInfo" wx:for="{{item.orderProduct}}" wx:key="_id" wx:for-item="pItem">
