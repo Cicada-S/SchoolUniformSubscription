@@ -1,6 +1,9 @@
 // pages/orderList/orderList.js
 Page({
   data: {
+    searchValue: '', // 搜索框的值
+    gradeText: '', // 年级所选text
+    classText: '', // 班级所选text
     orderList: [], // 订单
     gradeList: [], // 年级
     classList: [], // 当前年级的班级
@@ -9,6 +12,7 @@ Page({
     classValue: -1, // 班级默认值
     pageIndex: 1, // 当前分页
     reachBottom: false, // 是否到底
+    sellQrCodeId: '0a4ec1f962f45b2c19049662135c755d'
   },
 
   // 页面初始化
@@ -17,18 +21,11 @@ Page({
     let sellQrCodeId = '0a4ec1f962f45b2c19049662135c755d'
     let schoolId = '8f75309d62ea237d102837180c8273de'
 
-    this.getOrderList(sellQrCodeId, schoolId)
+    this.getOrderGrade(sellQrCodeId, schoolId)
   },
 
-  // 获取订单列表
-  getOrderList(sellQrCodeId, schoolId) {
-    let gradeName = ''
-    let className = ''
-    this.data.gradeList.forEach(item => {
-      console.log('item', item)
-      if (item.value == this.data.gradeValue) gradeName = item.text
-    })
-
+  // 获取订单 年级
+  getOrderGrade(sellQrCodeId, schoolId) {
     wx.cloud.callFunction({
       name: 'getOrderList',
       data: { sellQrCodeId, schoolId }
@@ -42,9 +39,30 @@ Page({
 
       this.setData({
         gradeList,
+        gradeText: gradeList[0].text,
         classList: classList[0],
         spareClass: classList,
         orderList: order
+      })
+    })
+  },
+
+  // 筛选订单
+  screenOrder(sellQrCodeId) {
+    let { searchValue, gradeText, classText } = this.data
+    // 筛选条件
+    let screen = {
+      searchValue,
+      gradeText,
+      classText
+    }
+
+    wx.cloud.callFunction({
+      name: 'getOrderList',
+      data: { sellQrCodeId, screen }
+    }).then(res => {
+      this.setData({
+        orderList: res.result.data.order
       })
     })
   },
@@ -57,23 +75,39 @@ Page({
       reachBottom: false,
       searchValue: event.detail.searchValue
     })
-    this.getOrderList()
+    this.screenOrder(this.data.sellQrCodeId)
   },
 
   // 选择年级
   onChangeGrade(event) {
-    let spareClass = this.data.spareClass
+    let { spareClass, gradeList } = this.data
+    let gradeText = ''
+    gradeList.forEach(item => {
+      if(item.value === event.detail) gradeText = item.text
+    })
+
     this.setData({
       classList: spareClass[event.detail],
       gradeValue: event.detail,
-      classValue: -1
+      classValue: -1,
+      gradeText,
+      classText: ''
     })
+    this.screenOrder(this.data.sellQrCodeId)
   },
 
   // 选择班级
   onChangeClass(event) {
-    this.setData({
-      classValue: event.detail
+    let { classList } = this.data
+    let classText = ''
+    classList.forEach(item => {
+      if(item.value === event.detail) classText = item.text
     })
+
+    this.setData({
+      classValue: event.detail,
+      classText
+    })
+    this.screenOrder(this.data.sellQrCodeId)
   }
 })

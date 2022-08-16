@@ -3,7 +3,7 @@
   width: 100vw;
 }
 .container .orderList {
-  padding: 20rpx 30rpx;
+  padding: 0 30rpx 20rpx;
 }
 .container .orderList .productInfo {
   display: flex;

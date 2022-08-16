@@ -7,31 +7,36 @@ const db = cloud.database()
 
 // 云函数入口函数
 exports.main = async (event, context) => {
+  console.log(event)
+
   let data = {}
   try {
-    await db.collection('Grade').where({schoolId: event.schoolId}).get()
-    .then(res => {
-      let gradeList = []
-      let classList = []
-      
-      res.data.forEach((item, index) => {
-        gradeList.push({
-          text: item.name,
-          value: index
-        })
-        classList.push( item.className )
-      })
 
-      classList = classList.map(item => {
-        return item.map((cla, idx) => {
-          cla = { text: cla, value: idx }
-          return cla
+    if(event.schoolId) {
+      await db.collection('Grade').where({schoolId: event.schoolId}).get()
+      .then(res => {
+        let gradeList = []
+        let classList = []
+        
+        res.data.forEach((item, index) => {
+          gradeList.push({
+            text: item.name,
+            value: index
+          })
+          classList.push( item.className )
         })
+  
+        classList = classList.map(item => {
+          return item.map((cla, idx) => {
+            cla = { text: cla, value: idx }
+            return cla
+          })
+        })
+  
+        data.gradeList = gradeList
+        data.classList = classList
       })
-
-      data.gradeList = gradeList
-      data.classList = classList
-    })
+    }
 
     await db.collection('Order').aggregate().match({
       sellQrCodeId: event.sellQrCodeId
