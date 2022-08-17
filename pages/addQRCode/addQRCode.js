@@ -108,7 +108,7 @@ Page({
       name: 'exportOrderList',
       data: { id }
     }).then(res => {
-      console.log(res)
+      console.log(res.result.data.fileID)
     })
   },
 
