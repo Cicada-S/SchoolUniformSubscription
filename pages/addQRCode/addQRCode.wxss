@@ -6,6 +6,13 @@
   justify-content: center;
   padding: 20rpx 30rpx 0 30rpx;
 }
+.container .fileUrl {
+  margin: 20rpx 30rpx;
+}
+.container .copyFileUrl {
+  letter-spacing: 5rpx;
+  background-color: #FFFFFF;
+}
 .container .button {
   width: 100%;
   letter-spacing: 5rpx;

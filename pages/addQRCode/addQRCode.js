@@ -39,7 +39,8 @@ Page({
     bottomLift: app.globalData.bottomLift,
     type: true, // 当前状态  true新增  false 删除
     id:'',
-    qrCodePath:''
+    qrCodePath:'', // 二维码
+    fileUrl: '' // 购买清单
   },
 
   // 页面初始化
@@ -100,15 +101,49 @@ Page({
     })
   },
 
+  // 导出购买清单
   exportOrderList() {
-    console.log('导出购买清单')
-
+    wx.showLoading({
+      title: '正在导出...',
+    })
     let id = this.data.id
     wx.cloud.callFunction({
       name: 'exportOrderList',
       data: { id }
     }).then(res => {
-      console.log(res.result.data.fileID)
+      wx.hideLoading()
+      this.getFileUrl(res.result.data.fileID)
+    })
+  },
+
+  // 获取云存储文件下载地址，这个地址有效期一天
+  getFileUrl(fileID) {
+    wx.cloud.getTempFileURL({
+      fileList: [fileID],
+      success: res => {
+        console.log("文件下载链接", res.fileList[0].tempFileURL)
+        this.setData({
+          fileUrl: res.fileList[0].tempFileURL
+        })
+      }
+    })
+  },
+
+  // 复制excel文件下载链接
+  copyFileUrl() {
+    wx.setClipboardData({
+      data: this.data.fileUrl,
+      success: () => {
+        wx.getClipboardData({
+          success: () => {
+            wx.showToast({
+              title: '复制成功',
+              icon: 'none',
+              duration: 2000
+            })
+          }
+        })
+      }
     })
   },
 

@@ -20,31 +20,35 @@ exports.main = async (event, context) => {
       foreignField: 'orderId',
       as: 'orderProduct'
     }).end()
-    console.log(order)
+
+   let newOrder = order.list.reduce((prev, item) => {
+      for(let i of item.orderProduct) {
+        prev.push({ ...item, orderProduct: [i]})
+      }
+      return prev
+    }, [])
 
     // 1, 定义excel表格名
-    let dataCVS = `${order.list[0].sellQrCodeTitle}.xlsx`
+    let dataCVS = `${newOrder[0].sellQrCodeTitle}.xlsx`
 
     // 2, 定义存储数据的
     let alldata = []
     let row = ['id', '学校', '年级', '班级', '姓名', '性别', '下单时间', '商品名称', '购买数量', '规格', '备注' ] //表属性
     alldata.push(row)
 
-    for (let key in order.list) {
+    for (let key in newOrder) {
       let arr = []
-      arr.push(order.list[key]._id)
-      arr.push(order.list[key].schoolName)
-      arr.push(order.list[key].studentGradeName)
-      arr.push(order.list[key].studentClassName)
-      arr.push(order.list[key].studentName)
-      arr.push(order.list[key].studentGender)
-      arr.push(order.list[key].createTime)
-      // for (let product in order.list[key].orderProduct) {
-      arr.push(order.list[key].orderProduct[0].productName)
-      arr.push(order.list[key].orderProduct[0].amount)
-      arr.push(order.list[key].orderProduct[0].specification)
-      // }
-      arr.push(order.list[key].remark)
+      arr.push(newOrder[key]._id)
+      arr.push(newOrder[key].schoolName)
+      arr.push(newOrder[key].studentGradeName)
+      arr.push(newOrder[key].studentClassName)
+      arr.push(newOrder[key].studentName)
+      arr.push(newOrder[key].studentGender)
+      arr.push(newOrder[key].createTime)
+      arr.push(newOrder[key].orderProduct[0].productName)
+      arr.push(newOrder[key].orderProduct[0].amount)
+      arr.push(newOrder[key].orderProduct[0].specification)
+      arr.push(newOrder[key].remark)
       alldata.push(arr)
     }
 
@@ -55,11 +59,7 @@ exports.main = async (event, context) => {
         {wch: 32}, {wch: 14}, {wch: 8}, {wch: 6}, 
         {wch: 8}, {wch: 6}, {wch: 8}, {wch: 8}, 
         {wch: 8}, {wch: 14}
-      ],
-      // 合并单元格
-      '!merges': [{
-        // s: {c: 2, r: 1}, e: {c: 2, r: 2},
-      }]
+      ]
     }
 
     //3，把数据保存到excel里
@@ -82,7 +82,6 @@ exports.main = async (event, context) => {
     }
   }
   catch(err) {
-    console.log(err)
     console.error('transaction error')
     // 失败返回
     return {
