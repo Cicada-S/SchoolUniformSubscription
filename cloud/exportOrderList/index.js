@@ -4,6 +4,8 @@ cloud.init({
   env: cloud.DYNAMIC_CURRENT_ENV
 })
 const db = cloud.database()
+const _ = db.command
+const $ = db.command.aggregate
 
 // 操作excel用的类库
 const xlsx = require('node-xlsx')
@@ -12,15 +14,32 @@ const xlsx = require('node-xlsx')
 exports.main = async (event, context) => {
   try {
     // 获取订单数据
-    let order = await db.collection('Order').aggregate().match({
-      sellQrCodeId: event.id
+    let order = await db.collection('Order').aggregate()
+    .sort({
+      studentGradeName: 1,
+      studentClassName: 1
+    }).match({
+      sellQrCodeId: event.id,
+      status: 1
     })
     .lookup({
       from: 'OrderProduct',
-      localField: '_id',
-      foreignField: 'orderId',
+      let: {
+        order_id: '$_id'
+      },
+      pipeline: $.pipeline()
+        .match(_.expr($.and([
+            $.eq(['$orderId', '$$order_id'])
+        ])))
+        .sort({
+          productName: 1,
+          specification: 1
+        })
+        .done(),
       as: 'orderProduct'
     }).end()
+
+    console.log(order)
 
     // 将订单对应的订单商品拆分出来
    let newOrder = order.list.reduce((prev, item) => {
@@ -35,13 +54,13 @@ exports.main = async (event, context) => {
 
     // 2. 定义存储数据的
     const summary = summaryList(newOrder)
-    const statistics = statisticsList(newOrder)
+    // const statistics = statisticsList(newOrder)
     const detailed = detailedList(newOrder)
 
     // 3. 把数据保存到excel里
     var buffer = xlsx.build([
       { name: "证订汇总表", data: summary.alldata, options: summary.sheetOptions },
-      { name: "分班统计表", data: statistics.alldata, options: statistics.sheetOptions },
+      // { name: "分班统计表", data: statistics.alldata, options: statistics.sheetOptions },
       { name: "证订明细表", data: detailed.alldata, options: detailed.sheetOptions },
     ])
 
@@ -59,6 +78,7 @@ exports.main = async (event, context) => {
     }
   }
   catch(err) {
+    console.log(err)
     console.error('transaction error')
     // 失败返回
     return {
@@ -78,9 +98,30 @@ function summaryList(newOrder) {
   alldata.push(row)
 
   // 2. 将数据写入表中
-  /* for (let key in newOrder) {
-    let arr = []
-  } */
+  let gender = { male: [], female: [] }
+  for (let key in newOrder) {
+    // newOrder[key].studentGender == 1 ? gender.male.push(newOrder[key]) : gender.female.push(newOrder[key])
+    if(newOrder[key].studentGender == 1) {
+      newOrder[key].studentGender = '男'
+      gender.male.push(newOrder[key])
+    }else {
+      newOrder[key].studentGender = '女'
+      gender.female.push(newOrder[key])
+    }
+  }
+
+  Object.keys(gender).forEach(item => {
+    for(let key in gender[item]) {
+      let arr = []
+      arr.push(gender[item][key].studentGender)
+      arr.push(gender[item][key].orderProduct[0].productName)
+      arr.push(gender[item][key].orderProduct[0].specification)
+      arr.push(gender[item][key].orderProduct[0].amount)
+      alldata.push(arr)
+    }
+    let summary = [`${gender[item][0].studentGender}汇总`, '', '', gender[item].length]
+    alldata.push(summary)
+  })
 
   // 3. 定制纸张规格
   const sheetOptions = {
@@ -88,7 +129,9 @@ function summaryList(newOrder) {
       {wch: 20}, {wch: 20}, {wch: 30}, {wch: 6}
     ],
     '!merges': [ // 合并单元格
-      {s: {c: 0, r: 0}, e: {c: 3, r: 0}}
+      {s: {c: 0, r: 0}, e: {c: 3, r: 0}}, // 标题
+      {s: {c: 0, r: 2}, e: {c: 0, r: gender.male.length + 1}}, // 男
+      {s: {c: 0, r: gender.male.length + 4}, e: {c: 0, r: gender.male.length + 4 + gender.female.length + 1}}, // 女
     ]
   }
 
