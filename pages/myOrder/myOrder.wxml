@@ -1,6 +1,6 @@
 <!--pages/myOrder/myOrder.wxml-->
 <view class="container">
-  <BlockBox title="{{item.sellQrCodeTitle}}" wx:for="{{orderList}}" wx:key="_id">
+  <BlockBox title="订单: {{item._id}}" wx:for="{{orderList}}" wx:key="_id">
     <view class="productInfo" wx:for="{{item.orderProduct}}" wx:key="_id" wx:for-item="pItem">
       <image src="{{pItem.headImage}}" />
       <view class="info">
@@ -14,6 +14,7 @@
         </view>
       </view>
     </view>
-    <view class="totalPrice">实付款 <text class="icon">¥</text> {{item.totalPrice}}</view>
+    <view class="createTime">下单时间： {{item.createTimeStr}}</view>
+    <view class="totalPrice">实付款： <text class="icon">¥</text> {{item.totalPrice}}</view>
   </BlockBox>
 </view>

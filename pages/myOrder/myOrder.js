@@ -1,3 +1,4 @@
+import { toDates } from '../../utils/util'
 // pages/myOrder/myOrder.js
 Page({
   data: {
@@ -12,6 +13,9 @@ Page({
   // 获取订单商品列表
   async getOrderList() {
     let { result } = await wx.cloud.callFunction({name: 'getOrderProduct'})
+    result.data.forEach(item =>{
+      item.createTimeStr = toDates(item.createTime)
+    })
     this.setData({
       orderList: result.data
     })

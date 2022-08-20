@@ -40,3 +40,8 @@
 .container .totalPrice .icon {
   font-size: 24rpx;
 }
+.container .createTime {
+  text-align: right;
+  padding: 0 30rpx 20rpx;
+  font-size: 28rpx;
+}
