@@ -39,7 +39,6 @@ exports.main = async (event, context) => {
       as: 'orderProduct'
     }).end()
 
-    console.log(order)
 
     // 将订单对应的订单商品拆分出来
    let newOrder = order.list.reduce((prev, item) => {
@@ -99,8 +98,8 @@ function summaryList(newOrder) {
 
   // 2. 将数据写入表中
   let gender = { male: [], female: [] }
+  // 遍历数据 将性别分开
   for (let key in newOrder) {
-    // newOrder[key].studentGender == 1 ? gender.male.push(newOrder[key]) : gender.female.push(newOrder[key])
     if(newOrder[key].studentGender == 1) {
       newOrder[key].studentGender = '男'
       gender.male.push(newOrder[key])
@@ -110,7 +109,24 @@ function summaryList(newOrder) {
     }
   }
 
-  Object.keys(gender).forEach(item => {
+  let coordinates = [] // 坐标
+  var genderLength = [] // 第一轮性别的长度
+  Object.keys(gender).forEach((item, index) => {
+    let map = new Map()
+    // 商品名称的合并坐标
+    gender[item].forEach((p, i) => {
+      let productId = p.orderProduct[0].productId
+      if(map.get(productId)){
+        let startIndex = map.get(productId).startIndex
+        map.set(productId, {'startIndex': startIndex, 'endIndex': i})
+      }else{
+        map.set(productId, {'startIndex': i, 'endIndex': i})
+      }
+    })
+    if(index === 0) genderLength.push([...map].length)
+    coordinates.push(...map)
+
+    // 将数据写入表中
     for(let key in gender[item]) {
       let arr = []
       arr.push(gender[item][key].studentGender)
@@ -123,6 +139,20 @@ function summaryList(newOrder) {
     alldata.push(summary)
   })
 
+  // 将坐标修改成 '!merges' 字段类型
+  let merges = []
+  coordinates.forEach((item, index) => {
+    if(index === 0) {
+      merges.push({s: {c: 1, r: item[1].startIndex + 2}, e: {c: 1, r: item[1].endIndex + 2}})
+    }else if(index < genderLength[0]) { // 男
+      let last = merges[index - 1].e.r // 上一个坐标的结束坐标
+      merges.push({s: {c: 1, r: item[1].startIndex + last}, e: {c: 1, r: item[1].endIndex + last}})
+    }else { // 女
+      let last = merges[index - 1].e.r
+      merges.push({s: {c: 1, r: item[1].startIndex + last + 1}, e: {c: 1, r: item[1].endIndex + last + 1}})
+    }
+  })
+
   // 3. 定制纸张规格
   const sheetOptions = {
     '!cols': [ // 自定义列宽
@@ -131,7 +161,8 @@ function summaryList(newOrder) {
     '!merges': [ // 合并单元格
       {s: {c: 0, r: 0}, e: {c: 3, r: 0}}, // 标题
       {s: {c: 0, r: 2}, e: {c: 0, r: gender.male.length + 1}}, // 男
-      {s: {c: 0, r: gender.male.length + 4}, e: {c: 0, r: gender.male.length + 4 + gender.female.length + 1}}, // 女
+      {s: {c: 0, r: gender.male.length + 3}, e: {c: 0, r: gender.male.length + 2 + gender.female.length}}, // 女
+      ...merges, // 产品名称
     ]
   }
 
