@@ -53,13 +53,13 @@ exports.main = async (event, context) => {
 
     // 2. 定义存储数据的
     const summary = summaryList(newOrder)
-    // const statistics = statisticsList(newOrder)
+    const statistics = statisticsList(newOrder)
     const detailed = detailedList(newOrder)
 
     // 3. 把数据保存到excel里
     var buffer = xlsx.build([
       { name: "证订汇总表", data: summary.alldata, options: summary.sheetOptions },
-      // { name: "分班统计表", data: statistics.alldata, options: statistics.sheetOptions },
+      { name: "分班统计表", data: statistics.alldata, options: statistics.sheetOptions },
       { name: "证订明细表", data: detailed.alldata, options: detailed.sheetOptions },
     ])
 
@@ -89,8 +89,6 @@ exports.main = async (event, context) => {
 
 // 征订汇总表
 function summaryList(newOrder) {
-  console.log(newOrder)
-
   // 1. 定义存储数据的
   let alldata = [['订单汇总']]
   let row = ['性别', '产品名称', '规格', '总计'] // 表属性
@@ -186,9 +184,21 @@ function statisticsList(newOrder) {
   alldata.push(row)
 
   // 2. 将数据写入表中
-  /* for (let key in newOrder) {
+  let grade = []
+  // 遍历数据 将年级分开
+  newOrder.forEach(item => grade.push(item.studentGradeName))
+  grade = [...new Set(grade)]
+  console.log('grade', grade)
+
+  for (let key in newOrder) {
     let arr = []
-  } */
+    arr.push(newOrder[key].studentGradeName)
+    arr.push(newOrder[key].studentClassName)
+    arr.push(newOrder[key].orderProduct[0].productName)
+    arr.push(newOrder[key].orderProduct[0].specification)
+    arr.push(newOrder[key].orderProduct[0].amount)
+    alldata.push(arr)
+  }
 
   // 3. 定制纸张规格
   const sheetOptions = {
