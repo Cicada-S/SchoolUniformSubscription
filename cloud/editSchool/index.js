@@ -7,6 +7,23 @@ const db = cloud.database()
 
 // 云函数入口函数
 exports.main = async (event, context) => {
+
+  //检验是否有权限操作
+  let havePermission = false
+  const _ = db.command
+  let systemConfigConditiion = {'key': 'adminOpenIds',  'value': _.in([cloud.getWXContext().OPENID]) };
+  await db.collection('SystemConfig').where(systemConfigConditiion).get()
+      .then(res => {
+        havePermission = res.data.length > 0
+      })
+  if(!havePermission){
+    return {
+      code: 1,
+      error: 'You dont have permission to perform the operation',
+      success: false,
+    }
+  }
+
   let {id, name, address, logo, grade} = event
   try {
     // 删除原有的级别
