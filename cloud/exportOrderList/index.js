@@ -110,7 +110,7 @@ function summaryList(newOrder) {
   }
 
   let coordinates = [] // 坐标
-  var genderLength = [] // 第一轮性别的长度
+  let genderLength = [] // 第一轮性别的长度
   Object.keys(gender).forEach((item, index) => {
     let map = new Map()
     // 商品名称的合并坐标
@@ -135,9 +135,13 @@ function summaryList(newOrder) {
       arr.push(gender[item][key].orderProduct[0].amount)
       alldata.push(arr)
     }
+    genderLength.push(gender[item].length)
+
     let summary = [`${gender[item][0].studentGender}汇总`, '', '', gender[item].length]
     alldata.push(summary)
   })
+  alldata.push(['总计', '', '', genderLength[1]+genderLength[2]])
+  
 
   // 将坐标修改成 '!merges' 字段类型
   let merges = []
