@@ -85,7 +85,7 @@ Page({
   // 获取申请成为管理员的列表
   getSchoolManager(id) {
     SchoolManager.where({
-      schoolId: id, status: 1
+      schoolId: id
     }).get().then(res => {
       this.setData({
         adminList: res.data
@@ -123,19 +123,46 @@ Page({
       }
     })
   },
-
-  // 点击同意成为管理员 的回调函数
-  onAgree(event) {
+  // 点击拒绝成为管理员 的回调函数
+  onDelete(event) {
     console.log(event.currentTarget.id)
     let id = event.currentTarget.id
     let that = this
 
     wx.showModal({
       title: '提示',
+      content: '确定删除该管理员吗？',
+      success (res) {
+        if (res.confirm) {
+          SchoolManager.doc(id).remove()
+              .then(() => {
+                wx.showToast({
+                  title: '成功',
+                  icon: 'success',
+                  duration: 1000
+                })
+
+                // 删除数组中的 _id等于id 的元素
+                let adminList = that.data.adminList.filter(item => item._id != id)
+
+                that.setData({
+                  adminList
+                })
+              })
+        }
+      }
+    })
+  },
+
+  // 点击同意成为管理员 的回调函数
+  onAgree(event) {
+    let that = this
+    wx.showModal({
+      title: '提示',
       content: '确定将该用户升级为买家管理员吗？',
       success (res) {
         if (res.confirm) {
-          SchoolManager.doc(id).update({data: {status:0}})
+          SchoolManager.doc(event.currentTarget.id).update({data: {status:0}})
           .then(() => {
             wx.showToast({
               title: '成功',
@@ -143,12 +170,14 @@ Page({
               duration: 1000
             })
 
-            // 删除数组中的 _id等于id 的元素
-            let adminList = that.data.adminList.filter(item => item._id != id)
-
-            that.setData({
-              adminList
+            SchoolManager.where({
+              schoolId: id
+            }).get().then(res => {
+              that.setData({
+                adminList: res.data
+              })
             })
+
           })
         }
       }

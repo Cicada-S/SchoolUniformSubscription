@@ -56,8 +56,9 @@
       <image class="avatarUrl" src="{{item.avatarUrl}}" />
       <view class="nickName">{{item.nickName}}</view>
       <view class="operation">
-        <view class="refuseButton" bindtap="onRefuse" id="{{item._id}}">拒绝</view>
-        <view class="agreeButton" bindtap="onAgree" id="{{item._id}}">同意</view>
+        <view class="refuseButton" wx:if="{{item.status === 1}}" bindtap="onRefuse" id="{{item._id}}">拒绝</view>
+        <view class="agreeButton"  wx:if="{{item.status === 1}}"  bindtap="onAgree" id="{{item._id}}">同意</view>
+        <view class="agreeButton"  wx:if="{{item.status === 0}}"  bindtap="onDelete" id="{{item._id}}">删除</view>
       </view>
     </view>
   </BlockBox>
