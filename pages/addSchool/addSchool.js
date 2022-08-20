@@ -123,7 +123,7 @@ Page({
       }
     })
   },
-  // 点击拒绝成为管理员 的回调函数
+  // 点击删除管理员
   onDelete(event) {
     console.log(event.currentTarget.id)
     let id = event.currentTarget.id
