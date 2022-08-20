@@ -3,6 +3,7 @@
   "usingComponents": {
     "NavTop": "/components/NavTop/NavTop",
     "BlockBox": "/components/BlockBox/BlockBox",
-    "van-cell": "@vant/weapp/cell/index"
+    "van-cell": "@vant/weapp/cell/index",
+    "van-cell-group": "@vant/weapp/cell-group/index"
   }
 }

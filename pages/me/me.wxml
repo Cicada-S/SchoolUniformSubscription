@@ -13,16 +13,10 @@
 
   <!-- 订单管理 -->
   <view class="orderManage">
-    <view class="orderManageTitle">
-      <text class="orderManageTitleText">订单</text>
-    </view>
-    <van-cell title="我的订单" is-link border="{{false}}" bindtap="toMyOrder" />
+    <van-cell-group>
+      <van-cell title="我的订单" is-link border="{{false}}" bindtap="toMyOrder"  border = "{{ true }}" />
+      <van-cell title="申请成为管理员" is-link border="{{false}}" bindtap="toApply" />
+    </van-cell-group>
   </view>
 
-  <!-- 站位 -->
-  <view class="placeholderContent">
-    <BlockBox title="操作">
-      <van-cell title="成为买家管理员" is-link border="{{false}}" bindtap="toApply" />
-    </BlockBox>
-  </view>
 </view>
