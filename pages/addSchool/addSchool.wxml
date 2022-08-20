@@ -29,6 +29,8 @@
         data-index="{{index}}"
       >
         <van-icon custom-class="customIcon" id="{{index}}" bindtap="addSpecValue" slot="right-icon" name="add-o" />
+        <van-icon custom-class="customIcon" id="{{index}}" bindtap="delSpec" slot="right-icon" name="clear" />
+        
       </van-field>
       <block wx:for="{{item.className}}" wx:for-item="items" wx:for-index="idx" wx:key="items">
         <van-field

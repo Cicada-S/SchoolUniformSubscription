@@ -145,6 +145,18 @@ Page({
       [`Specifications[${id}].value`]: value
     })
   },
+  
+  // 刪除规格
+  delSpec(event) {
+    let { id } = event.target
+    if(this.data.Specifications.length == 1){
+      return
+    }
+    let newSpecifications = this.data.Specifications.filter((num,index)=>{return index != id})
+    this.setData({
+      'Specifications': newSpecifications
+    })
+  },
 
   // 添加规格
   addSpec() {

@@ -11,6 +11,7 @@
 }
 .container .customIcon {
   font-size: 40rpx;
+  margin-left: 30rpx;
 }
 .container .optionInput {
   padding-left: 30rpx;

@@ -216,6 +216,18 @@ Page({
       [`grade[${id}].className`]: className
     })
   },
+  
+  // 刪除级别
+  delSpec(event) {
+    let { id } = event.target
+    if(this.data.grade.length == 1){
+      return
+    }
+    let newGrade = this.data.grade.filter((num,index)=>{return index != id})
+    this.setData({
+      'grade': newGrade
+    })
+  },
 
   // 添加级别
   addSpec() {

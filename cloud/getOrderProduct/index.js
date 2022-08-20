@@ -8,7 +8,11 @@ const db = cloud.database()
 // 云函数入口函数
 exports.main = async (event, context) => {
   try {
-    let result = await db.collection('Order').aggregate().match({
+    let result = await db.collection('Order').aggregate()
+    .sort({
+      createTime: -1
+    })
+    .match({
       _openid: cloud.getWXContext().OPENID,
       status: 1
     })

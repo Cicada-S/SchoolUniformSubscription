@@ -52,7 +52,8 @@ Page({
     let { _openid, nickName, avatarUrl } = wx.getStorageSync('currentUser')
 
     let results = await SchoolManager.where({
-      managerOpenid: _openid
+      managerOpenid: _openid,
+      schoolId: _id,
     }).get()
 
     if(results.data.length) {

@@ -12,15 +12,14 @@ Page({
     classValue: -1, // 班级默认值
     pageIndex: 1, // 当前分页
     reachBottom: false, // 是否到底
-    sellQrCodeId: '0a4ec1f962f45b2c19049662135c755d'
+    sellQrCodeId: ''
   },
 
   // 页面初始化
   onLoad(options) {
     console.log(options)
-    let sellQrCodeId = '0a4ec1f962f45b2c19049662135c755d'
-    let schoolId = '8f75309d62ea237d102837180c8273de'
-
+    let sellQrCodeId = options.sellQrCodeId
+    let schoolId = options.schoolId
     this.getOrderGrade(sellQrCodeId, schoolId)
   },
 

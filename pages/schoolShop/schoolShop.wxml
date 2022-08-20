@@ -13,7 +13,7 @@
     </view>
   </view>
 
-  <view wx:if="{{true}}" class="orderList">
+  <view wx:if="{{canViewAllOrderList}}" class="orderList">
     <view class="text" bindtap="toOrderList">查看订单列表</view>
   </view>
 

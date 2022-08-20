@@ -21,7 +21,8 @@ Page({
     cartNum: 0, // 购物车商品数量
     totalPrice: 0, // 总价
     endDate: '', // 结束时间
-    isSchoolAdmin: false // 是否为管理员
+    isSchoolAdmin: false, // 是否为管理员
+    canViewAllOrderList: false, //是否能查看所有订单列表
   },
 
   // 页面初始化
@@ -31,8 +32,9 @@ Page({
     let scene = options.scene
     this.setData({ sellQrCodeId: scene })
     this.getUserInfo(scene)
-    this.getProductList(scene)
-    this.getIdentity()
+    this.getProductList(scene).then(() => {
+      this.getIdentity()
+    })
 
     this.countTotalPrice()
   },
@@ -72,28 +74,37 @@ Page({
 
   // 获取商品列表
   getProductList(scene) {
-    wx.cloud.callFunction({
-      name: 'getSellQRCode',
-      data: { 'id': scene }
-    }).then(res => {
-      let { sellQrCode, ProductList } = res.result.data
-      let endDate = toDates(sellQrCode.endTime)
-      this.setData({
-        schoolId: sellQrCode.schoolId,
-        schoolName: sellQrCode.schoolName,
-        sellQrCodeTitle: sellQrCode.title,
-        endDate,
-        ProductList
+
+    return new Promise((resolve, reject) => {
+      wx.cloud.callFunction({
+        name: 'getSellQRCode',
+        data: { 'id': scene }
+      }).then(res => {
+        let { sellQrCode, ProductList } = res.result.data
+        let endDate = toDates(sellQrCode.endTime)
+        this.setData({
+          schoolId: sellQrCode.schoolId,
+          schoolName: sellQrCode.schoolName,
+          sellQrCodeTitle: sellQrCode.title,
+          endDate,
+          ProductList
+        })
+        resolve(res);
       })
     })
+
   },
 
   // 判断是否为管理员
   async getIdentity() {
     let schoolId = this.data.schoolId
-    console.log(schoolId)
-    let res = await SchoolManager.where({schoolId}).get()
-    
+    console.log('schoolId ===' + schoolId)
+    let res = await SchoolManager.where({'schoolId': schoolId, 'status': 0, '_openid': wx.getStorageSync('currentUser')._openid}).get()
+    if(res.data.length > 0){
+      this.setData({
+        canViewAllOrderList: true,
+      })
+    }
     console.log(res)
   },
 
