@@ -20,6 +20,9 @@ Page({
     console.log(options)
     let sellQrCodeId = options.sellQrCodeId
     let schoolId = options.schoolId
+    this.setData({
+      'sellQrCodeId': sellQrCodeId,
+    })
     this.getOrderGrade(sellQrCodeId, schoolId)
   },
 

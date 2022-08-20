@@ -1,7 +1,8 @@
 // 云函数入口文件
 const cloud = require('wx-server-sdk')
 cloud.init({
-  env: cloud.DYNAMIC_CURRENT_ENV
+  env: cloud.DYNAMIC_CURRENT_ENV,
+  // env: 'prod-5gbrg2v163ae3d24',
 })
 const db = cloud.database()
 
@@ -14,7 +15,7 @@ exports.main = async (event, context) => {
       .then(res => {
         let gradeList = []
         let classList = []
-        
+
         res.data.forEach((item, index) => {
           gradeList.push({
             text: item.name,
@@ -22,14 +23,14 @@ exports.main = async (event, context) => {
           })
           classList.push( item.className )
         })
-  
+
         classList = classList.map(item => {
           return item.map((cla, idx) => {
             cla = { text: cla, value: idx }
             return cla
           })
         })
-  
+
         data.gradeList = gradeList
         data.classList = classList
       })
@@ -46,7 +47,7 @@ exports.main = async (event, context) => {
         sellQrCodeId: event.sellQrCodeId
       }
     }
-
+    newScreen.status = 0
     await db.collection('Order').aggregate().match(newScreen)
     .lookup({
       from: 'OrderProduct',
@@ -57,7 +58,7 @@ exports.main = async (event, context) => {
     .then(res => {
       data.order = res.list
     })
-    
+
     // 成功返回
     return {
       code: 0,
