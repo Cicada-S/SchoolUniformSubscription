@@ -47,7 +47,7 @@ exports.main = async (event, context) => {
         sellQrCodeId: event.sellQrCodeId
       }
     }
-    newScreen.status = 0
+    newScreen.status = 1
     await db.collection('Order').aggregate().match(newScreen)
     .lookup({
       from: 'OrderProduct',
