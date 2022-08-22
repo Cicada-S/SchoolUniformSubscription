@@ -21,7 +21,21 @@ exports.main = async (event, context) => {
       localField: '_id',
       foreignField: 'orderId',
       as: 'orderProduct'
+    })
+    .lookup({
+      from: 'SellQrCode',
+      localField: 'sellQrCodeId',
+      foreignField: '_id',
+      as: 'sellQrCode'
     }).end()
+
+    result.list.forEach(item => {
+      item.active = true
+      if(item.sellQrCode[0].endTime < Date.now()) {
+        item.active = false
+      }
+      delete item.sellQrCode
+    })
 
     // 成功返回
     return {
