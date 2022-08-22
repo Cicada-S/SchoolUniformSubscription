@@ -5,7 +5,7 @@
 
   .productInfo {
     display: flex;
-    padding: 30rpx;
+    padding: 30rpx 30rpx 0;
 
     image {
       width: 160rpx;
@@ -36,18 +36,52 @@
         color: #757575;
         font-size: 24rpx;
       }
+
+      .edit {
+        display: flex;
+        justify-content: flex-end;
+    
+        .Reselection {
+          width: 120rpx;
+          height: 60rpx;
+          color: #407EF5;
+          font-size: 28rpx;
+          text-align: center;
+          line-height: 60rpx;
+          letter-spacing: 3rpx;
+          border-radius: 10rpx;
+          border: 1rpx solid #407EF5;
+        }
+      }
     }
   }
 
-  .totalPrice {
-    text-align: right;
-    padding: 0 30rpx 20rpx;
+  .orderInfo {
+    display: flex;
+    justify-content: space-between;
     font-size: 28rpx;
+    padding: 20rpx 30rpx;
 
-    .icon {
+    .totalPrice .icon {
       font-size: 24rpx;
     }
   }
 
-}
+  .operation {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 30rpx 20rpx;
 
+    .modify {
+      width: 120rpx;
+      height: 60rpx;
+      color: #FFFFFF;
+      font-size: 28rpx;
+      text-align: center;
+      line-height: 60rpx;
+      letter-spacing: 3rpx;
+      border-radius: 10rpx;
+      background-color: #407EF5;
+    }
+  }
+}

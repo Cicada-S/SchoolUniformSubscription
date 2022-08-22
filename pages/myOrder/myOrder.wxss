@@ -5,7 +5,7 @@
 }
 .container .productInfo {
   display: flex;
-  padding: 30rpx;
+  padding: 30rpx 30rpx 0;
 }
 .container .productInfo image {
   width: 160rpx;
@@ -32,16 +32,43 @@
   color: #757575;
   font-size: 24rpx;
 }
-.container .totalPrice {
-  text-align: right;
-  padding: 0 30rpx 20rpx;
-  font-size: 28rpx;
+.container .productInfo .info .edit {
+  display: flex;
+  justify-content: flex-end;
 }
-.container .totalPrice .icon {
+.container .productInfo .info .edit .Reselection {
+  width: 120rpx;
+  height: 60rpx;
+  color: #407EF5;
+  font-size: 28rpx;
+  text-align: center;
+  line-height: 60rpx;
+  letter-spacing: 3rpx;
+  border-radius: 10rpx;
+  border: 1rpx solid #407EF5;
+}
+.container .orderInfo {
+  display: flex;
+  justify-content: space-between;
+  font-size: 28rpx;
+  padding: 20rpx 30rpx;
+}
+.container .orderInfo .totalPrice .icon {
   font-size: 24rpx;
 }
-.container .createTime {
-  text-align: right;
+.container .operation {
+  display: flex;
+  justify-content: flex-end;
   padding: 0 30rpx 20rpx;
+}
+.container .operation .modify {
+  width: 120rpx;
+  height: 60rpx;
+  color: #FFFFFF;
   font-size: 28rpx;
+  text-align: center;
+  line-height: 60rpx;
+  letter-spacing: 3rpx;
+  border-radius: 10rpx;
+  background-color: #407EF5;
 }

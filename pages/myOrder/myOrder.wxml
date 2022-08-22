@@ -12,9 +12,17 @@
           <view>{{pItem.specification}}</view>
           <view class="right">x{{pItem.amount}}</view>
         </view>
+        <view class="edit">
+          <view class="Reselection">重选</view>
+        </view>
       </view>
     </view>
-    <view class="createTime">下单时间： {{item.createTimeStr}}</view>
-    <view class="totalPrice">实付款： <text class="icon">¥</text> {{item.totalPrice}}</view>
+    <view class="orderInfo">
+      <view class="createTime">下单时间： {{item.createTimeStr}}</view>
+      <view class="totalPrice">实付款： <text class="icon">¥</text> {{item.totalPrice}}</view>
+    </view>
+    <view class="operation">
+      <view class="modify">修改</view>
+    </view>
   </BlockBox>
 </view>
