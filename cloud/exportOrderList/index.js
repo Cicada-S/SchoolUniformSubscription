@@ -190,6 +190,14 @@ function statisticsList(newOrder) {
   grade = [...new Set(grade)]
   console.log('grade', grade)
 
+  /* let genderMap = new Map()
+  newOrder.forEach(item => {
+    if(genderMap.get(item.studentGradeName)) {
+      let startIndex = genderMap.get(item.studentGradeName).startIndex
+      genderMap.set()
+    }
+  }) */
+
   for (let key in newOrder) {
     let arr = []
     arr.push(newOrder[key].studentGradeName)
