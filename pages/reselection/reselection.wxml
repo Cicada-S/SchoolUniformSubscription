@@ -1,0 +1,31 @@
+<!--pages/reselection/reselection.wxml-->
+<view class="container">
+  <view class="popupProductInfo">
+    <view class="productInfo">
+      <image src="{{ProductInfo.path}}" />
+      <view class="icon">
+        <text class="price">¥ {{ProductInfo.unitPrice}}</text>
+        <text class="selected">已选：{{ProductInfo.choice}}</text>
+      </view>
+    </view>
+    <view class="specification">
+      <view class="specificationItem" wx:for="{{ProductInfo.specification}}" wx:key="name">
+        <view class="name">{{item.name}}</view>
+        <view class="values">
+          <text 
+            wx:for="{{item.value}}" 
+            wx:for-item="valueItem" 
+            wx:for-index="idx" 
+            wx:key="valueItem" 
+            bindtap="choice" 
+            data-idx="{{idx}}" 
+            data-name_index="{{index}}" 
+            class="{{valueItem.isChoice?'isChoice':''}}"  
+            >{{valueItem.text}}
+          </text>
+        </view>
+      </view>
+    </view>
+    <van-button type="default" custom-class="addBtn" bindtap="editSpecification" block>确认修改</van-button>
+  </view>
+</view>

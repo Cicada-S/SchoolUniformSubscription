@@ -1,12 +1,13 @@
-import { toDates } from '../../utils/util'
 // pages/myOrder/myOrder.js
+import { toDates } from '../../utils/util'
+
 Page({
   data: {
     orderList: []
   },
 
-  // 页面初始化
-  onLoad() {
+  // 页面显示
+  onShow() {
     this.getOrderList()
   },
 
@@ -23,11 +24,15 @@ Page({
 
   // 重选
   toReselection(event) {
-    console.log(event.currentTarget.id)
+    wx.navigateTo({
+      url: `/pages/reselection/reselection?id=${event.currentTarget.id}`
+    })
   },
 
-  // 修改
+  // 修改 
   toEditOrder(event) {
-    console.log(event.currentTarget.id)
+    wx.navigateTo({
+      url: `/pages/editOrder/editOrder?id=${event.currentTarget.id}`
+    })
   }
 })

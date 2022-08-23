@@ -1,0 +1,68 @@
+/* pages/reselection/reselection.wxss */
+.container {
+  height: 100vh;
+  background-color: #FFFFFF;
+}
+.container .popupProductInfo {
+  padding: 30rpx 20rpx 0;
+}
+.container .popupProductInfo .productInfo {
+  display: flex;
+}
+.container .popupProductInfo .productInfo image {
+  width: 140rpx;
+  height: 140rpx;
+}
+.container .popupProductInfo .productInfo .icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  color: #DB211B;
+  font-size: 24rpx;
+  margin-left: 20rpx;
+}
+.container .popupProductInfo .productInfo .icon .selected {
+  color: #979797;
+  font-size: 20rpx;
+}
+.container .popupProductInfo .specification {
+  display: flex;
+  flex-direction: column;
+}
+.container .popupProductInfo .specification .specificationItem {
+  font-size: 24rpx;
+  border-bottom: 2rpx solid #cccccc;
+}
+.container .popupProductInfo .specification .specificationItem .name {
+  color: #6b6b6b;
+  margin: 20rpx 0;
+}
+.container .popupProductInfo .specification .specificationItem .values {
+  display: flex;
+  flex-wrap: wrap;
+}
+.container .popupProductInfo .specification .specificationItem .values text {
+  padding: 10rpx;
+  background: #efefef;
+  border-radius: 8rpx;
+  margin: 0 15rpx 15rpx 0;
+}
+.container .popupProductInfo .specification .specificationItem .values .isChoice {
+  color: #FFFFFF;
+  background: #407EF5;
+}
+.container .popupProductInfo .quantity {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 28rpx;
+  padding: 30rpx 0;
+}
+.container .popupProductInfo .addBtn {
+  color: #FFFFFF;
+  border: none;
+  border-radius: 10rpx;
+  letter-spacing: 10rpx;
+  margin-top: 30rpx;
+  background: #407EF5;
+}

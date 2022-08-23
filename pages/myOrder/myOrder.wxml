@@ -13,7 +13,7 @@
           <view class="right">x{{pItem.amount}}</view>
         </view>
         <view class="edit" wx:if="{{item.active}}">
-          <view class="Reselection" bindtap="toReselection" id="{{pItem._id}}">重选</view>
+          <view class="Reselection" bindtap="toReselection" id="{{pItem.productId}}">重选</view>
         </view>
       </view>
     </view>
