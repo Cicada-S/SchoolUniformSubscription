@@ -10,6 +10,7 @@ Page({
     multiIndex: [0, 0], // 已选班级
     multiArray: [], // 当前年级的班级
     classArray: [], // 班级列表
+    sellQrCodeId: '', //二维码id
   },
 
   // 页面初始化
@@ -22,7 +23,7 @@ Page({
   async getOrderInfo(id) {
     // 获取订单
     let orderInfo = await order.doc(id).get()
-    this.setData({ schoolName: orderInfo.data.schoolName })
+    this.setData({ schoolName: orderInfo.data.schoolName, sellQrCodeId: orderInfo.data.sellQrCodeId })
 
     // 获取年级
     grade.where({ schoolId: orderInfo.data.schoolId }).get()
@@ -46,9 +47,31 @@ Page({
 
   // 确认修改
   editGrade() {
+    //检查是否超过可以修改的时间
+    wx.cloud.callFunction({
+      name: 'getSellQRCode',
+      data: { 'id': this.data.sellQrCodeId }
+    }).then(res => {
+      let allowToOperate = res.result.data.sellQrCode.allowToOperate
+      if(allowToOperate){
+        this.doEditGrade()
+      }else{
+        wx.showToast({
+          title: '超出二维码设置时间范围，不能修改',
+          icon: 'none',
+          duration: 3000
+        })
+      }
+    })
+
+  },
+
+  doEditGrade(){
+
     let { orderId, multiArray, multiIndex } = this.data
     let gradeName = multiArray[0][multiIndex[0]]
     let className = multiArray[1][multiIndex[1]]
+
 
     // 更新订单的年级和班级
     order.doc(orderId).update({
@@ -68,6 +91,7 @@ Page({
         })
       }, 1500)
     })
+     
   },
 
   // 点击确认时触发

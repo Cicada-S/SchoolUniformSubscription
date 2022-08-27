@@ -1,6 +1,7 @@
 {
   "usingComponents": {
-    "BlockBox": "/components/BlockBox/BlockBox"
+    "BlockBox": "/components/BlockBox/BlockBox",
+    "van-field": "@vant/weapp/field/index"
   },
   "navigationBarTitleText": "我的订单"
 }

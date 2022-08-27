@@ -25,7 +25,7 @@ Page({
   // 重选
   toReselection(event) {
     wx.navigateTo({
-      url: `/pages/reselection/reselection?id=${event.currentTarget.id}`
+      url: `/pages/reselection/reselection?productId=${event.currentTarget.dataset.productid}&sellQrCodeId=${event.currentTarget.dataset.sellqrcodeid}&orderProductId=${event.currentTarget.dataset.orderproductid}`
     })
   },
 

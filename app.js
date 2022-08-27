@@ -1,4 +1,5 @@
 // app.js
+import { checkUpdateVersion } from 'utils/checkUpdateVersion'
 
 App({
   globalData: {
@@ -9,6 +10,10 @@ App({
   },
 
   onLaunch() {
+
+    //判断是否有更新版本
+    checkUpdateVersion()
+
     wx.cloud.init({
       env: 'cloud1-9ghc7y1j0db0f20d',
       // env: 'prod-5gbrg2v163ae3d24',
@@ -19,7 +24,7 @@ App({
     this.getPhoneHeight()
     this.getSystemInfo()
   },
-  
+
   // 判断用户是否登录
   /* isLogin() {
     if (!wx.getStorageSync('openid')) {
@@ -41,8 +46,8 @@ App({
     // 计算自定义导航栏高度
     const customheight = navhegiht + stateheight
     // 赋值
-    this.globalData.stateheight = stateheight 
-    this.globalData.navhegiht = navhegiht 
+    this.globalData.stateheight = stateheight
+    this.globalData.navhegiht = navhegiht
     this.globalData.customheight = customheight
   },
 

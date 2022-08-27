@@ -44,7 +44,9 @@ exports.main = async (event, context) => {
       }
     } else {
       newScreen = {
-        sellQrCodeId: event.sellQrCodeId
+        sellQrCodeId: event.sellQrCodeId,
+        studentGradeName: data.gradeList[0].text,
+        studentClassName: data.classList[0][0].text,
       }
     }
     newScreen.status = 1

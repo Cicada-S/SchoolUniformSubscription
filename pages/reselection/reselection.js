@@ -4,13 +4,18 @@ const orderProduct = db.collection('OrderProduct')
 
 Page({
   data: {
-    ProductInfo: {}
+    ProductInfo: {},
+    sellQrCodeId:'',
+    orderProductId:'',
   },
 
   // 页面初始化
   onLoad(options) {
-    console.log(options.id)
-    this.getOrderProduct(options.id)
+    this.setData({
+      sellQrCodeId: options.sellQrCodeId,
+      orderProductId:  options.orderProductId,
+    })
+    this.getOrderProduct(options.productId)
   },
 
   // 获取商品
@@ -88,19 +93,41 @@ Page({
 
   // 确认修改
   editSpecification() {
-    let { _id, specification, choice } = this.data.ProductInfo
-    // 是否选择规格
-    if(choice?.split('，').length === specification.length) {
-      // 修改规格
-      orderProduct.where({productId: _id}).update({data: { specification: choice }})
-      .then(() => {
-        wx.navigateBack({ delta: 1 })
-      })
-    }else {
+    let { specification, choice } = this.data.ProductInfo
+    if(choice?.split('，').length != specification.length) {
       wx.showToast({
         title: '请选择规格',
         icon: 'none'
       })
+      return;
     }
+
+    //检查是否超过可以修改的时间
+    wx.cloud.callFunction({
+      name: 'getSellQRCode',
+      data: { 'id': this.data.sellQrCodeId }
+    }).then(res => {
+      let allowToOperate = res.result.data.sellQrCode.allowToOperate
+      if(allowToOperate){
+        this.doEditSpecification()
+      }else{
+        wx.showToast({
+          title: '超出二维码设置时间范围，不能修改',
+          icon: 'none',
+          duration: 3000
+        })
+      }
+    })
+  },
+
+  doEditSpecification(){
+    let { _id, choice } = this.data.ProductInfo
+    // 修改规格
+    orderProduct.where({_id: this.data.orderProductId}).update({data: { specification: choice }})
+    .then(() => {
+      wx.navigateBack({ delta: 1 })
+    })
+
   }
+
 })

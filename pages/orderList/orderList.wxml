@@ -8,7 +8,7 @@
   <Search bind:search="search" />
 
   <view class="orderList">
-    <BlockBox title="{{item.studentName}}" wx:for="{{orderList}}" wx:key="_id">
+    <BlockBox title="{{item.studentName}}({{item.studentGradeName}}{{item.studentClassName}})" wx:for="{{orderList}}" wx:key="_id">
       <view class="productInfo" wx:for="{{item.orderProduct}}" wx:key="_id" wx:for-item="pItem">
         <image src="{{pItem.headImage}}" />
         <view class="info">

@@ -6,6 +6,10 @@
 .container .productInfo {
   display: flex;
   padding: 30rpx 30rpx 0;
+  margin-top: 20rpx;
+  border-top: 1rpx solid #CFCFCF;
+  padding-top: 20rpx;
+  padding-bottom: 20rpx;
 }
 .container .productInfo image {
   width: 160rpx;
@@ -52,14 +56,28 @@
   justify-content: space-between;
   font-size: 28rpx;
   padding: 20rpx 30rpx;
+  border-top: 1rpx solid #CFCFCF;
+  padding-top: 20rpx;
 }
+
+.container .remark {
+  display: flex;
+  justify-content: space-between;
+  font-size: 28rpx;
+  border-top: 1rpx solid #CFCFCF;
+  padding-top: 10rpx;
+}
+
 .container .orderInfo .totalPrice .icon {
   font-size: 24rpx;
 }
 .container .operation {
   display: flex;
-  justify-content: flex-end;
-  padding: 0 30rpx 20rpx;
+  display: flex;
+  font-size: 28rpx;
+  justify-content: space-between;
+  padding: 30rpx 30rpx 20rpx;
+  border-top: 1rpx solid #CFCFCF;
 }
 .container .operation .modify {
   width: 120rpx;

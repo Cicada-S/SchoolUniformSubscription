@@ -30,9 +30,9 @@ exports.main = async (event, context) => {
     }).end()
 
     result.list.forEach(item => {
-      item.active = true
-      if(item.sellQrCode[0].endTime < Date.now()) {
-        item.active = false
+      item.active = false
+      if(item.sellQrCode[0].endTime > Date.now()) {
+        item.active = true
       }
       delete item.sellQrCode
     })

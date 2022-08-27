@@ -9,7 +9,7 @@ Page({
     classList: [], // 当前年级的班级
     spareClass: [], // 全部班级
     gradeValue: 0, // 年级默认值
-    classValue: -1, // 班级默认值
+    classValue: 0, // 班级默认值
     pageIndex: 1, // 当前分页
     reachBottom: false, // 是否到底
     sellQrCodeId: ''
@@ -33,11 +33,6 @@ Page({
       data: { sellQrCodeId, schoolId }
     }).then(res => {
       let { gradeList, classList, order } = res.result.data
-
-      classList = classList.map(item => {
-        item.unshift({text: '全级', value: -1})
-        return item
-      })
 
       this.setData({
         gradeList,
@@ -66,6 +61,7 @@ Page({
       }
     }
 
+    console.info('newScreen==='+ JSON.stringify(newScreen))
     wx.cloud.callFunction({
       name: 'getOrderList',
       data: { sellQrCodeId, newScreen }
@@ -98,9 +94,9 @@ Page({
     this.setData({
       classList: spareClass[event.detail],
       gradeValue: event.detail,
-      classValue: -1,
+      classValue: 0,
       gradeText,
-      classText: ''
+      classText: spareClass[event.detail][0].text
     })
     this.screenOrder(this.data.sellQrCodeId)
   },
