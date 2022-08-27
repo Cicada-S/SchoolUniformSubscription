@@ -8,6 +8,23 @@ const db = cloud.database()
 // 云函数入口函数
 exports.main = async (event, context) => {
   let { order, productList } = event
+
+  //检查是否在二维码的允许的时间内操作
+  let allowToOperate = false
+  let today = new Date().getTime()
+  await db.collection('SellQrCode').where({'_id': order.sellQrCodeId}).get()
+      .then(res => {
+        allowToOperate = (res.data[0].beginTime <= today && res.data[0].endTime >= today) ? true : false
+      })
+
+  if(!allowToOperate){
+    return {
+      code: 1,
+      error: '请在二维码允许的时间范围内操作',
+      success: false,
+    }
+  }
+
   let orderData = {
     ...order,
     _openid: cloud.getWXContext().OPENID,

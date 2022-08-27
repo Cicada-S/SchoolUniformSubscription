@@ -38,9 +38,8 @@
           <text>{{item.name}}</text>
           <text class="price">¥ <text>{{item.unitPrice}}</text></text>
         </view>
-      <view class="action" bindtap="choose" id="{{item._id}}">
-        <text>选购</text>
-      </view>
+      <view class="action" wx:if="{{allowToOperate}}"  bindtap="choose" id="{{item._id}}">  <text>选购</text> </view>
+      <view class="disabledAction"   wx:if="{{!allowToOperate}}">  <text>选购</text> </view>
     </view>
   </view>
   <view class="productAction" style="margin-bottom:{{bottomLift}}px">
@@ -51,9 +50,8 @@
       <text wx:else class="iconfont icon-gouwuchekong" bindtap="shopCart"></text>
       <view class="totalPrice">总价 <text>¥ {{totalPrice}}</text></view>
     </view>
-    <view class="productActionButton" bindtap="toOrder">
-      <text>立即结算</text>
-    </view>
+    <view class="productActionButton" wx:if="{{allowToOperate}}" bindtap="toOrder"><text>立即结算</text> </view>
+    <view class="productActionDisabledButton" wx:if="{{!allowToOperate}}"><text>立即结算</text> </view>
   </view>
 
   <!-- 选购/购物车 弹窗 -->

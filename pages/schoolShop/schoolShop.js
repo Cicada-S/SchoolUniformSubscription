@@ -14,6 +14,7 @@ Page({
     schoolName: '', // 买家名
     sellQrCodeId: '', // 二维码id
     sellQrCodeTitle: '', // 二维码标题
+    allowToOperate: false, //允许操作
     studentInfo: {}, // 小朋友信息
     ProductList: [], // 商品
     ProductInfo: {}, // 选购
@@ -27,7 +28,7 @@ Page({
 
   // 页面初始化
   onLoad(options) {
-    console.log('页面初始化', options)
+    console.log('onLoad----------', options)
 
     let scene = options.scene
     this.setData({ sellQrCodeId: scene })
@@ -60,6 +61,7 @@ Page({
 
   // 页面显示
   onShow() {
+    console.log('onShow------------')
     let studentInfo = wx.getStorageSync('studentInfo')
     // 获取本地存储的购物车数据
     let shopCart = []
@@ -70,6 +72,8 @@ Page({
       studentInfo,
       shopCart
     })
+    
+    this.countTotalPrice()
   },
 
   // 获取商品列表
@@ -87,7 +91,8 @@ Page({
           schoolName: sellQrCode.schoolName,
           sellQrCodeTitle: sellQrCode.title,
           endDate,
-          ProductList
+          ProductList,
+          allowToOperate: sellQrCode.allowToOperate
         })
         resolve(res);
       })
@@ -126,7 +131,7 @@ Page({
 
   // 跳转到商品详情
   toProductDetails(event) {
-    let { schoolName, schoolId, sellQrCodeId, sellQrCodeTitle } = this.data
+    let { schoolName, schoolId, sellQrCodeId, sellQrCodeTitle, allowToOperate } = this.data
 
     let orderInfo = {
       schoolName,
@@ -135,6 +140,7 @@ Page({
       sellQrCodeTitle,
     }
     wx.setStorageSync('orderInfo', orderInfo)
+    wx.setStorageSync('allowToOperate', allowToOperate)
 
     let ProductInfo = this.data.ProductList.filter(item => {
       if(item._id === event.currentTarget.id) {

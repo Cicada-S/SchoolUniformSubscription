@@ -226,7 +226,7 @@ Page({
 
   // 获取买家
   async getSchoolList() {
-    await School.where({status: 0}).get().then(res => {
+    await School.where({status: 0}).orderBy('createTime', 'desc').get().then(res => {
       this.setData({
         actions: res.data
       })

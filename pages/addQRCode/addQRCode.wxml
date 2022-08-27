@@ -5,12 +5,10 @@
     <image mode="aspectFit" src="{{qrCodePath}}" data-current="{{qrCodePath}}" bindtap="preview" /> 
   </BlockBox>
 
-  <BlockBox title="" wx:if="{{fileUrl}}">
-    <view class="fileUrl">{{fileUrl}}</view>
-    <button class="copyFileUrl" bindtap="copyFileUrl">复制连接</button>
-  </BlockBox>
+  
+  <button wx:if="{{fileUrl}}" class="button" bindtap="copyFileUrl">复制连接</button>
 
-  <button wx:if="{{qrCodePath}}" class="button" bindtap="exportOrderList">导出购买清单</button>
+  <button wx:if="{{(qrCodePath && !fileUrl)}}" class="button" bindtap="exportOrderList">导出购买清单</button>
 
   <BlockBox title="标题">
     <van-field

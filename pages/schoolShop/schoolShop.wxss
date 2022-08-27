@@ -139,6 +139,20 @@
   border-radius: 10rpx;
   background: #407EF5;
 }
+
+.container .productList .productItem .disabledAction {
+  width: 120rpx;
+  height: 60rpx;
+  align-self: flex-end;
+  font-size: 28rpx;
+  color: #FFFFFF;
+  letter-spacing: 4rpx;
+  line-height: 60rpx;
+  text-align: center;
+  border-radius: 10rpx;
+  background: #b9b9b9;
+}
+
 .container .productAction {
   width: 100%;
   height: 98rpx;
@@ -189,6 +203,18 @@
   border-radius: 10rpx;
   background: #407EF5;
 }
+
+.container .productAction .productActionDisabledButton {
+  width: 280rpx;
+  height: 76rpx;
+  color: #FFFFFF;
+  line-height: 76rpx;
+  text-align: center;
+  letter-spacing: 10rpx;
+  border-radius: 10rpx;
+  background: #b9b9b9;
+}
+
 .container .popupProductInfo {
   padding: 30rpx 20rpx 0;
 }

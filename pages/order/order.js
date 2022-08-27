@@ -82,6 +82,15 @@ Page({
         productList
       }
     })
+
+    if(results.result.code == 1){
+      wx.showToast({
+        title: results.result.error,
+        icon: 'none',
+        duration: 3000
+      })
+    }
+
     let orderId = results.result.orderId
     this.pay(orderId)
   },
@@ -92,6 +101,7 @@ Page({
       name: 'pay',
       data:{ orderId: orderId }
     }).then(res => {
+
       const payment = res.result.payment
       console.info(JSON.stringify(payment))
       wx.hideLoading()

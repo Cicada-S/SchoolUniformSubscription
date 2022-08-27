@@ -14,7 +14,8 @@ Page({
     cartNum: 0, // 购物车商品数量
     totalPrice: 0, // 总价
     imageList: [], // 轮播图
-    detailsImage: [] // 详情图
+    detailsImage: [], // 详情图,
+    allowToOperate: false, //允许操作
   },
 
   // 页面初始化
@@ -22,13 +23,15 @@ Page({
     this.getProductImage(options.id)
 
     let ProductInfo = wx.getStorageSync('ProductInfo')
+    let allowToOperate = wx.getStorageSync('allowToOperate')
     let shopCart = []
     if(wx.getStorageSync('shopCart')) {
       shopCart = wx.getStorageSync('shopCart')
     }
     this.setData({
       ProductInfo,
-      shopCart
+      shopCart,
+      allowToOperate
     })
 
     this.countTotalPrice()

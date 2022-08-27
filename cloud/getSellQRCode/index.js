@@ -11,6 +11,11 @@ exports.main = async (event, context) => {
     // 获取二维码信息
     let results = await db.collection("SellQrCode").doc(event.id).get()
 
+    //设置是否允许操作（在二维码设置的时间内）
+    let today = new Date().getTime()
+    let allowToOperate = (results.data.beginTime <= today && results.data.endTime >= today) ? true : false
+    results.data.allowToOperate = allowToOperate
+
     // 获取二维码对应的商品
     let product = await db.collection("SellQrCodeProduct").aggregate()
     .match({ sellQrCodeId: results.data._id })

@@ -50,7 +50,7 @@ exports.main = async (event, context) => {
     })
 
     // 生成的小程序码上传到云存储中
-    let cloudPath = "schoolUniformSubscription/sellQrCode/" + Date.now() + '.png'
+    let cloudPath = "schoolUniformSubscription/sellQrCode/" + pathOfDate() + '.png'
     const upload = await cloud.uploadFile({
       cloudPath: cloudPath,
       fileContent: result.buffer
@@ -86,4 +86,18 @@ exports.main = async (event, context) => {
       success: false
     }
   }
+}
+
+function pathOfDate(){
+  let today = new Date();
+  let year = today.getFullYear();
+  let month = today.getMonth() + 1;
+  if (month < 10) {
+    month = "0" + month;
+  }
+  let date = today.getDate();
+  if (date < 10) {
+    date = "0" + date;
+  }
+  return (year + "/" + month + "/" + date + "/");
 }
