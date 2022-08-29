@@ -71,6 +71,7 @@ Page({
       studentGender: studentInfo.gender,
       studentGradeName: studentInfo.gradeName,
       studentClassName: studentInfo.className,
+      phoneNumber:  studentInfo.phoneNumber,
       totalPrice,
       remark: remarksVlaue
     }

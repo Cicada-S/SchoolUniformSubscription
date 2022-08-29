@@ -49,7 +49,7 @@ exports.main = async (event, context) => {
     }, [])
 
     // 1. 定义excel表格名
-    let dataCVS = `${newOrder[0].sellQrCodeId}.xlsx`
+    let dataCVS = "schoolUniformSubscription/sellQrCode/" + pathOfDate() + `${newOrder[0].sellQrCodeId}.xlsx`
 
     // 2. 定义存储数据的
     const summary = summaryList(newOrder)
@@ -90,39 +90,41 @@ exports.main = async (event, context) => {
 // 征订汇总表
 function summaryList(newOrder) {
   // 1. 定义存储数据的
-  let alldata = [['订单汇总']]
+  let alldata = []
   let row = ['性别', '产品名称', '规格', '总计'] // 表属性
   alldata.push(row)
 
   // 2. 将数据写入表中
   let gender = { male: [], female: [] }
+  let maleAmount = 0
+  let femaleAmount = 0
+
+
   // 遍历数据 将性别分开
   for (let key in newOrder) {
     if(newOrder[key].studentGender == 1) {
       newOrder[key].studentGender = '男'
       gender.male.push(newOrder[key])
+      maleAmount += newOrder[key].orderProduct[0].amount
     }else {
       newOrder[key].studentGender = '女'
       gender.female.push(newOrder[key])
+      femaleAmount += newOrder[key].orderProduct[0].amount
     }
   }
 
-  let coordinates = [] // 坐标
-  let genderLength = [] // 第一轮性别的长度
+  let coordinatesMap = new Map()
   Object.keys(gender).forEach((item, index) => {
-    let map = new Map()
     // 商品名称的合并坐标
     gender[item].forEach((p, i) => {
       let productId = p.orderProduct[0].productId
-      if(map.get(productId)){
-        let startIndex = map.get(productId).startIndex
-        map.set(productId, {'startIndex': startIndex, 'endIndex': i})
+      if(coordinatesMap.get(item + productId)){
+        let startIndex = coordinatesMap.get(item + productId).startIndex
+        coordinatesMap.set(item + productId, {'startIndex': startIndex, 'endIndex': i})
       }else{
-        map.set(productId, {'startIndex': i, 'endIndex': i})
+        coordinatesMap.set(item + productId, {'startIndex': i, 'endIndex': i})
       }
     })
-    if(index === 0) genderLength.push([...map].length)
-    coordinates.push(...map)
 
     // 将数据写入表中
     for(let key in gender[item]) {
@@ -133,27 +135,25 @@ function summaryList(newOrder) {
       arr.push(gender[item][key].orderProduct[0].amount)
       alldata.push(arr)
     }
-    genderLength.push(gender[item].length)
 
-    let summary = [`${gender[item][0].studentGender}汇总`, '', '', gender[item].length]
+    let summary = [`${gender[item][0].studentGender}汇总`, '', '', (index == 0 ? maleAmount : femaleAmount)]
     alldata.push(summary)
   })
-  alldata.push(['总计', '', '', genderLength[1]+genderLength[2]])
+  alldata.push(['总计', '', '', maleAmount + femaleAmount])
   
 
-  // 将坐标修改成 '!merges' 字段类型
+  // 将坐标修改成 '!merges' 字段类型，合并产品名称
   let merges = []
-  coordinates.forEach((item, index) => {
-    if(index === 0) {
-      merges.push({s: {c: 1, r: item[1].startIndex + 2}, e: {c: 1, r: item[1].endIndex + 2}})
-    }else if(index < genderLength[0]) { // 男
-      let last = merges[index - 1].e.r // 上一个坐标的结束坐标
-      merges.push({s: {c: 1, r: item[1].startIndex + last}, e: {c: 1, r: item[1].endIndex + last}})
-    }else { // 女
-      let last = merges[index - 1].e.r
-      merges.push({s: {c: 1, r: item[1].startIndex + last + 1}, e: {c: 1, r: item[1].endIndex + last + 1}})
+  coordinatesMap.forEach(function(value, key, map) {
+    if(value.startIndex != value.endIndex){
+      if(key.indexOf('female') >= 0){//产品（女）
+        merges.push({s: {c: 1, r: value.startIndex + 2 + gender.male.length}, e: {c: 1, r: value.endIndex + 2 + gender.male.length}})
+      }else{//产品（男）
+        merges.push({s: {c: 1, r: value.startIndex + 1}, e: {c: 1, r: value.endIndex + 1}})
+      }
     }
-  })
+  });
+
 
   // 3. 定制纸张规格
   const sheetOptions = {
@@ -161,9 +161,8 @@ function summaryList(newOrder) {
       {wch: 20}, {wch: 20}, {wch: 30}, {wch: 6}
     ],
     '!merges': [ // 合并单元格
-      {s: {c: 0, r: 0}, e: {c: 3, r: 0}}, // 标题
-      {s: {c: 0, r: 2}, e: {c: 0, r: gender.male.length + 1}}, // 男
-      {s: {c: 0, r: gender.male.length + 3}, e: {c: 0, r: gender.male.length + 2 + gender.female.length}}, // 女
+      {s: {c: 0, r: 1}, e: {c: 0, r: gender.male.length}}, // 男
+      {s: {c: 0, r: gender.male.length + 2}, e: {c: 0, r: gender.male.length + 1 + gender.female.length}}, // 女
       ...merges, // 产品名称
     ]
   }
@@ -227,8 +226,8 @@ function statisticsList(newOrder) {
 // 征订明细表
 function detailedList(newOrder) {
   // 1. 定义存储数据的
-  let alldata = [['征订明细']]
-  let row = ['id', '学校', '年级', '班级', '姓名', '性别', '下单时间', '商品名称', '购买数量', '规格', '备注' ] //表属性
+  let alldata = []
+  let row = ['订单号', '学校', '年级', '班级', '姓名', '性别', '家长电话', '下单时间', '商品名称', '购买数量', '规格', '备注' ] //表属性
   alldata.push(row)
 
   // 2. 将数据写入表中
@@ -240,6 +239,7 @@ function detailedList(newOrder) {
     arr.push(newOrder[key].studentClassName)
     arr.push(newOrder[key].studentName)
     arr.push(newOrder[key].studentGender)
+    arr.push(newOrder[key].phoneNumber)
     arr.push(newOrder[key].createTime)
     arr.push(newOrder[key].orderProduct[0].productName)
     arr.push(newOrder[key].orderProduct[0].amount)
@@ -254,9 +254,6 @@ function detailedList(newOrder) {
       {wch: 32}, {wch: 14}, {wch: 8}, {wch: 6}, 
       {wch: 8}, {wch: 6}, {wch: 8}, {wch: 8}, 
       {wch: 8}, {wch: 14}
-    ],
-    '!merges': [ // 合并单元格
-      {s: {c: 0, r: 0}, e: {c: 10, r: 0}}
     ]
   }
 
@@ -265,3 +262,19 @@ function detailedList(newOrder) {
     sheetOptions
   }
 }
+
+
+function pathOfDate(){
+  let today = new Date();
+  let year = today.getFullYear();
+  let month = today.getMonth() + 1;
+  if (month < 10) {
+    month = "0" + month;
+  }
+  let date = today.getDate();
+  if (date < 10) {
+    date = "0" + date;
+  }
+  return (year + "/" + month + "/" + date + "/");
+}
+
