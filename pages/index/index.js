@@ -13,23 +13,51 @@ Page({
     dataList: [
       {
         id: 1,
-        title: '冬季园服新款（演示）qweq',
-        picUrl: '/static/images/home/clothes1.png',
+        title: '夏装礼服款',
+        picUrl: '/static/images/home/clothes1.jpg',
+        height: '380rpx'
       },
       {
         id: 2,
-        title: '冬季园服新款（演示）',
-        picUrl: '/static/images/home/clothes1.png',
+        title: '夏装运动款',
+        picUrl: '/static/images/home/clothes2.jpg',
+        height: '380rpx'
       },
       {
         id: 3,
-        title: '冬季园服新款（演示）',
-        picUrl: '/static/images/home/clothes1.png',
+        title: '秋冬装礼服款',
+        picUrl: '/static/images/home/clothes3.jpg',
+        height: '380rpx'
       },
       {
         id: 4,
-        title: '冬季园服新款（演示）qweq',
-        picUrl: '/static/images/home/clothes1.png',
+        title: '秋冬装运动款',
+        picUrl: '/static/images/home/clothes4.jpg',
+        height: '380rpx'
+      },
+      {
+        id: 5,
+        title: '中小学秋装款',
+        picUrl: '/static/images/home/clothes5.jpg',
+        height: '450rpx'
+      },
+      {
+        id: 6,
+        title: '秋冬装英伦学院风',
+        picUrl: '/static/images/home/clothes6.jpg',
+        height: '450rpx'
+      },
+      {
+        id: 7,
+        title: '书包新款',
+        picUrl: '/static/images/home/clothes7.jpg',
+        height: '320rpx'
+      },
+      {
+        id: 8,
+        title: '被子新款',
+        picUrl: '/static/images/home/clothes8.jpg',
+        height: '320rpx'
       }
     ]
   },

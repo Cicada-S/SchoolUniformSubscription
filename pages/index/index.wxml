@@ -28,7 +28,7 @@
     </view>
     <view class="exhibition-content">
       <view class="exhibition-content-item" wx:for="{{dataList}}" wx:key="id">
-        <image class="pic" src="{{item.picUrl}}" />
+        <image  mode="aspectFill" style="height: {{item.height}}" class="pic" src="{{item.picUrl}}" />
         <text>{{item.title}}</text>
       </view>
     </view>
