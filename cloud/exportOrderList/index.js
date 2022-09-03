@@ -140,7 +140,7 @@ function summaryList(newOrder) {
     alldata.push(summary)
   })
   alldata.push(['总计', '', '', maleAmount + femaleAmount])
-  
+
 
   // 将坐标修改成 '!merges' 字段类型，合并产品名称
   let merges = []
@@ -178,42 +178,112 @@ function statisticsList(newOrder) {
   console.log(newOrder)
 
   // 1. 定义存储数据的
-  let alldata = [['分班统计']]
+  let alldata = []
   let row = ['年级', '班级', '产品名称', '商品规格', '数量'] // 表属性
   alldata.push(row)
 
-  // 2. 将数据写入表中
-  let grade = []
-  // 遍历数据 将年级分开
-  newOrder.forEach(item => grade.push(item.studentGradeName))
-  grade = [...new Set(grade)]
-  console.log('grade', grade)
-
-  /* let genderMap = new Map()
-  newOrder.forEach(item => {
-    if(genderMap.get(item.studentGradeName)) {
-      let startIndex = genderMap.get(item.studentGradeName).startIndex
-      genderMap.set()
-    }
-  }) */
-
+  //整理数据 （年级 班级 产品	商品规格 唯一）
+  let dataMap = new Map()
   for (let key in newOrder) {
-    let arr = []
-    arr.push(newOrder[key].studentGradeName)
-    arr.push(newOrder[key].studentClassName)
-    arr.push(newOrder[key].orderProduct[0].productName)
-    arr.push(newOrder[key].orderProduct[0].specification)
-    arr.push(newOrder[key].orderProduct[0].amount)
-    alldata.push(arr)
+    let k = newOrder[key].studentGradeName + newOrder[key].studentClassName + newOrder[key].orderProduct[0].productId + newOrder[key].orderProduct[0].specification
+    if(dataMap.get(k)){
+      dataMap.get(k).amount = dataMap.get(k).amount + newOrder[key].orderProduct[0].amount
+    } else {
+      dataMap.set(k,
+          {'studentGradeName': newOrder[key].studentGradeName,
+          'studentClassName': newOrder[key].studentClassName,
+            'productId': newOrder[key].orderProduct[0].productId,
+            'productName': newOrder[key].orderProduct[0].productName,
+            'specification': newOrder[key].orderProduct[0].specification,
+            'amount': newOrder[key].orderProduct[0].amount
+          })
+    }
   }
 
-  // 3. 定制纸张规格
+  //排序
+  const list = Array.from(dataMap.values());
+  list.sort((l, i) => {
+    if(l.studentGradeName != i.studentGradeName){
+      return l.studentGradeName.localeCompare(i.studentGradeName)
+    } else if(l.studentClassName != i.studentClassName) {
+      return l.studentClassName.localeCompare(i.studentClassName)
+    } else if(l.productId != i.productId) {
+      return l.productId.localeCompare(i.productId)
+    }
+  })
+
+  //添加数据
+  let merges = []
+  let realIndex = 0
+  let uniqueMap = new Map()
+  for (let i in list) {
+    let arr = []
+    arr.push(list[i].studentGradeName)
+    arr.push(list[i].studentClassName)
+    arr.push(list[i].productName)
+    arr.push(list[i].specification)
+    arr.push(list[i].amount)
+    alldata.push(arr)
+
+    //年级
+    if(uniqueMap.get('GradeName' + list[i].studentGradeName + list[i].studentClassName)){
+      let startIndex = uniqueMap.get('GradeName' + list[i].studentGradeName + list[i].studentClassName).startIndex
+      uniqueMap.set('GradeName' + list[i].studentGradeName + list[i].studentClassName, {'startIndex': startIndex, 'endIndex': realIndex})
+    }else{
+      uniqueMap.set('GradeName' + list[i].studentGradeName + list[i].studentClassName, {'startIndex': realIndex, 'endIndex': realIndex})
+    }
+
+    //班级
+    if(uniqueMap.get('ClassName' + list[i].studentGradeName + list[i].studentClassName)){
+      let startIndex = uniqueMap.get('ClassName' + list[i].studentGradeName + list[i].studentClassName).startIndex
+      let amount = uniqueMap.get('ClassName' + list[i].studentGradeName + list[i].studentClassName).amount + list[i].amount
+      uniqueMap.set('ClassName' + list[i].studentGradeName + list[i].studentClassName, {'startIndex': startIndex, 'endIndex': realIndex, 'amount': amount})
+    }else{
+      uniqueMap.set('ClassName' + list[i].studentGradeName + list[i].studentClassName, {'startIndex': realIndex, 'endIndex': realIndex, 'amount': list[i].amount})
+    }
+
+    //产品
+    if(uniqueMap.get('ProductName' + list[i].studentGradeName + list[i].studentClassName + list[i].productId)){
+      let startIndex = uniqueMap.get('ProductName' + list[i].studentGradeName + list[i].studentClassName + list[i].productId).startIndex
+      uniqueMap.set('ProductName' + list[i].studentGradeName + list[i].studentClassName + list[i].productId, {'startIndex': startIndex, 'endIndex': realIndex})
+    }else{
+      uniqueMap.set('ProductName' + list[i].studentGradeName + list[i].studentClassName + list[i].productId, {'startIndex': realIndex, 'endIndex': realIndex})
+    }
+    realIndex++
+
+    //添加班级统计数据
+    if((i == list.length - 1) || (
+        (list[i].studentGradeName + list[i].studentClassName) != (list[Number(i) + 1].studentGradeName + list[Number(i) + 1].studentClassName)
+    )){
+      let amount = uniqueMap.get('ClassName' + list[i].studentGradeName + list[i].studentClassName).amount
+      let summary = [`${list[i].studentGradeName} ${list[i].studentClassName}合计${amount}件`, '', '', '','']
+      alldata.push(summary)
+      merges.push({s: {c: 0, r: realIndex + 1}, e: {c: 4, r: realIndex + 1}})
+      realIndex++
+    }
+  }
+
+  // 将坐标修改成 '!merges' 字段类型，合并年级/班级/产品
+  uniqueMap.forEach(function(value, key, map) {
+    if(value.startIndex != value.endIndex){
+      if(key.indexOf('GradeName') >= 0){//年级
+        merges.push({s: {c: 0, r: value.startIndex + 1}, e: {c: 0, r: value.endIndex + 1}})
+      }
+      if(key.indexOf('ClassName') >= 0){//班级
+        merges.push({s: {c: 1, r: value.startIndex + 1}, e: {c: 1, r: value.endIndex + 1}})
+      }
+      if(key.indexOf('ProductName') >= 0){//产品
+        merges.push({s: {c: 2, r: value.startIndex + 1}, e: {c: 2, r: value.endIndex + 1}})
+      }
+    }
+  });
+
   const sheetOptions = {
     '!cols': [ // 自定义列宽
       {wch: 10}, {wch: 10}, {wch: 20}, {wch: 25}, {wch: 10}
     ],
-    '!merges': [ // 合并单元格
-      {s: {c: 0, r: 0}, e: {c: 4, r: 0}}
+    '!merges': [ // 合并单元
+        ...merges
     ]
   }
 
@@ -251,8 +321,8 @@ function detailedList(newOrder) {
   // 3. 定制纸张规格
   const sheetOptions = {
     '!cols': [ // 自定义列宽
-      {wch: 32}, {wch: 14}, {wch: 8}, {wch: 6}, 
-      {wch: 8}, {wch: 6}, {wch: 8}, {wch: 8}, 
+      {wch: 32}, {wch: 14}, {wch: 8}, {wch: 6},
+      {wch: 8}, {wch: 6}, {wch: 8}, {wch: 8},
       {wch: 8}, {wch: 14}
     ]
   }
