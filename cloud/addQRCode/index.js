@@ -50,7 +50,7 @@ exports.main = async (event, context) => {
     })
 
     // 生成的小程序码上传到云存储中
-    let cloudPath = "schoolUniformSubscription/sellQrCode/" + pathOfDate() + '.png'
+    let cloudPath = "schoolUniformSubscription/sellQrCode/" + pathOfDate() + SellQrCode._id + '.png'
     const upload = await cloud.uploadFile({
       cloudPath: cloudPath,
       fileContent: result.buffer
