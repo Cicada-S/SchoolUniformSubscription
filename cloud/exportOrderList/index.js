@@ -94,76 +94,95 @@ function summaryList(newOrder) {
   let row = ['性别', '产品名称', '规格', '总计'] // 表属性
   alldata.push(row)
 
-  // 2. 将数据写入表中
-  let gender = { male: [], female: [] }
-  let maleAmount = 0
-  let femaleAmount = 0
-
-
-  // 遍历数据 将性别分开
+  
+  //整理数据 （性别	产品 规格 唯一）
+  let dataMap = new Map()
   for (let key in newOrder) {
-    if(newOrder[key].studentGender == 1) {
-      newOrder[key].studentGender = '男'
-      gender.male.push(newOrder[key])
-      maleAmount += newOrder[key].orderProduct[0].amount
-    }else {
-      newOrder[key].studentGender = '女'
-      gender.female.push(newOrder[key])
-      femaleAmount += newOrder[key].orderProduct[0].amount
+    let k = newOrder[key].studentGender + newOrder[key].orderProduct[0].productId + newOrder[key].orderProduct[0].specification
+    if(dataMap.get(k)){
+      dataMap.get(k).amount = dataMap.get(k).amount + newOrder[key].orderProduct[0].amount
+    } else {
+      dataMap.set(k,
+          {	'studentGender': newOrder[key].studentGender,
+            'productId': newOrder[key].orderProduct[0].productId,
+            'productName': newOrder[key].orderProduct[0].productName,
+            'specification': newOrder[key].orderProduct[0].specification,
+            'amount': newOrder[key].orderProduct[0].amount
+          })
     }
   }
 
-  let coordinatesMap = new Map()
-  Object.keys(gender).forEach((item, index) => {
-    // 商品名称的合并坐标
-    gender[item].forEach((p, i) => {
-      let productId = p.orderProduct[0].productId
-      if(coordinatesMap.get(item + productId)){
-        let startIndex = coordinatesMap.get(item + productId).startIndex
-        coordinatesMap.set(item + productId, {'startIndex': startIndex, 'endIndex': i})
-      }else{
-        coordinatesMap.set(item + productId, {'startIndex': i, 'endIndex': i})
-      }
-    })
-
-    // 将数据写入表中
-    for(let key in gender[item]) {
-      let arr = []
-      arr.push(gender[item][key].studentGender)
-      arr.push(gender[item][key].orderProduct[0].productName)
-      arr.push(gender[item][key].orderProduct[0].specification)
-      arr.push(gender[item][key].orderProduct[0].amount)
-      alldata.push(arr)
+  //排序
+  const list = Array.from(dataMap.values());
+  list.sort((l, i) => {
+    if(l.studentGender != i.studentGender){
+      return l.studentGender.localeCompare(i.studentGender)
+    }else if(l.productId != i.productId) {
+      return l.productId.localeCompare(i.productId)
     }
-
-    let summary = [`${gender[item][0].studentGender}汇总`, '', '', (index == 0 ? maleAmount : femaleAmount)]
-    alldata.push(summary)
   })
-  alldata.push(['总计', '', '', maleAmount + femaleAmount])
 
-
-  // 将坐标修改成 '!merges' 字段类型，合并产品名称
+  //添加数据
   let merges = []
-  coordinatesMap.forEach(function(value, key, map) {
+  let realIndex = 0
+  let uniqueMap = new Map()
+  for (let i in list) {
+  	let studentGenderName = list[i].studentGender == 1 ? '男' : '女'
+    let arr = []
+    arr.push(studentGenderName)
+    arr.push(list[i].productName)
+    arr.push(list[i].specification)
+    arr.push(list[i].amount)
+    alldata.push(arr)
+
+    //性别
+    if(uniqueMap.get('studentGender' + list[i].studentGender)){
+      let startIndex = uniqueMap.get('studentGender' + list[i].studentGender).startIndex
+      let amount = uniqueMap.get('studentGender' + list[i].studentGender).amount + list[i].amount
+      uniqueMap.set('studentGender' + list[i].studentGender, {'startIndex': startIndex, 'endIndex': realIndex, 'amount': amount})
+    }else{
+      uniqueMap.set('studentGender' + list[i].studentGender, {'startIndex': realIndex, 'endIndex': realIndex, 'amount': list[i].amount})
+    }
+    
+    //产品
+    if(uniqueMap.get('ProductName' + list[i].studentGender + list[i].productId)){
+      let startIndex = uniqueMap.get('ProductName' + list[i].studentGender + list[i].productId).startIndex
+      uniqueMap.set('ProductName' + list[i].studentGender + list[i].productId, {'startIndex': startIndex, 'endIndex': realIndex})
+    }else{
+      uniqueMap.set('ProductName' + list[i].studentGender + list[i].productId, {'startIndex': realIndex, 'endIndex': realIndex})
+    }
+    realIndex++
+
+    //添加男/女 统计数据
+    if((i == list.length - 1) || ( list[i].studentGender != list[Number(i) + 1].studentGender )){
+      let amount = uniqueMap.get('studentGender' + list[i].studentGender).amount
+      let summary = [`${studentGenderName}汇总`, '', '', amount]
+      alldata.push(summary)
+      realIndex++
+    }
+  }
+  
+  //总计
+  alldata.push(['总计', '', '', Number(uniqueMap.get('studentGender0').amount) + Number(uniqueMap.get('studentGender1').amount)])
+
+  // 将坐标修改成 '!merges' 字段类型，合并性别/产品
+  uniqueMap.forEach(function(value, key, map) {
     if(value.startIndex != value.endIndex){
-      if(key.indexOf('female') >= 0){//产品（女）
-        merges.push({s: {c: 1, r: value.startIndex + 2 + gender.male.length}, e: {c: 1, r: value.endIndex + 2 + gender.male.length}})
-      }else{//产品（男）
+      if(key.indexOf('studentGender') >= 0){//性别
+        merges.push({s: {c: 0, r: value.startIndex + 1}, e: {c: 0, r: value.endIndex + 1}})
+      }
+      if(key.indexOf('ProductName') >= 0){//产品
         merges.push({s: {c: 1, r: value.startIndex + 1}, e: {c: 1, r: value.endIndex + 1}})
       }
     }
   });
 
-
-  // 3. 定制纸张规格
   const sheetOptions = {
     '!cols': [ // 自定义列宽
-      {wch: 20}, {wch: 20}, {wch: 30}, {wch: 6}
+      {wch: 10}, {wch: 10}, {wch: 20}, {wch: 25}, {wch: 10}
     ],
-    '!merges': [ // 合并单元格
-      {s: {c: 0, r: 1}, e: {c: 0, r: gender.male.length}}, // 男
-      {s: {c: 0, r: gender.male.length + 2}, e: {c: 0, r: gender.male.length + 1 + gender.female.length}}, // 女
-      ...merges, // 产品名称
+    '!merges': [ // 合并单元
+        ...merges
     ]
   }
 
@@ -256,7 +275,7 @@ function statisticsList(newOrder) {
         (list[i].studentGradeName + list[i].studentClassName) != (list[Number(i) + 1].studentGradeName + list[Number(i) + 1].studentClassName)
     )){
       let amount = uniqueMap.get('ClassName' + list[i].studentGradeName + list[i].studentClassName).amount
-      let summary = [`${list[i].studentGradeName} ${list[i].studentClassName}合计${amount}件`, '', '', '','']
+      let summary = [`${list[i].studentGradeName}${list[i].studentClassName}合计${amount}件`, '', '', '','']
       alldata.push(summary)
       merges.push({s: {c: 0, r: realIndex + 1}, e: {c: 4, r: realIndex + 1}})
       realIndex++
@@ -308,7 +327,8 @@ function detailedList(newOrder) {
     arr.push(newOrder[key].studentGradeName)
     arr.push(newOrder[key].studentClassName)
     arr.push(newOrder[key].studentName)
-    arr.push(newOrder[key].studentGender)
+  	let studentGenderName = newOrder[key].studentGender == 1 ? '男' : '女'
+    arr.push(studentGenderName)
     arr.push(newOrder[key].phoneNumber)
     arr.push(newOrder[key].createTime)
     arr.push(newOrder[key].orderProduct[0].productName)
