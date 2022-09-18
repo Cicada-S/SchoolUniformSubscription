@@ -14,7 +14,7 @@ const xlsx = require('node-xlsx')
 exports.main = async (event, context) => {
   try {
     // 获取订单数据
-    let order = await db.collection('Order').aggregate()
+    let order = await db.collection('Order').aggregate().limit(1000)
     .sort({
       studentGradeName: 1,
       studentClassName: 1
@@ -119,6 +119,8 @@ function summaryList(newOrder) {
       return l.studentGender.localeCompare(i.studentGender)
     }else if(l.productId != i.productId) {
       return l.productId.localeCompare(i.productId)
+    }else if(l.specification != i.specification) {
+      return l.specification.localeCompare(i.specification)
     }
   })
 
