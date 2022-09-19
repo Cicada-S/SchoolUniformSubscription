@@ -91,19 +91,19 @@ exports.main = async (event, context) => {
 function summaryList(newOrder) {
   // 1. 定义存储数据的
   let alldata = []
-  let row = ['性别', '产品名称', '规格', '总计'] // 表属性
+  let row = ['产品名称', '规格', '总计'] // 表属性
   alldata.push(row)
 
   
-  //整理数据 （性别	产品 规格 唯一）
+  //整理数据 （产品 规格 唯一）
   let dataMap = new Map()
   for (let key in newOrder) {
-    let k = newOrder[key].studentGender + newOrder[key].orderProduct[0].productId + newOrder[key].orderProduct[0].specification
+    let k = newOrder[key].orderProduct[0].productId + newOrder[key].orderProduct[0].specification
     if(dataMap.get(k)){
       dataMap.get(k).amount = dataMap.get(k).amount + newOrder[key].orderProduct[0].amount
     } else {
       dataMap.set(k,
-          {	'studentGender': newOrder[key].studentGender,
+          {	
             'productId': newOrder[key].orderProduct[0].productId,
             'productName': newOrder[key].orderProduct[0].productName,
             'specification': newOrder[key].orderProduct[0].specification,
@@ -115,9 +115,7 @@ function summaryList(newOrder) {
   //排序
   const list = Array.from(dataMap.values());
   list.sort((l, i) => {
-    if(l.studentGender != i.studentGender){
-      return l.studentGender.localeCompare(i.studentGender)
-    }else if(l.productId != i.productId) {
+    if(l.productId != i.productId) {
       return l.productId.localeCompare(i.productId)
     }else if(l.specification != i.specification) {
       return l.specification.localeCompare(i.specification)
@@ -128,60 +126,41 @@ function summaryList(newOrder) {
   let merges = []
   let realIndex = 0
   let uniqueMap = new Map()
+  let amount = 0
   for (let i in list) {
-  	let studentGenderName = list[i].studentGender == 1 ? '男' : '女'
     let arr = []
-    arr.push(studentGenderName)
     arr.push(list[i].productName)
     arr.push(list[i].specification)
     arr.push(list[i].amount)
     alldata.push(arr)
-
-    //性别
-    if(uniqueMap.get('studentGender' + list[i].studentGender)){
-      let startIndex = uniqueMap.get('studentGender' + list[i].studentGender).startIndex
-      let amount = uniqueMap.get('studentGender' + list[i].studentGender).amount + list[i].amount
-      uniqueMap.set('studentGender' + list[i].studentGender, {'startIndex': startIndex, 'endIndex': realIndex, 'amount': amount})
-    }else{
-      uniqueMap.set('studentGender' + list[i].studentGender, {'startIndex': realIndex, 'endIndex': realIndex, 'amount': list[i].amount})
-    }
+    amount += Number(list[i].amount)
     
     //产品
-    if(uniqueMap.get('ProductName' + list[i].studentGender + list[i].productId)){
-      let startIndex = uniqueMap.get('ProductName' + list[i].studentGender + list[i].productId).startIndex
-      uniqueMap.set('ProductName' + list[i].studentGender + list[i].productId, {'startIndex': startIndex, 'endIndex': realIndex})
+    if(uniqueMap.get('ProductName' + list[i].productId)){
+      let startIndex = uniqueMap.get('ProductName' + list[i].productId).startIndex
+      uniqueMap.set('ProductName' + list[i].productId, {'startIndex': startIndex, 'endIndex': realIndex})
     }else{
-      uniqueMap.set('ProductName' + list[i].studentGender + list[i].productId, {'startIndex': realIndex, 'endIndex': realIndex})
+      uniqueMap.set('ProductName' + list[i].productId, {'startIndex': realIndex, 'endIndex': realIndex})
     }
+    
     realIndex++
-
-    //添加男/女 统计数据
-    if((i == list.length - 1) || ( list[i].studentGender != list[Number(i) + 1].studentGender )){
-      let amount = uniqueMap.get('studentGender' + list[i].studentGender).amount
-      let summary = [`${studentGenderName}汇总`, '', '', amount]
-      alldata.push(summary)
-      realIndex++
-    }
   }
   
   //总计
-  alldata.push(['总计', '', '', Number(uniqueMap.get('studentGender0').amount) + Number(uniqueMap.get('studentGender1').amount)])
+  alldata.push(['总计', '', amount])
 
   // 将坐标修改成 '!merges' 字段类型，合并性别/产品
   uniqueMap.forEach(function(value, key, map) {
     if(value.startIndex != value.endIndex){
-      if(key.indexOf('studentGender') >= 0){//性别
-        merges.push({s: {c: 0, r: value.startIndex + 1}, e: {c: 0, r: value.endIndex + 1}})
-      }
       if(key.indexOf('ProductName') >= 0){//产品
-        merges.push({s: {c: 1, r: value.startIndex + 1}, e: {c: 1, r: value.endIndex + 1}})
+        merges.push({s: {c: 0, r: value.startIndex + 1}, e: {c: 0, r: value.endIndex + 1}})
       }
     }
   });
 
   const sheetOptions = {
     '!cols': [ // 自定义列宽
-      {wch: 10}, {wch: 10}, {wch: 20}, {wch: 25}, {wch: 10}
+      {wch: 40}, {wch: 20}, {wch: 10}, 
     ],
     '!merges': [ // 合并单元
         ...merges
@@ -230,6 +209,8 @@ function statisticsList(newOrder) {
       return l.studentClassName.localeCompare(i.studentClassName)
     } else if(l.productId != i.productId) {
       return l.productId.localeCompare(i.productId)
+    }else if(l.specification != i.specification) {
+      return l.specification.localeCompare(i.specification)
     }
   })
 
@@ -301,7 +282,7 @@ function statisticsList(newOrder) {
 
   const sheetOptions = {
     '!cols': [ // 自定义列宽
-      {wch: 10}, {wch: 10}, {wch: 20}, {wch: 25}, {wch: 10}
+      {wch: 10}, {wch: 10}, {wch: 50}, {wch: 20}, {wch: 10}
     ],
     '!merges': [ // 合并单元
         ...merges
@@ -343,9 +324,9 @@ function detailedList(newOrder) {
   // 3. 定制纸张规格
   const sheetOptions = {
     '!cols': [ // 自定义列宽
-      {wch: 32}, {wch: 14}, {wch: 8}, {wch: 6},
-      {wch: 8}, {wch: 6}, {wch: 8}, {wch: 8},
-      {wch: 8}, {wch: 14}
+      {wch: 32}, {wch: 18}, {wch: 8}, {wch: 6},
+      {wch: 8}, {wch: 6}, {wch: 15}, {wch: 15},
+      {wch: 40}, {wch: 14},{wch: 14},{wch: 40},
     ]
   }
 

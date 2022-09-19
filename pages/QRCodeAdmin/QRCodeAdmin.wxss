@@ -25,10 +25,15 @@
   align-items: center;
   justify-content: space-between;
   font-size: 28rpx;
-  white-space: nowrap;
   margin-bottom: 40rpx;
-  overflow: hidden;
 }
+
+.container .content .qrcodeList .qrcodeListItem .qrcodeListItemName{
+  width: 200rpx;
+  display:table-cell; 
+  text-align: center;
+}
+
 .container .content .qrcodeList .qrcodeListItem .qrcodeListItemLogo image {
   width: 160rpx;
   height: 160rpx;

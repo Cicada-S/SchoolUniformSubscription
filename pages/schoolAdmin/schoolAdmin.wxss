@@ -25,10 +25,15 @@
   align-items: center;
   justify-content: space-between;
   font-size: 28rpx;
-  white-space: nowrap;
-  margin-bottom: 40rpx;
-  overflow: hidden;
+  margin-bottom: 40rpx; 
 }
+
+.container .content .schoolList .schoolListItem .schoolListItemName{
+  width: 200rpx;
+  display:table-cell;
+  text-align: center;
+}
+
 .container .content .schoolList .schoolListItem .schoolListItemLogo image {
   width: 160rpx;
   height: 160rpx;
