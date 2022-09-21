@@ -1,9 +1,10 @@
 <!-- pages/QRCode/QRCode.wxml -->
 <view class="container">
-  
-  <BlockBox title="" wx:if="{{qrCodePath}}">
+   
+
+  <view class="qrCode"  wx:if="{{qrCodePath}}">
     <image mode="aspectFit" src="{{qrCodePath}}" data-current="{{qrCodePath}}" bindtap="preview" /> 
-  </BlockBox>
+  </view>
 
   
   <button wx:if="{{fileUrl}}" class="button" bindtap="copyFileUrl">复制连接</button>

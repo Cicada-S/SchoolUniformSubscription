@@ -6,6 +6,15 @@
   justify-content: center;
   padding: 20rpx 30rpx 0 30rpx;
 }
+.container .qrCode {
+  display: flex;
+  width: 100%;
+  font-size: 32rpx;
+  border-radius: 16rpx;
+  justify-content: center; 
+  background-color: #FFFFFF; 
+  margin-bottom: 20rpx;
+}
 .container .fileUrl {
   margin: 20rpx 30rpx;
 }
