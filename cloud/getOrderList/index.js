@@ -50,6 +50,15 @@ exports.main = async (event, context) => {
       }
     }
     newScreen.status = 1
+
+    //根据学生的名字模糊查询
+    if (newScreen.studentName) {
+      newScreen.studentName = db.RegExp({
+        regexp: newScreen.studentName,
+        options: 'i',
+      })
+    }
+
     await db.collection('Order').aggregate().limit(1000).match(newScreen)
     .lookup({
       from: 'OrderProduct',
