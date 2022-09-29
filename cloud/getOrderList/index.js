@@ -50,7 +50,7 @@ exports.main = async (event, context) => {
       }
     }
     newScreen.status = 1
-    await db.collection('Order').aggregate().match(newScreen)
+    await db.collection('Order').aggregate().limit(1000).match(newScreen)
     .lookup({
       from: 'OrderProduct',
       localField: '_id',
