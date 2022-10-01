@@ -349,6 +349,7 @@ function detailedList(newOrder) {
       {wch: 32}, {wch: 18}, {wch: 8}, {wch: 6},
       {wch: 8}, {wch: 6}, {wch: 15}, {wch: 15},
       {wch: 40}, {wch: 14},{wch: 14},{wch: 40},
+      {wch: 14},{wch: 14}
     ]
   }
 
