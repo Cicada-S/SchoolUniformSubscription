@@ -299,8 +299,11 @@ function statisticsList(newOrder) {
 function detailedList(newOrder) {
   // 1. 定义存储数据的
   let alldata = []
-  let row = ['订单号', '学校', '年级', '班级', '姓名', '性别', '家长电话', '下单时间', '商品名称', '购买数量', '规格', '备注' ] //表属性
+  let row = ['订单号', '学校', '年级', '班级', '姓名', '性别', '家长电话', '下单时间', '商品名称', '购买数量', '规格', '备注', '商品总价格', '订单总价格'] //表属性
   alldata.push(row)
+
+  let orderPrice = new Map()
+  let calPrice = new Map()
 
   // 2. 将数据写入表中
   for (let key in newOrder) {
@@ -318,8 +321,27 @@ function detailedList(newOrder) {
     arr.push(newOrder[key].orderProduct[0].amount)
     arr.push(newOrder[key].orderProduct[0].specification)
     arr.push(newOrder[key].remark)
+    arr.push(newOrder[key].orderProduct[0].totalPrice)
+    arr.push((Number(newOrder[key].totalPrice)/100).toFixed(0))
     alldata.push(arr)
+
+    //统计金额是否对的上
+    orderPrice.set(newOrder[key]._id, newOrder[key].totalPrice)
+    if(calPrice.get(newOrder[key]._id)){
+      calPrice.set(newOrder[key]._id, Number(calPrice.get(newOrder[key]._id)) + Number(newOrder[key].orderProduct[0].totalPrice))
+    }else{
+      calPrice.set(newOrder[key]._id, newOrder[key].orderProduct[0].totalPrice)
+    }
+
   }
+
+   //统计金额是否对的上
+  orderPrice.forEach(function(value, key, map) {
+    if(calPrice.get(key) && value != calPrice.get(key)  * 100){
+        console.info(key)
+    }
+  });
+
 
   // 3. 定制纸张规格
   const sheetOptions = {
