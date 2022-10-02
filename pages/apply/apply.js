@@ -17,7 +17,7 @@ Page({
 
   // 获取买家
   getSchool() {
-    School.where({status: 0}).get().then(res => {
+    School.where({status: 0}).limit(1000).orderBy('createTime', 'desc').get().then(res => {
       this.setData({
         actions: res.data
       })
