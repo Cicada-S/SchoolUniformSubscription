@@ -25,6 +25,7 @@ exports.main = async (event, context) => {
     }
   }
 
+
   let orderData = {
     ...order,
     _openid: cloud.getWXContext().OPENID,
@@ -36,7 +37,8 @@ exports.main = async (event, context) => {
 
   // 将商品数据处理成数据库需要的类型
   let newProductList = []
-  productList.forEach(item => {
+  let specificationIsEmplty = false
+  for (const item of productList) {
     newProductList.push({
       productId: item._id,
       productName: item.name,
@@ -45,18 +47,31 @@ exports.main = async (event, context) => {
       totalPrice: item.operation * item.unitPrice,
       specification: item.choice,
       headImage: item.path
-    })
-  })
-  
+    }) 
+
+    if(!item.choice){
+      specificationIsEmplty = true
+    }
+  }
+
+  //校验规格是否为空， 如果为空，怎不能添加
+  if(specificationIsEmplty){
+    return {
+      code: 1,
+      error: '存在规格为空， 请重新选择下单',
+      success: false,
+    }
+  }
+
   try {
     let results = await db.collection('Order').add({data: orderData})
 
-    newProductList.forEach(async item => {
+    for (let item of newProductList) {
       item.orderId = results._id
       await db.collection('OrderProduct').add({
         data: item
       })
-    })
+    }
 
     // 成功返回
     return {

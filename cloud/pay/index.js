@@ -23,6 +23,15 @@ exports.main = async (event, context) => {
     })
   })
 
+  //判断页面的金额是否等于重新计算的金额
+  if(totalPrice != orderInfo.totalPrice){
+    return {
+      code: 1,
+      error: '订单金额不正确，请重新下单购买',
+      success: false,
+    }
+  }
+
   orderInfo.lastModifiedTime = new Date()
   orderInfo.lastModifiedOpenid = cloud.getWXContext().OPENID
   let detail = JSON.stringify(orderInfo)

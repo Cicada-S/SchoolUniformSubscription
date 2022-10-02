@@ -22,6 +22,7 @@
           </view>
         </view>
       </view>
+      <view class="remakr" wx:if="{{item.remark}}"> 备注： {{item.remark}} </view>
     </BlockBox>
   </view>
 </view>

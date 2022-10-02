@@ -97,6 +97,16 @@ Page({
     let gradeName = multiArray[0][multiIndex[0]]
     let className = multiArray[1][multiIndex[1]]
 
+    //判断是否
+    if(!studentName){
+      wx.showToast({
+        title: `请填写姓名`,
+        icon: 'error',
+        duration: 2000
+      })
+      return
+    }
+
     let data = {
       name: studentName,
       gender: radio,

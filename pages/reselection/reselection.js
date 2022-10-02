@@ -122,6 +122,15 @@ Page({
 
   doEditSpecification(){
     let { _id, choice } = this.data.ProductInfo
+
+    if(!choice) {
+      wx.showToast({
+        title: '请选择规格!',
+        icon: 'none'
+      })
+      return;
+    }
+
     // 修改规格
     orderProduct.where({_id: this.data.orderProductId}).update({data: { specification: choice }})
     .then(() => {

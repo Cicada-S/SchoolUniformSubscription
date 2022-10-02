@@ -44,10 +44,13 @@ Page({
     let { productList } = this.data
     let orderNum = 0
     let totalPrice = 0
-    if(productList.length) productList.forEach(item => {
-      orderNum += item.operation
-      totalPrice = parseFloat(totalPrice) + parseFloat(item.unitPrice*item.operation)
-    })
+    
+    if(productList.length){
+      for (const item of productList) {
+        orderNum += item.operation
+        totalPrice = parseFloat(totalPrice) + parseFloat(item.unitPrice*item.operation)
+      }
+    }
 
     this.setData({
       orderNum,
@@ -102,6 +105,17 @@ Page({
       name: 'pay',
       data:{ orderId: orderId }
     }).then(res => {
+
+      //显示校验是否正确
+      if(res.result && res.result.code && res.result.code == 1){
+        wx.hideLoading()
+        wx.showToast({
+          title: res.result.error,
+          icon: 'none',
+          duration: 5000
+        })
+        return
+      }
 
       const payment = res.result.payment
       console.info(JSON.stringify(payment))
