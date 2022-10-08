@@ -48,12 +48,22 @@ exports.main = async (event, context) => {
       return prev
     }, [])
 
+      //获取年级排序号
+    let gradeLevelMap = new Map()
+    await db.collection('Grade').where({'schoolId': newOrder[0].schoolId}).get()
+      .then(res => {
+        for(item of res.data){
+          gradeLevelMap.set(item.name, item.order)
+        }
+    })
+
+
     // 1. 定义excel表格名
     let dataCVS = "schoolUniformSubscription/sellQrCode/" + pathOfDate() + `${newOrder[0].sellQrCodeId}.xlsx`
 
     // 2. 定义存储数据的
     const summary = summaryList(newOrder)
-    const statistics = statisticsList(newOrder)
+    const statistics = statisticsList(newOrder, gradeLevelMap)
     const detailed = detailedList(newOrder)
 
     // 3. 把数据保存到excel里
@@ -174,7 +184,7 @@ function summaryList(newOrder) {
 }
 
 // 分班统计表
-function statisticsList(newOrder) {
+function statisticsList(newOrder, gradeLevelMap) {
   console.log(newOrder)
 
   // 1. 定义存储数据的
@@ -204,7 +214,7 @@ function statisticsList(newOrder) {
   const list = Array.from(dataMap.values());
   list.sort((l, i) => {
     if(l.studentGradeName != i.studentGradeName){
-      return l.studentGradeName.localeCompare(i.studentGradeName)
+      return (gradeLevelMap.get(l.studentGradeName) + l.studentGradeName).localeCompare(gradeLevelMap.get(i.studentGradeName) + i.studentGradeName)
     } else if(l.studentClassName != i.studentClassName) {
       return l.studentClassName.localeCompare(i.studentClassName)
     } else if(l.productId != i.productId) {
@@ -299,7 +309,7 @@ function statisticsList(newOrder) {
 function detailedList(newOrder) {
   // 1. 定义存储数据的
   let alldata = []
-  let row = ['订单号', '学校', '年级', '班级', '姓名', '性别', '家长电话', '下单时间', '商品名称', '购买数量', '规格', '备注', '商品总价格', '订单总价格'] //表属性
+  let row = ['订单号', '学校', '年级', '班级', '姓名', '性别', '家长电话', '下单时间', '商品名称', '商品单价', '购买数量', '规格', '备注'] //表属性
   alldata.push(row)
 
   let orderPrice = new Map()
@@ -318,11 +328,10 @@ function detailedList(newOrder) {
     arr.push(newOrder[key].phoneNumber)
     arr.push(newOrder[key].createTime)
     arr.push(newOrder[key].orderProduct[0].productName)
+    arr.push(newOrder[key].orderProduct[0].unitPrice)
     arr.push(newOrder[key].orderProduct[0].amount)
     arr.push(newOrder[key].orderProduct[0].specification)
     arr.push(newOrder[key].remark)
-    arr.push(newOrder[key].orderProduct[0].totalPrice)
-    arr.push((Number(newOrder[key].totalPrice)/100).toFixed(0))
     alldata.push(arr)
 
     //统计金额是否对的上
@@ -348,8 +357,7 @@ function detailedList(newOrder) {
     '!cols': [ // 自定义列宽
       {wch: 32}, {wch: 18}, {wch: 8}, {wch: 6},
       {wch: 8}, {wch: 6}, {wch: 15}, {wch: 15},
-      {wch: 40}, {wch: 14},{wch: 14},{wch: 40},
-      {wch: 14},{wch: 14}
+      {wch: 40}, {wch: 14}, {wch: 14},{wch: 14},{wch: 40}
     ]
   }
 

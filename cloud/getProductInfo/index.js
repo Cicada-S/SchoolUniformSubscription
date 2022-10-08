@@ -37,7 +37,7 @@ exports.main = async (event, context) => {
     // 获取商品 规格
     await db.collection('ProductSpecification').where({
       productId: event.id
-    }).get()
+    }).orderBy('order', 'asc').get()
     .then(res => {
       productInfo.ProductSpecification = res.data
     })

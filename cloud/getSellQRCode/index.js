@@ -64,6 +64,11 @@ exports.main = async (event, context) => {
         })
         specification.push(item)
       })
+      
+      //排序
+      specification.sort((l, i) => {
+        return (l.order + "").localeCompare( i.order + "")
+      })
 
       newProduct.specification = specification
       ProductList.push(newProduct)

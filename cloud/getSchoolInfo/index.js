@@ -16,7 +16,7 @@ exports.main = async (event, context) => {
 
     await db.collection('Grade').where({
       schoolId: event.id
-    }).get()
+    }).orderBy('order', 'asc').get()
     .then(res => {
       data.grade = res.data
     })

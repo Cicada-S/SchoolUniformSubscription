@@ -15,6 +15,7 @@ Page({
   async getOrderList() {
     let { result } = await wx.cloud.callFunction({name: 'getOrderProduct'})
     result.data.forEach(item => {
+      item.totalPrice = (Number(item.totalPrice)/100).toFixed(0)
       item.createTimeStr = toDates(item.createTime)
     })
     this.setData({
